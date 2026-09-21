@@ -1,0 +1,3432 @@
+[
+  {
+    "key": "QUICK_CHAT_1_MESSAGE",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Quick chat 1 message",
+      "_5901": "Quick chat 1 message.",
+      "_8592": [
+        "Chat",
+        "Quick chat"
+      ],
+      "_8328": "Feed me!",
+      "_7341": 80
+    },
+    "source": {
+      "utf16Start": 31038,
+      "utf16End": 31180
+    },
+    "label": "Quick chat 1 message",
+    "description": "Quick chat 1 message.",
+    "category": [
+      "Chat",
+      "Quick chat"
+    ],
+    "default": "Feed me!",
+    "restartRequired": false,
+    "dependencies": [],
+    "maxLength": 80
+  },
+  {
+    "key": "QUICK_CHAT_2_MESSAGE",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Quick chat 2 message",
+      "_5901": "Quick chat 2 message.",
+      "_8592": [
+        "Chat",
+        "Quick chat"
+      ],
+      "_8328": "Split into me!",
+      "_7341": 80
+    },
+    "source": {
+      "utf16Start": 31181,
+      "utf16End": 31329
+    },
+    "label": "Quick chat 2 message",
+    "description": "Quick chat 2 message.",
+    "category": [
+      "Chat",
+      "Quick chat"
+    ],
+    "default": "Split into me!",
+    "restartRequired": false,
+    "dependencies": [],
+    "maxLength": 80
+  },
+  {
+    "key": "QUICK_CHAT_3_MESSAGE",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Quick chat 3 message",
+      "_5901": "Quick chat 3 message.",
+      "_8592": [
+        "Chat",
+        "Quick chat"
+      ],
+      "_8328": "Need backup!",
+      "_7341": 80
+    },
+    "source": {
+      "utf16Start": 31330,
+      "utf16End": 31476
+    },
+    "label": "Quick chat 3 message",
+    "description": "Quick chat 3 message.",
+    "category": [
+      "Chat",
+      "Quick chat"
+    ],
+    "default": "Need backup!",
+    "restartRequired": false,
+    "dependencies": [],
+    "maxLength": 80
+  },
+  {
+    "key": "QUICK_CHAT_4_MESSAGE",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Quick chat 4 message",
+      "_5901": "Quick chat 4 message.",
+      "_8592": [
+        "Chat",
+        "Quick chat"
+      ],
+      "_8328": "Enemy spotted!",
+      "_7341": 80
+    },
+    "source": {
+      "utf16Start": 31477,
+      "utf16End": 31625
+    },
+    "label": "Quick chat 4 message",
+    "description": "Quick chat 4 message.",
+    "category": [
+      "Chat",
+      "Quick chat"
+    ],
+    "default": "Enemy spotted!",
+    "restartRequired": false,
+    "dependencies": [],
+    "maxLength": 80
+  },
+  {
+    "key": "QUICK_CHAT_5_MESSAGE",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Quick chat 5 message",
+      "_5901": "Quick chat 5 message.",
+      "_8592": [
+        "Chat",
+        "Quick chat"
+      ],
+      "_8328": "Need a teammate!",
+      "_7341": 80
+    },
+    "source": {
+      "utf16Start": 31626,
+      "utf16End": 31776
+    },
+    "label": "Quick chat 5 message",
+    "description": "Quick chat 5 message.",
+    "category": [
+      "Chat",
+      "Quick chat"
+    ],
+    "default": "Need a teammate!",
+    "restartRequired": false,
+    "dependencies": [],
+    "maxLength": 80
+  },
+  {
+    "key": "QUICK_CHAT_6_MESSAGE",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Quick chat 6 message",
+      "_5901": "Quick chat 6 message.",
+      "_8592": [
+        "Chat",
+        "Quick chat"
+      ],
+      "_8328": "",
+      "_7341": 80
+    },
+    "source": {
+      "utf16Start": 31777,
+      "utf16End": 31911
+    },
+    "label": "Quick chat 6 message",
+    "description": "Quick chat 6 message.",
+    "category": [
+      "Chat",
+      "Quick chat"
+    ],
+    "default": "",
+    "restartRequired": false,
+    "dependencies": [],
+    "maxLength": 80
+  },
+  {
+    "key": "QUICK_CHAT_7_MESSAGE",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Quick chat 7 message",
+      "_5901": "Quick chat 7 message.",
+      "_8592": [
+        "Chat",
+        "Quick chat"
+      ],
+      "_8328": "",
+      "_7341": 80
+    },
+    "source": {
+      "utf16Start": 31912,
+      "utf16End": 32046
+    },
+    "label": "Quick chat 7 message",
+    "description": "Quick chat 7 message.",
+    "category": [
+      "Chat",
+      "Quick chat"
+    ],
+    "default": "",
+    "restartRequired": false,
+    "dependencies": [],
+    "maxLength": 80
+  },
+  {
+    "key": "QUICK_CHAT_8_MESSAGE",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Quick chat 8 message",
+      "_5901": "Quick chat 8 message.",
+      "_8592": [
+        "Chat",
+        "Quick chat"
+      ],
+      "_8328": "",
+      "_7341": 80
+    },
+    "source": {
+      "utf16Start": 32047,
+      "utf16End": 32181
+    },
+    "label": "Quick chat 8 message",
+    "description": "Quick chat 8 message.",
+    "category": [
+      "Chat",
+      "Quick chat"
+    ],
+    "default": "",
+    "restartRequired": false,
+    "dependencies": [],
+    "maxLength": 80
+  },
+  {
+    "key": "QUICK_CHAT_9_MESSAGE",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Quick chat 9 message",
+      "_5901": "Quick chat 9 message.",
+      "_8592": [
+        "Chat",
+        "Quick chat"
+      ],
+      "_8328": "",
+      "_7341": 80
+    },
+    "source": {
+      "utf16Start": 32182,
+      "utf16End": 32316
+    },
+    "label": "Quick chat 9 message",
+    "description": "Quick chat 9 message.",
+    "category": [
+      "Chat",
+      "Quick chat"
+    ],
+    "default": "",
+    "restartRequired": false,
+    "dependencies": [],
+    "maxLength": 80
+  },
+  {
+    "key": "QUICK_CHAT_10_MESSAGE",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Quick chat 10 message",
+      "_5901": "Quick chat 10 message.",
+      "_8592": [
+        "Chat",
+        "Quick chat"
+      ],
+      "_8328": "",
+      "_7341": 80
+    },
+    "source": {
+      "utf16Start": 32317,
+      "utf16End": 32454
+    },
+    "label": "Quick chat 10 message",
+    "description": "Quick chat 10 message.",
+    "category": [
+      "Chat",
+      "Quick chat"
+    ],
+    "default": "",
+    "restartRequired": false,
+    "dependencies": [],
+    "maxLength": 80
+  },
+  {
+    "key": "HK_SELECT_PLAYER_FOR_SPECTATING",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Select player to spectate",
+      "_5901": "Select a player to spectate.",
+      "_8592": [
+        "Controls",
+        "Spectate controls"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ],
+      "_8359": 2
+    },
+    "source": {
+      "utf16Start": 32459,
+      "utf16End": 32639
+    },
+    "label": "Select player to spectate",
+    "description": "Select a player to spectate.",
+    "category": [
+      "Controls",
+      "Spectate controls"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_SPLIT",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Split",
+      "_5901": "Split your orbs into 2 equal halves.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "SPACE",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 32640,
+      "utf16End": 32776
+    },
+    "label": "Split",
+    "description": "Split your orbs into 2 equal halves.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "SPACE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_SPLIT_2X",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Split 2X",
+      "_5901": "Split 2 times.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "R",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 32777,
+      "utf16End": 32893
+    },
+    "label": "Split 2X",
+    "description": "Split 2 times.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "R",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_SPLIT_3X",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Split 3X",
+      "_5901": "Split 3 times.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "G",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 32894,
+      "utf16End": 33010
+    },
+    "label": "Split 3X",
+    "description": "Split 3 times.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "G",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_SPLIT_4X",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Split 4X",
+      "_5901": "Split 4 times.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "T",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 33011,
+      "utf16End": 33127
+    },
+    "label": "Split 4X",
+    "description": "Split 4 times.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "T",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_SPLIT_6X",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Split 6X",
+      "_5901": "Split 6 times.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "F",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 33128,
+      "utf16End": 33244
+    },
+    "label": "Split 6X",
+    "description": "Split 6 times.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "F",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_EJECT",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Eject",
+      "_5901": "Eject a microrb from each of your orbs.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "W",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 33245,
+      "utf16End": 33380
+    },
+    "label": "Eject",
+    "description": "Eject a microrb from each of your orbs.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "W",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_MACRO_EJECT",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Macro eject",
+      "_5901": "Keep ejecting microrbs until the button is released.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "E",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 33381,
+      "utf16End": 33541
+    },
+    "label": "Macro eject",
+    "description": "Keep ejecting microrbs until the button is released.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "E",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_COMMANDER",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Commander",
+      "_5901": "Emit a visual ping to direct teammate where to go.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ],
+      "_4039": [
+        {
+          "_9782": "COMMANDER",
+          "_8328": true
+        }
+      ]
+    },
+    "source": {
+      "utf16Start": 33542,
+      "utf16End": 33736
+    },
+    "label": "Commander",
+    "description": "Emit a visual ping to direct teammate where to go.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": [
+      {
+        "_9782": "COMMANDER",
+        "_8328": true
+      }
+    ]
+  },
+  {
+    "key": "HK_RESPAWN",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Respawn",
+      "_5901": "Respawn at a new position (only possible for 10 seconds after spawning).",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "BACKQUOTE",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 33737,
+      "utf16End": 33917
+    },
+    "label": "Respawn",
+    "description": "Respawn at a new position (only possible for 10 seconds after spawning).",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "BACKQUOTE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_SWITCH_ACTIVE_PLAYER_UNIT",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Switch active player unit",
+      "_5901": "Switch the active player unit in multibox mode.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "TAB",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 33918,
+      "utf16End": 34103
+    },
+    "label": "Switch active player unit",
+    "description": "Switch the active player unit in multibox mode.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "TAB",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_CHANGE_SPECTATE_MODE",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Change spectate mode",
+      "_5901": "Change the spectate mode.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "Q",
+        "NONE"
+      ],
+      "_8359": 2
+    },
+    "source": {
+      "utf16Start": 34104,
+      "utf16End": 34263
+    },
+    "label": "Change spectate mode",
+    "description": "Change the spectate mode.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "Q",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_STOP_MOVEMENT",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Stop movement",
+      "_5901": "Stop the movement of your orbs.",
+      "_8592": [
+        "Controls",
+        "Player controls"
+      ],
+      "_8328": [
+        "S",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 34264,
+      "utf16End": 34407
+    },
+    "label": "Stop movement",
+    "description": "Stop the movement of your orbs.",
+    "category": [
+      "Controls",
+      "Player controls"
+    ],
+    "default": [
+      "S",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_TOGGLE_OWN_USERNAME",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Toggle own username",
+      "_5901": "Toggle own orb username on or off.",
+      "_8592": [
+        "Controls",
+        "Toggles"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 34408,
+      "utf16End": 34561
+    },
+    "label": "Toggle own username",
+    "description": "Toggle own orb username on or off.",
+    "category": [
+      "Controls",
+      "Toggles"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_TOGGLE_ENEMY_USERNAME",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Toggle enemy username",
+      "_5901": "Toggle enemy orb username on or off.",
+      "_8592": [
+        "Controls",
+        "Toggles"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 34562,
+      "utf16End": 34721
+    },
+    "label": "Toggle enemy username",
+    "description": "Toggle enemy orb username on or off.",
+    "category": [
+      "Controls",
+      "Toggles"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_TOGGLE_OWN_ENERGY",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Toggle own energy",
+      "_5901": "Toggle own orb energy on or off.",
+      "_8592": [
+        "Controls",
+        "Toggles"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 34722,
+      "utf16End": 34869
+    },
+    "label": "Toggle own energy",
+    "description": "Toggle own orb energy on or off.",
+    "category": [
+      "Controls",
+      "Toggles"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_TOGGLE_ENEMY_ENERGY",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Toggle enemy energy",
+      "_5901": "Toggle enemy orb energy on or off.",
+      "_8592": [
+        "Controls",
+        "Toggles"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 34870,
+      "utf16End": 35023
+    },
+    "label": "Toggle enemy energy",
+    "description": "Toggle enemy orb energy on or off.",
+    "category": [
+      "Controls",
+      "Toggles"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_TOGGLE_CUSTOM_SKINS",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Toggle teammates' custom skins",
+      "_5901": "Toggle teammates' custom skins on or off.",
+      "_8592": [
+        "Controls",
+        "Toggles"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 35024,
+      "utf16End": 35195
+    },
+    "label": "Toggle teammates' custom skins",
+    "description": "Toggle teammates' custom skins on or off.",
+    "category": [
+      "Controls",
+      "Toggles"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_TOGGLE_OWN_CUSTOM_SKINS",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Toggle own custom skin",
+      "_5901": "Toggle own custom skin on or off.",
+      "_8592": [
+        "Controls",
+        "Toggles"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 35196,
+      "utf16End": 35355
+    },
+    "label": "Toggle own custom skin",
+    "description": "Toggle own custom skin on or off.",
+    "category": [
+      "Controls",
+      "Toggles"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_CHATROOM_SWITCH_TO_GLOBAL",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Global channel",
+      "_5901": "Switch to global channel in chatroom.",
+      "_8592": [
+        "Controls",
+        "Chatroom channel"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 35356,
+      "utf16End": 35522
+    },
+    "label": "Global channel",
+    "description": "Switch to global channel in chatroom.",
+    "category": [
+      "Controls",
+      "Chatroom channel"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_CHATROOM_SWITCH_TO_TEAM",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Team channel",
+      "_5901": "Switch to team channel in chatroom.",
+      "_8592": [
+        "Controls",
+        "Chatroom channel"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 35523,
+      "utf16End": 35683
+    },
+    "label": "Team channel",
+    "description": "Switch to team channel in chatroom.",
+    "category": [
+      "Controls",
+      "Chatroom channel"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_SAVE_INSTANT_REPLAY",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Save instant replay",
+      "_5901": "Save an instant replay.",
+      "_8592": [
+        "Controls",
+        "Replay controls"
+      ],
+      "_8328": [
+        "NONE",
+        "NONE"
+      ],
+      "_4039": [
+        {
+          "_9782": "INSTANT_REPLAY",
+          "_8328": true
+        }
+      ]
+    },
+    "source": {
+      "utf16Start": 35684,
+      "utf16End": 35876
+    },
+    "label": "Save instant replay",
+    "description": "Save an instant replay.",
+    "category": [
+      "Controls",
+      "Replay controls"
+    ],
+    "default": [
+      "NONE",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": [
+      {
+        "_9782": "INSTANT_REPLAY",
+        "_8328": true
+      }
+    ]
+  },
+  {
+    "key": "HK_QUICK_CHAT_1",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Quick chat 1",
+      "_5901": "Send quick chat 1 message.",
+      "_8592": [
+        "Controls",
+        "Quick chat"
+      ],
+      "_8328": [
+        "1",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 35877,
+      "utf16End": 36008
+    },
+    "label": "Quick chat 1",
+    "description": "Send quick chat 1 message.",
+    "category": [
+      "Controls",
+      "Quick chat"
+    ],
+    "default": [
+      "1",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_QUICK_CHAT_2",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Quick chat 2",
+      "_5901": "Send quick chat 2 message.",
+      "_8592": [
+        "Controls",
+        "Quick chat"
+      ],
+      "_8328": [
+        "2",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 36009,
+      "utf16End": 36140
+    },
+    "label": "Quick chat 2",
+    "description": "Send quick chat 2 message.",
+    "category": [
+      "Controls",
+      "Quick chat"
+    ],
+    "default": [
+      "2",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_QUICK_CHAT_3",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Quick chat 3",
+      "_5901": "Send quick chat 3 message.",
+      "_8592": [
+        "Controls",
+        "Quick chat"
+      ],
+      "_8328": [
+        "3",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 36141,
+      "utf16End": 36272
+    },
+    "label": "Quick chat 3",
+    "description": "Send quick chat 3 message.",
+    "category": [
+      "Controls",
+      "Quick chat"
+    ],
+    "default": [
+      "3",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_QUICK_CHAT_4",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Quick chat 4",
+      "_5901": "Send quick chat 4 message.",
+      "_8592": [
+        "Controls",
+        "Quick chat"
+      ],
+      "_8328": [
+        "4",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 36273,
+      "utf16End": 36404
+    },
+    "label": "Quick chat 4",
+    "description": "Send quick chat 4 message.",
+    "category": [
+      "Controls",
+      "Quick chat"
+    ],
+    "default": [
+      "4",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_QUICK_CHAT_5",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Quick chat 5",
+      "_5901": "Send quick chat 5 message.",
+      "_8592": [
+        "Controls",
+        "Quick chat"
+      ],
+      "_8328": [
+        "5",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 36405,
+      "utf16End": 36536
+    },
+    "label": "Quick chat 5",
+    "description": "Send quick chat 5 message.",
+    "category": [
+      "Controls",
+      "Quick chat"
+    ],
+    "default": [
+      "5",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_QUICK_CHAT_6",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Quick chat 6",
+      "_5901": "Send quick chat 6 message.",
+      "_8592": [
+        "Controls",
+        "Quick chat"
+      ],
+      "_8328": [
+        "6",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 36537,
+      "utf16End": 36668
+    },
+    "label": "Quick chat 6",
+    "description": "Send quick chat 6 message.",
+    "category": [
+      "Controls",
+      "Quick chat"
+    ],
+    "default": [
+      "6",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_QUICK_CHAT_7",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Quick chat 7",
+      "_5901": "Send quick chat 7 message.",
+      "_8592": [
+        "Controls",
+        "Quick chat"
+      ],
+      "_8328": [
+        "7",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 36669,
+      "utf16End": 36800
+    },
+    "label": "Quick chat 7",
+    "description": "Send quick chat 7 message.",
+    "category": [
+      "Controls",
+      "Quick chat"
+    ],
+    "default": [
+      "7",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_QUICK_CHAT_8",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Quick chat 8",
+      "_5901": "Send quick chat 8 message.",
+      "_8592": [
+        "Controls",
+        "Quick chat"
+      ],
+      "_8328": [
+        "8",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 36801,
+      "utf16End": 36932
+    },
+    "label": "Quick chat 8",
+    "description": "Send quick chat 8 message.",
+    "category": [
+      "Controls",
+      "Quick chat"
+    ],
+    "default": [
+      "8",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_QUICK_CHAT_9",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Quick chat 9",
+      "_5901": "Send quick chat 9 message.",
+      "_8592": [
+        "Controls",
+        "Quick chat"
+      ],
+      "_8328": [
+        "9",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 36933,
+      "utf16End": 37064
+    },
+    "label": "Quick chat 9",
+    "description": "Send quick chat 9 message.",
+    "category": [
+      "Controls",
+      "Quick chat"
+    ],
+    "default": [
+      "9",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_QUICK_CHAT_10",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Quick chat 10",
+      "_5901": "Send quick chat 10 message.",
+      "_8592": [
+        "Controls",
+        "Quick chat"
+      ],
+      "_8328": [
+        "0",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 37065,
+      "utf16End": 37199
+    },
+    "label": "Quick chat 10",
+    "description": "Send quick chat 10 message.",
+    "category": [
+      "Controls",
+      "Quick chat"
+    ],
+    "default": [
+      "0",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_ZOOM_LEVEL_1",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Camera zoom level 1",
+      "_5901": "Set camera zoom to level 1.",
+      "_8592": [
+        "Controls",
+        "Camera zoom level"
+      ],
+      "_8328": [
+        "ALT+1",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 37200,
+      "utf16End": 37350
+    },
+    "label": "Camera zoom level 1",
+    "description": "Set camera zoom to level 1.",
+    "category": [
+      "Controls",
+      "Camera zoom level"
+    ],
+    "default": [
+      "ALT+1",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_ZOOM_LEVEL_2",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Camera zoom level 2",
+      "_5901": "Set camera zoom to level 2.",
+      "_8592": [
+        "Controls",
+        "Camera zoom level"
+      ],
+      "_8328": [
+        "ALT+2",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 37351,
+      "utf16End": 37501
+    },
+    "label": "Camera zoom level 2",
+    "description": "Set camera zoom to level 2.",
+    "category": [
+      "Controls",
+      "Camera zoom level"
+    ],
+    "default": [
+      "ALT+2",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_ZOOM_LEVEL_3",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Camera zoom level 3",
+      "_5901": "Set camera zoom to level 3.",
+      "_8592": [
+        "Controls",
+        "Camera zoom level"
+      ],
+      "_8328": [
+        "ALT+3",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 37502,
+      "utf16End": 37652
+    },
+    "label": "Camera zoom level 3",
+    "description": "Set camera zoom to level 3.",
+    "category": [
+      "Controls",
+      "Camera zoom level"
+    ],
+    "default": [
+      "ALT+3",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_ZOOM_LEVEL_4",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Camera zoom level 4",
+      "_5901": "Set camera zoom to level 4.",
+      "_8592": [
+        "Controls",
+        "Camera zoom level"
+      ],
+      "_8328": [
+        "ALT+4",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 37653,
+      "utf16End": 37803
+    },
+    "label": "Camera zoom level 4",
+    "description": "Set camera zoom to level 4.",
+    "category": [
+      "Controls",
+      "Camera zoom level"
+    ],
+    "default": [
+      "ALT+4",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "HK_ZOOM_LEVEL_5",
+    "constructor": "M",
+    "type": "binding",
+    "raw": {
+      "_8192": "Camera zoom level 5",
+      "_5901": "Set camera zoom to level 5.",
+      "_8592": [
+        "Controls",
+        "Camera zoom level"
+      ],
+      "_8328": [
+        "ALT+5",
+        "NONE"
+      ]
+    },
+    "source": {
+      "utf16Start": 37804,
+      "utf16End": 37954
+    },
+    "label": "Camera zoom level 5",
+    "description": "Set camera zoom to level 5.",
+    "category": [
+      "Controls",
+      "Camera zoom level"
+    ],
+    "default": [
+      "ALT+5",
+      "NONE"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "STOP_MOVEMENT_ON_MENU_OPEN",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Stop movement on menu open",
+      "_5901": "Stop the movement of your orbs if the menu is open.",
+      "_8592": [
+        "Gameplay",
+        "Menu"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 37959,
+      "utf16End": 38124
+    },
+    "label": "Stop movement on menu open",
+    "description": "Stop the movement of your orbs if the menu is open.",
+    "category": [
+      "Gameplay",
+      "Menu"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ELEMENT_ANIMATION_SOFTENING",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Element animation softening",
+      "_5901": "Soften the animation of the elements.",
+      "_8592": [
+        "Gameplay",
+        "Animation"
+      ],
+      "_8328": 160,
+      "_1690": 80,
+      "_8146": 300,
+      "_8604": 10,
+      "_2782": {
+        "sourceExpression": "t=>(t-80)/2+\"%\""
+      }
+    },
+    "source": {
+      "utf16Start": 38125,
+      "utf16End": 38334
+    },
+    "label": "Element animation softening",
+    "description": "Soften the animation of the elements.",
+    "category": [
+      "Gameplay",
+      "Animation"
+    ],
+    "default": 160,
+    "minOrStart": 80,
+    "maxOrEnd": 300,
+    "step": 10,
+    "display": {
+      "sourceExpression": "t=>(t-80)/2+\"%\""
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "CAMERA_MOVEMENT_SPEED",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Camera movement speed",
+      "_5901": "Set the movement speed of the camera.",
+      "_8592": [
+        "Gameplay",
+        "Camera"
+      ],
+      "_8328": 8,
+      "_1690": 101,
+      "_8146": 2,
+      "_8604": -1,
+      "_2782": {
+        "sourceExpression": "t=>102-t+\"%\""
+      }
+    },
+    "source": {
+      "utf16Start": 38335,
+      "utf16End": 38523
+    },
+    "label": "Camera movement speed",
+    "description": "Set the movement speed of the camera.",
+    "category": [
+      "Gameplay",
+      "Camera"
+    ],
+    "default": 8,
+    "minOrStart": 101,
+    "maxOrEnd": 2,
+    "step": -1,
+    "display": {
+      "sourceExpression": "t=>102-t+\"%\""
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "CAMERA_ZOOM_SPEED",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Camera zoom speed",
+      "_5901": "Set the zoom speed of the camera.",
+      "_8592": [
+        "Gameplay",
+        "Camera"
+      ],
+      "_8328": 4,
+      "_1690": 2,
+      "_8146": 20,
+      "_8604": 1,
+      "_2782": {
+        "sourceExpression": "t=>.5*t+\"x\""
+      }
+    },
+    "source": {
+      "utf16Start": 38524,
+      "utf16End": 38697
+    },
+    "label": "Camera zoom speed",
+    "description": "Set the zoom speed of the camera.",
+    "category": [
+      "Gameplay",
+      "Camera"
+    ],
+    "default": 4,
+    "minOrStart": 2,
+    "maxOrEnd": 20,
+    "step": 1,
+    "display": {
+      "sourceExpression": "t=>.5*t+\"x\""
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "CAMERA_AUTO_ZOOM",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Camera auto zoom",
+      "_5901": "Automatically set the camera zoom level based on your total energy.",
+      "_8592": [
+        "Gameplay",
+        "Camera"
+      ],
+      "_8328": false
+    },
+    "source": {
+      "utf16Start": 38698,
+      "utf16End": 38861
+    },
+    "label": "Camera auto zoom",
+    "description": "Automatically set the camera zoom level based on your total energy.",
+    "category": [
+      "Gameplay",
+      "Camera"
+    ],
+    "default": false,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_OWN_USERNAME",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Show own username",
+      "_5901": "Show own username on orbs.",
+      "_8592": [
+        "Gameplay",
+        "Orb"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 38862,
+      "utf16End": 38983
+    },
+    "label": "Show own username",
+    "description": "Show own username on orbs.",
+    "category": [
+      "Gameplay",
+      "Orb"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_ENEMY_USERNAME",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Show enemy's username",
+      "_5901": "Show enemy's username on orbs.",
+      "_8592": [
+        "Gameplay",
+        "Orb"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 38984,
+      "utf16End": 39115
+    },
+    "label": "Show enemy's username",
+    "description": "Show enemy's username on orbs.",
+    "category": [
+      "Gameplay",
+      "Orb"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_OWN_ENERGY",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Show own energy",
+      "_5901": "Show energy amount on own orbs.",
+      "_8592": [
+        "Gameplay",
+        "Orb"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 39116,
+      "utf16End": 39238
+    },
+    "label": "Show own energy",
+    "description": "Show energy amount on own orbs.",
+    "category": [
+      "Gameplay",
+      "Orb"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_ENEMY_ENERGY",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Show enemy's energy",
+      "_5901": "Show energy amount on enemy's orbs.",
+      "_8592": [
+        "Gameplay",
+        "Orb"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 39239,
+      "utf16End": 39371
+    },
+    "label": "Show enemy's energy",
+    "description": "Show energy amount on enemy's orbs.",
+    "category": [
+      "Gameplay",
+      "Orb"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_TEAM_NAME",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Show team name",
+      "_5901": "Show team names on orbs.",
+      "_8592": [
+        "Gameplay",
+        "Orb"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 39372,
+      "utf16End": 39485
+    },
+    "label": "Show team name",
+    "description": "Show team names on orbs.",
+    "category": [
+      "Gameplay",
+      "Orb"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_CUSTOM_SKINS",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Show teammates' custom skins",
+      "_5901": "Show custom skins on orbs.",
+      "_8592": [
+        "Gameplay",
+        "Orb"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 39486,
+      "utf16End": 39618
+    },
+    "label": "Show teammates' custom skins",
+    "description": "Show custom skins on orbs.",
+    "category": [
+      "Gameplay",
+      "Orb"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_OWN_CUSTOM_SKINS",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Show own custom skin",
+      "_5901": "Show custom skins on own orbs.",
+      "_8592": [
+        "Gameplay",
+        "Orb"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 39619,
+      "utf16End": 39751
+    },
+    "label": "Show own custom skin",
+    "description": "Show custom skins on own orbs.",
+    "category": [
+      "Gameplay",
+      "Orb"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_SHIELDS",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Show shields",
+      "_5901": "Show shields on orbs.",
+      "_8592": [
+        "Gameplay",
+        "Orb"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 39752,
+      "utf16End": 39858
+    },
+    "label": "Show shields",
+    "description": "Show shields on orbs.",
+    "category": [
+      "Gameplay",
+      "Orb"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ORB_OVERLAP_HIGHLIGHTING",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Orb overlap highlighting",
+      "_5901": "Highlight overlapped orbs.",
+      "_8592": [
+        "Gameplay",
+        "Orb"
+      ],
+      "_8328": "auto",
+      "_5331": [
+        "off",
+        "auto",
+        "on"
+      ]
+    },
+    "source": {
+      "utf16Start": 39859,
+      "utf16End": 40024
+    },
+    "label": "Orb overlap highlighting",
+    "description": "Highlight overlapped orbs.",
+    "category": [
+      "Gameplay",
+      "Orb"
+    ],
+    "default": "auto",
+    "options": [
+      "off",
+      "auto",
+      "on"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "AUTO_SWITCH_ACTIVE_PLAYER_UNIT",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Auto switch active player unit",
+      "_5901": "Auto switch active player unit upon death of the active one.",
+      "_8592": [
+        "Gameplay",
+        "Multibox"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 40025,
+      "utf16End": 40211
+    },
+    "label": "Auto switch active player unit",
+    "description": "Auto switch active player unit upon death of the active one.",
+    "category": [
+      "Gameplay",
+      "Multibox"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ACTIVE_PLAYER_UNIT_ARROW_INDICATOR",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Active player unit arrow indicator",
+      "_5901": "Show an arrow indicator on own orbs to distinguish between active and inactive player unit.",
+      "_8592": [
+        "Gameplay",
+        "Multibox"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 40212,
+      "utf16End": 40437
+    },
+    "label": "Active player unit arrow indicator",
+    "description": "Show an arrow indicator on own orbs to distinguish between active and inactive player unit.",
+    "category": [
+      "Gameplay",
+      "Multibox"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "INSTANT_REPLAY",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Instant replay",
+      "_5901": "Toggle instant replay on or off.",
+      "_8592": [
+        "Gameplay",
+        "Instant replay"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 40438,
+      "utf16End": 40570
+    },
+    "label": "Instant replay",
+    "description": "Toggle instant replay on or off.",
+    "category": [
+      "Gameplay",
+      "Instant replay"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "INSTANT_REPLAY_LENGTH",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Instant replay clip length",
+      "_5901": "Set the length of the instant replay clip (in seconds).",
+      "_8592": [
+        "Gameplay",
+        "Instant replay"
+      ],
+      "_8328": 5,
+      "_1690": 5,
+      "_8146": 120,
+      "_8604": 5,
+      "_2782": {
+        "sourceExpression": "t=>`${t}s`"
+      },
+      "_4039": [
+        {
+          "_9782": "INSTANT_REPLAY",
+          "_8328": true
+        }
+      ]
+    },
+    "source": {
+      "utf16Start": 40571,
+      "utf16End": 40829
+    },
+    "label": "Instant replay clip length",
+    "description": "Set the length of the instant replay clip (in seconds).",
+    "category": [
+      "Gameplay",
+      "Instant replay"
+    ],
+    "default": 5,
+    "minOrStart": 5,
+    "maxOrEnd": 120,
+    "step": 5,
+    "display": {
+      "sourceExpression": "t=>`${t}s`"
+    },
+    "restartRequired": false,
+    "dependencies": [
+      {
+        "_9782": "INSTANT_REPLAY",
+        "_8328": true
+      }
+    ]
+  },
+  {
+    "key": "CURSOR_LINES",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Cursor lines",
+      "_5901": "Toggle cursor lines on or off.",
+      "_8592": [
+        "Gameplay",
+        "Misc"
+      ],
+      "_8328": false
+    },
+    "source": {
+      "utf16Start": 40830,
+      "utf16End": 40946
+    },
+    "label": "Cursor lines",
+    "description": "Toggle cursor lines on or off.",
+    "category": [
+      "Gameplay",
+      "Misc"
+    ],
+    "default": false,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "WORLD_BACKGROUND_IMAGE",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "World background",
+      "_5901": "Toggle world background on or off.",
+      "_8592": [
+        "Gameplay",
+        "Misc"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 40947,
+      "utf16End": 41081
+    },
+    "label": "World background",
+    "description": "Toggle world background on or off.",
+    "category": [
+      "Gameplay",
+      "Misc"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "COMMANDER",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Commander",
+      "_5901": "Toggle commander on or off.",
+      "_8592": [
+        "Gameplay",
+        "Misc"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 41082,
+      "utf16End": 41189
+    },
+    "label": "Commander",
+    "description": "Toggle commander on or off.",
+    "category": [
+      "Gameplay",
+      "Misc"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "RESOLUTION",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Resolution",
+      "_5901": "Change the resolution of the screen. Lower resolution means more FPS.",
+      "_8592": [
+        "Graphics",
+        "General"
+      ],
+      "_8328": 100,
+      "_1690": 50,
+      "_8146": 100,
+      "_8604": 10,
+      "_2782": {
+        "sourceExpression": "t=>`${t}%`"
+      }
+    },
+    "source": {
+      "utf16Start": 41194,
+      "utf16End": 41394
+    },
+    "label": "Resolution",
+    "description": "Change the resolution of the screen. Lower resolution means more FPS.",
+    "category": [
+      "Graphics",
+      "General"
+    ],
+    "default": 100,
+    "minOrStart": 50,
+    "maxOrEnd": 100,
+    "step": 10,
+    "display": {
+      "sourceExpression": "t=>`${t}%`"
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ANTI_ALIASING",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Antialiasing",
+      "_5901": "Select the antialiasing method or turn it off.",
+      "_8592": [
+        "Graphics",
+        "General"
+      ],
+      "_8328": "off",
+      "_5331": [
+        "off",
+        "msaa"
+      ],
+      "_7459": true
+    },
+    "source": {
+      "utf16Start": 41395,
+      "utf16End": 41564
+    },
+    "label": "Antialiasing",
+    "description": "Select the antialiasing method or turn it off.",
+    "category": [
+      "Graphics",
+      "General"
+    ],
+    "default": "off",
+    "options": [
+      "off",
+      "msaa"
+    ],
+    "restartRequired": true,
+    "dependencies": []
+  },
+  {
+    "key": "TEXTURE_QUALITY",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Global texture quality",
+      "_5901": "Select global texture quality.",
+      "_8592": [
+        "Graphics",
+        "Textures"
+      ],
+      "_8328": "medium",
+      "_5331": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "_7459": true
+    },
+    "source": {
+      "utf16Start": 41565,
+      "utf16End": 41743
+    },
+    "label": "Global texture quality",
+    "description": "Select global texture quality.",
+    "category": [
+      "Graphics",
+      "Textures"
+    ],
+    "default": "medium",
+    "options": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "restartRequired": true,
+    "dependencies": []
+  },
+  {
+    "key": "BACKGROUND_IMAGE_QUALITY",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Background image quality",
+      "_5901": "Select background image quality.\nLow: 1024px\nMedium: 2048px\nHigh: 4096px",
+      "_8592": [
+        "Graphics",
+        "Textures"
+      ],
+      "_8328": "medium",
+      "_5331": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "source": {
+      "utf16Start": 41744,
+      "utf16End": 41969
+    },
+    "label": "Background image quality",
+    "description": "Select background image quality.\nLow: 1024px\nMedium: 2048px\nHigh: 4096px",
+    "category": [
+      "Graphics",
+      "Textures"
+    ],
+    "default": "medium",
+    "options": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ORB_SHADOW",
+    "constructor": "I",
+    "type": "boolean",
+    "raw": {
+      "_8192": "Orb shadow",
+      "_5901": "Toggle orb shadow on or off.",
+      "_8592": [
+        "Graphics",
+        "General"
+      ],
+      "_8328": true
+    },
+    "source": {
+      "utf16Start": 41970,
+      "utf16End": 42083
+    },
+    "label": "Orb shadow",
+    "description": "Toggle orb shadow on or off.",
+    "category": [
+      "Graphics",
+      "General"
+    ],
+    "default": true,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_TEAM_LIST",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Show team list",
+      "_5901": "Show or hide team list hud.",
+      "_8592": [
+        "Huds",
+        "General"
+      ],
+      "_8328": "show",
+      "_5331": [
+        "show",
+        "hide"
+      ]
+    },
+    "source": {
+      "utf16Start": 42088,
+      "utf16End": 42230
+    },
+    "label": "Show team list",
+    "description": "Show or hide team list hud.",
+    "category": [
+      "Huds",
+      "General"
+    ],
+    "default": "show",
+    "options": [
+      "show",
+      "hide"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_LEADERBOARD",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Show leaderboard",
+      "_5901": "Show or hide leaderboard hud.",
+      "_8592": [
+        "Huds",
+        "General"
+      ],
+      "_8328": "show",
+      "_5331": [
+        "show",
+        "hide"
+      ]
+    },
+    "source": {
+      "utf16Start": 42231,
+      "utf16End": 42379
+    },
+    "label": "Show leaderboard",
+    "description": "Show or hide leaderboard hud.",
+    "category": [
+      "Huds",
+      "General"
+    ],
+    "default": "show",
+    "options": [
+      "show",
+      "hide"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_CHATBOX",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Show chat box",
+      "_5901": "Show or hide chat box hud.",
+      "_8592": [
+        "Huds",
+        "General"
+      ],
+      "_8328": "show",
+      "_5331": [
+        "show",
+        "hide"
+      ]
+    },
+    "source": {
+      "utf16Start": 42380,
+      "utf16End": 42518
+    },
+    "label": "Show chat box",
+    "description": "Show or hide chat box hud.",
+    "category": [
+      "Huds",
+      "General"
+    ],
+    "default": "show",
+    "options": [
+      "show",
+      "hide"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_KILLFEED",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Show kill feed",
+      "_5901": "Show or hide the kill feed hud.",
+      "_8592": [
+        "Huds",
+        "General"
+      ],
+      "_8328": "show",
+      "_5331": [
+        "show",
+        "hide"
+      ]
+    },
+    "source": {
+      "utf16Start": 42519,
+      "utf16End": 42664
+    },
+    "label": "Show kill feed",
+    "description": "Show or hide the kill feed hud.",
+    "category": [
+      "Huds",
+      "General"
+    ],
+    "default": "show",
+    "options": [
+      "show",
+      "hide"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_METRICS",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Show metrics",
+      "_5901": "Show or hide metrics hud.",
+      "_8592": [
+        "Huds",
+        "General"
+      ],
+      "_8328": "show",
+      "_5331": [
+        "show",
+        "hide"
+      ]
+    },
+    "source": {
+      "utf16Start": 42665,
+      "utf16End": 42801
+    },
+    "label": "Show metrics",
+    "description": "Show or hide metrics hud.",
+    "category": [
+      "Huds",
+      "General"
+    ],
+    "default": "show",
+    "options": [
+      "show",
+      "hide"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "SHOW_MINIMAP",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Show minimap",
+      "_5901": "Show or hide minimap hud.",
+      "_8592": [
+        "Huds",
+        "General"
+      ],
+      "_8328": "show",
+      "_5331": [
+        "show",
+        "hide"
+      ]
+    },
+    "source": {
+      "utf16Start": 42802,
+      "utf16End": 42938
+    },
+    "label": "Show minimap",
+    "description": "Show or hide minimap hud.",
+    "category": [
+      "Huds",
+      "General"
+    ],
+    "default": "show",
+    "options": [
+      "show",
+      "hide"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "BORDER_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Border color",
+      "_5901": "Change the color of the world border.",
+      "_8592": [
+        "Theme",
+        "World border"
+      ],
+      "_6728": 16739748
+    },
+    "source": {
+      "utf16Start": 42943,
+      "utf16End": 43077
+    },
+    "label": "Border color",
+    "description": "Change the color of the world border.",
+    "category": [
+      "Theme",
+      "World border"
+    ],
+    "default": {
+      "rgb": 16739748,
+      "opacityPercent": null
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "BORDER_SIZE",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Border size",
+      "_5901": "Change the size of the world border.",
+      "_8592": [
+        "Theme",
+        "World border"
+      ],
+      "_8328": 50,
+      "_1690": 0,
+      "_8146": 100,
+      "_8604": 2
+    },
+    "source": {
+      "utf16Start": 43078,
+      "utf16End": 43229
+    },
+    "label": "Border size",
+    "description": "Change the size of the world border.",
+    "category": [
+      "Theme",
+      "World border"
+    ],
+    "default": 50,
+    "minOrStart": 0,
+    "maxOrEnd": 100,
+    "step": 2,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "BORDER_GLOW_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Border glow color",
+      "_5901": "Change the color of the world border's glow.",
+      "_8592": [
+        "Theme",
+        "World border"
+      ],
+      "_6728": 16739748,
+      "_2427": 20
+    },
+    "source": {
+      "utf16Start": 43230,
+      "utf16End": 43390
+    },
+    "label": "Border glow color",
+    "description": "Change the color of the world border's glow.",
+    "category": [
+      "Theme",
+      "World border"
+    ],
+    "default": {
+      "rgb": 16739748,
+      "opacityPercent": 20
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "BORDER_GLOW_SIZE",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Border glow size",
+      "_5901": "Change the size of the world border's glow.",
+      "_8592": [
+        "Theme",
+        "World border"
+      ],
+      "_8328": 0,
+      "_1690": 0,
+      "_8146": 100,
+      "_8604": 2
+    },
+    "source": {
+      "utf16Start": 43391,
+      "utf16End": 43558
+    },
+    "label": "Border glow size",
+    "description": "Change the size of the world border's glow.",
+    "category": [
+      "Theme",
+      "World border"
+    ],
+    "default": 0,
+    "minOrStart": 0,
+    "maxOrEnd": 100,
+    "step": 2,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ORB_SHADOW_INTENSITY",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Orb shadow intensity",
+      "_5901": "Change the intensity of orb shadow.",
+      "_8592": [
+        "Theme",
+        "Orb"
+      ],
+      "_8328": 15,
+      "_1690": 10,
+      "_8146": 100,
+      "_8604": 5,
+      "_4039": [
+        {
+          "_9782": "ORB_SHADOW",
+          "_8328": true
+        }
+      ]
+    },
+    "source": {
+      "utf16Start": 43559,
+      "utf16End": 43757
+    },
+    "label": "Orb shadow intensity",
+    "description": "Change the intensity of orb shadow.",
+    "category": [
+      "Theme",
+      "Orb"
+    ],
+    "default": 15,
+    "minOrStart": 10,
+    "maxOrEnd": 100,
+    "step": 5,
+    "restartRequired": false,
+    "dependencies": [
+      {
+        "_9782": "ORB_SHADOW",
+        "_8328": true
+      }
+    ]
+  },
+  {
+    "key": "ORB_STYLE",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Orb style",
+      "_5901": "Choose the visual style of orbs",
+      "_8592": [
+        "Theme",
+        "Orb"
+      ],
+      "_8328": "flat",
+      "_5331": [
+        "flat",
+        "convex"
+      ]
+    },
+    "source": {
+      "utf16Start": 43758,
+      "utf16End": 43893
+    },
+    "label": "Orb style",
+    "description": "Choose the visual style of orbs",
+    "category": [
+      "Theme",
+      "Orb"
+    ],
+    "default": "flat",
+    "options": [
+      "flat",
+      "convex"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ORB_TRANSPARENCY",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Orb transparency",
+      "_5901": "Change the transparency of orbs.",
+      "_8592": [
+        "Theme",
+        "Orb"
+      ],
+      "_8328": 0,
+      "_1690": 0,
+      "_8146": 50,
+      "_8604": 5
+    },
+    "source": {
+      "utf16Start": 43894,
+      "utf16End": 44040
+    },
+    "label": "Orb transparency",
+    "description": "Change the transparency of orbs.",
+    "category": [
+      "Theme",
+      "Orb"
+    ],
+    "default": 0,
+    "minOrStart": 0,
+    "maxOrEnd": 50,
+    "step": 5,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ORB_COLORING",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Orb coloring",
+      "_5901": "Choose the coloring mode of orbs. DEFAULT: use the default orb color, CUSTOM: use the custom orb tint color",
+      "_8592": [
+        "Theme",
+        "Orb"
+      ],
+      "_8328": "default",
+      "_5331": [
+        "default",
+        "tint"
+      ]
+    },
+    "source": {
+      "utf16Start": 44041,
+      "utf16End": 44262
+    },
+    "label": "Orb coloring",
+    "description": "Choose the coloring mode of orbs. DEFAULT: use the default orb color, CUSTOM: use the custom orb tint color",
+    "category": [
+      "Theme",
+      "Orb"
+    ],
+    "default": "default",
+    "options": [
+      "default",
+      "tint"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ORB_TINT_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Orb tint color",
+      "_5901": "Set the tint color to use for orbs. Required Orb Coloring setting to be set as TINT.",
+      "_8592": [
+        "Theme",
+        "Orb"
+      ],
+      "_6728": 16777215,
+      "_4039": [
+        {
+          "_9782": "ORB_COLORING",
+          "_8328": "tint"
+        }
+      ]
+    },
+    "source": {
+      "utf16Start": 44263,
+      "utf16End": 44483
+    },
+    "label": "Orb tint color",
+    "description": "Set the tint color to use for orbs. Required Orb Coloring setting to be set as TINT.",
+    "category": [
+      "Theme",
+      "Orb"
+    ],
+    "default": {
+      "rgb": 16777215,
+      "opacityPercent": null
+    },
+    "restartRequired": false,
+    "dependencies": [
+      {
+        "_9782": "ORB_COLORING",
+        "_8328": "tint"
+      }
+    ]
+  },
+  {
+    "key": "OWN_ORB_COLORING",
+    "constructor": "L",
+    "type": "select",
+    "raw": {
+      "_8192": "Own orb coloring",
+      "_5901": "Choose the coloring mode of your orbs. DEFAULT: use the default orb color, CUSTOM: use the custom own orb color, MULTIBOX: use multibox accent colors (available only in multibox mode)",
+      "_8592": [
+        "Theme",
+        "Orb"
+      ],
+      "_8328": "multibox",
+      "_5331": [
+        "default",
+        "custom",
+        "multibox"
+      ]
+    },
+    "source": {
+      "utf16Start": 44484,
+      "utf16End": 44803
+    },
+    "label": "Own orb coloring",
+    "description": "Choose the coloring mode of your orbs. DEFAULT: use the default orb color, CUSTOM: use the custom own orb color, MULTIBOX: use multibox accent colors (available only in multibox mode)",
+    "category": [
+      "Theme",
+      "Orb"
+    ],
+    "default": "multibox",
+    "options": [
+      "default",
+      "custom",
+      "multibox"
+    ],
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "CUSTOM_OWN_ORB_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Custom own orb color",
+      "_5901": "Set the custom orb color to use for your orbs. Required Own Orb Coloring setting to be set as CUSTOM.",
+      "_8592": [
+        "Theme",
+        "Orb"
+      ],
+      "_6728": 16739748,
+      "_4039": [
+        {
+          "_9782": "OWN_ORB_COLORING",
+          "_8328": "custom"
+        }
+      ]
+    },
+    "source": {
+      "utf16Start": 44804,
+      "utf16End": 45059
+    },
+    "label": "Custom own orb color",
+    "description": "Set the custom orb color to use for your orbs. Required Own Orb Coloring setting to be set as CUSTOM.",
+    "category": [
+      "Theme",
+      "Orb"
+    ],
+    "default": {
+      "rgb": 16739748,
+      "opacityPercent": null
+    },
+    "restartRequired": false,
+    "dependencies": [
+      {
+        "_9782": "OWN_ORB_COLORING",
+        "_8328": "custom"
+      }
+    ]
+  },
+  {
+    "key": "ILL_ORB_BASE_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Ill orb base color",
+      "_5901": "Change the base color of ill orb.",
+      "_8592": [
+        "Theme",
+        "Ill orb"
+      ],
+      "_6728": 16739747,
+      "_2427": 20
+    },
+    "source": {
+      "utf16Start": 45060,
+      "utf16End": 45206
+    },
+    "label": "Ill orb base color",
+    "description": "Change the base color of ill orb.",
+    "category": [
+      "Theme",
+      "Ill orb"
+    ],
+    "default": {
+      "rgb": 16739747,
+      "opacityPercent": 20
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ILL_ORB_BORDER_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Ill orb border color",
+      "_5901": "Change the border color of ill orb.",
+      "_8592": [
+        "Theme",
+        "Ill orb"
+      ],
+      "_6728": 16739748
+    },
+    "source": {
+      "utf16Start": 45207,
+      "utf16End": 45350
+    },
+    "label": "Ill orb border color",
+    "description": "Change the border color of ill orb.",
+    "category": [
+      "Theme",
+      "Ill orb"
+    ],
+    "default": {
+      "rgb": 16739748,
+      "opacityPercent": null
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ILL_ORB_GLOW_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Ill orb glow color",
+      "_5901": "Change ill orb's glow color.",
+      "_8592": [
+        "Theme",
+        "Ill orb"
+      ],
+      "_6728": 15678849,
+      "_2427": 25
+    },
+    "source": {
+      "utf16Start": 45351,
+      "utf16End": 45492
+    },
+    "label": "Ill orb glow color",
+    "description": "Change ill orb's glow color.",
+    "category": [
+      "Theme",
+      "Ill orb"
+    ],
+    "default": {
+      "rgb": 15678849,
+      "opacityPercent": 25
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "ILL_ORB_GLOW_SIZE",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Ill orb glow size",
+      "_5901": "Change ill orb's glow size.",
+      "_8592": [
+        "Theme",
+        "Ill orb"
+      ],
+      "_8328": 100,
+      "_1690": 0,
+      "_8146": 100,
+      "_8604": 5
+    },
+    "source": {
+      "utf16Start": 45493,
+      "utf16End": 45643
+    },
+    "label": "Ill orb glow size",
+    "description": "Change ill orb's glow size.",
+    "category": [
+      "Theme",
+      "Ill orb"
+    ],
+    "default": 100,
+    "minOrStart": 0,
+    "maxOrEnd": 100,
+    "step": 5,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "PARTICLE_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Particle color",
+      "_5901": "Change the color of particle.",
+      "_8592": [
+        "Theme",
+        "Particle"
+      ],
+      "_6728": 16739748
+    },
+    "source": {
+      "utf16Start": 45644,
+      "utf16End": 45770
+    },
+    "label": "Particle color",
+    "description": "Change the color of particle.",
+    "category": [
+      "Theme",
+      "Particle"
+    ],
+    "default": {
+      "rgb": 16739748,
+      "opacityPercent": null
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "PARTICLE_GLOW_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Particle glow color",
+      "_5901": "Change the color of particle's glow.",
+      "_8592": [
+        "Theme",
+        "Particle"
+      ],
+      "_6728": 16739748,
+      "_2427": 20
+    },
+    "source": {
+      "utf16Start": 45771,
+      "utf16End": 45923
+    },
+    "label": "Particle glow color",
+    "description": "Change the color of particle's glow.",
+    "category": [
+      "Theme",
+      "Particle"
+    ],
+    "default": {
+      "rgb": 16739748,
+      "opacityPercent": 20
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "PARTICLE_GLOW_SIZE",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Particle glow size",
+      "_5901": "Change the size of particle's glow.",
+      "_8592": [
+        "Theme",
+        "Particle"
+      ],
+      "_8328": 0,
+      "_1690": 0,
+      "_8146": 100,
+      "_8604": 5
+    },
+    "source": {
+      "utf16Start": 45924,
+      "utf16End": 46083
+    },
+    "label": "Particle glow size",
+    "description": "Change the size of particle's glow.",
+    "category": [
+      "Theme",
+      "Particle"
+    ],
+    "default": 0,
+    "minOrStart": 0,
+    "maxOrEnd": 100,
+    "step": 5,
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "BACKGROUND_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Background color",
+      "_5901": "Change the background color of the screen.",
+      "_8592": [
+        "Theme",
+        "Background"
+      ],
+      "_6728": 1315860
+    },
+    "source": {
+      "utf16Start": 46084,
+      "utf16End": 46228
+    },
+    "label": "Background color",
+    "description": "Change the background color of the screen.",
+    "category": [
+      "Theme",
+      "Background"
+    ],
+    "default": {
+      "rgb": 1315860,
+      "opacityPercent": null
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "BACKGROUND_IMAGE_URL",
+    "constructor": "N",
+    "type": "string",
+    "raw": {
+      "_8192": "Background image url",
+      "_5901": "URL of the background image of the world.",
+      "_8592": [
+        "Theme",
+        "Background"
+      ],
+      "_8328": "https://i.imgur.com/aKvo1jQ.png",
+      "_4039": [
+        {
+          "_9782": "WORLD_BACKGROUND_IMAGE",
+          "_8328": true
+        }
+      ]
+    },
+    "source": {
+      "utf16Start": 46229,
+      "utf16End": 46456
+    },
+    "label": "Background image url",
+    "description": "URL of the background image of the world.",
+    "category": [
+      "Theme",
+      "Background"
+    ],
+    "default": "https://i.imgur.com/aKvo1jQ.png",
+    "restartRequired": false,
+    "dependencies": [
+      {
+        "_9782": "WORLD_BACKGROUND_IMAGE",
+        "_8328": true
+      }
+    ]
+  },
+  {
+    "key": "BACKGROUND_IMAGE_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Background image color",
+      "_5901": "Change the color of the background image.",
+      "_8592": [
+        "Theme",
+        "Background"
+      ],
+      "_6728": 12632256,
+      "_4039": [
+        {
+          "_9782": "WORLD_BACKGROUND_IMAGE",
+          "_8328": true
+        }
+      ]
+    },
+    "source": {
+      "utf16Start": 46457,
+      "utf16End": 46663
+    },
+    "label": "Background image color",
+    "description": "Change the color of the background image.",
+    "category": [
+      "Theme",
+      "Background"
+    ],
+    "default": {
+      "rgb": 12632256,
+      "opacityPercent": null
+    },
+    "restartRequired": false,
+    "dependencies": [
+      {
+        "_9782": "WORLD_BACKGROUND_IMAGE",
+        "_8328": true
+      }
+    ]
+  },
+  {
+    "key": "ACTIVE_PLAYER_UNIT_ACCENT_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Active player unit accent color",
+      "_5901": "Set the accent color for the active player unit.",
+      "_8592": [
+        "Theme",
+        "Multibox"
+      ],
+      "_6728": 9588991
+    },
+    "source": {
+      "utf16Start": 46664,
+      "utf16End": 46842
+    },
+    "label": "Active player unit accent color",
+    "description": "Set the accent color for the active player unit.",
+    "category": [
+      "Theme",
+      "Multibox"
+    ],
+    "default": {
+      "rgb": 9588991,
+      "opacityPercent": null
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "INACTIVE_PLAYER_UNIT_ACCENT_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Inactive player unit accent color",
+      "_5901": "Set the accent color for the inactive player unit.",
+      "_8592": [
+        "Theme",
+        "Multibox"
+      ],
+      "_6728": 16777215
+    },
+    "source": {
+      "utf16Start": 46843,
+      "utf16End": 47028
+    },
+    "label": "Inactive player unit accent color",
+    "description": "Set the accent color for the inactive player unit.",
+    "category": [
+      "Theme",
+      "Multibox"
+    ],
+    "default": {
+      "rgb": 16777215,
+      "opacityPercent": null
+    },
+    "restartRequired": false,
+    "dependencies": []
+  },
+  {
+    "key": "CURSOR_LINE_COLOR",
+    "constructor": "R",
+    "type": "color",
+    "raw": {
+      "_8192": "Cursor line color",
+      "_5901": "Set the color for the cursor line.",
+      "_8592": [
+        "Theme",
+        "Cursor line"
+      ],
+      "_6728": 16777215,
+      "_4039": [
+        {
+          "_9782": "CURSOR_LINES",
+          "_8328": true
+        }
+      ]
+    },
+    "source": {
+      "utf16Start": 47029,
+      "utf16End": 47209
+    },
+    "label": "Cursor line color",
+    "description": "Set the color for the cursor line.",
+    "category": [
+      "Theme",
+      "Cursor line"
+    ],
+    "default": {
+      "rgb": 16777215,
+      "opacityPercent": null
+    },
+    "restartRequired": false,
+    "dependencies": [
+      {
+        "_9782": "CURSOR_LINES",
+        "_8328": true
+      }
+    ]
+  },
+  {
+    "key": "CURSOR_LINE_THICKNESS",
+    "constructor": "T",
+    "type": "range",
+    "raw": {
+      "_8192": "Cursor line thickness",
+      "_5901": "Change the thickness of the cursor line.",
+      "_8592": [
+        "Theme",
+        "Cursor line"
+      ],
+      "_8328": 6,
+      "_1690": 6,
+      "_8146": 15,
+      "_8604": 1,
+      "_2782": {
+        "sourceExpression": "t=>(t-5).toString()"
+      },
+      "_4039": [
+        {
+          "_9782": "CURSOR_LINES",
+          "_8328": true
+        }
+      ]
+    },
+    "source": {
+      "utf16Start": 47210,
+      "utf16End": 47448
+    },
+    "label": "Cursor line thickness",
+    "description": "Change the thickness of the cursor line.",
+    "category": [
+      "Theme",
+      "Cursor line"
+    ],
+    "default": 6,
+    "minOrStart": 6,
+    "maxOrEnd": 15,
+    "step": 1,
+    "display": {
+      "sourceExpression": "t=>(t-5).toString()"
+    },
+    "restartRequired": false,
+    "dependencies": [
+      {
+        "_9782": "CURSOR_LINES",
+        "_8328": true
+      }
+    ]
+  }
+]

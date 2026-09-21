@@ -1,0 +1,164 @@
+{
+  "version": "1.2.1-xplus.5",
+  "createdUTC": "2026-09-17T18:21:50.439709+00:00",
+  "artifact": {
+    "path": "dist/RYUTEN-Senpa.user.js",
+    "bytes": 5999213,
+    "sha256": "aa2f12a5f12d659ef73ceb5eba7576f8a69a2b88fc0ceba7249f20e6cbfc6539"
+  },
+  "unit": {
+    "passed": 87,
+    "total": 87
+  },
+  "browser": {
+    "lineInput": 21,
+    "massPresentation": 7,
+    "allPassed": true,
+    "linePageErrors": [],
+    "massPageErrors": [],
+    "timers": "deterministic fixture clock",
+    "network": "fixture world updates",
+    "gpu": "substituted submission"
+  },
+  "smoke": {
+    "kind": "OFFLINE_INTEGRATION",
+    "gpu": "SUBSTITUTED_SUBMISSION",
+    "network": "FIXTURES",
+    "pass": true,
+    "state": {
+      "ready": true,
+      "error": null,
+      "hostStarted": true,
+      "logs": [
+        {
+          "at": 797,
+          "event": "native-host-ready",
+          "detail": {
+            "settings": 130
+          }
+        },
+        {
+          "at": 1495,
+          "event": "presentation-ready",
+          "detail": {
+            "nativeSettings": 94,
+            "ryutenSettings": 130,
+            "shields": 12
+          }
+        },
+        {
+          "at": 1500,
+          "event": "port-ready",
+          "detail": {
+            "version": "1.2.1-xplus.5",
+            "renderer": "Ryuten PixiJS",
+            "host": "captured native Senpa",
+            "nativeAnimation": 120
+          }
+        }
+      ]
+    },
+    "native": {
+      "cellMs": 120,
+      "settings": 130,
+      "wasm": "function",
+      "shields": 12,
+      "merged": 166,
+      "frames": 2
+    },
+    "events": [
+      {
+        "type": "error",
+        "message": "Failed to load resource: net::ERR_FAILED"
+      }
+    ]
+  },
+  "repeatedBuildByteIdentical": true,
+  "sourceUnchanged": [
+    "src/app/account.js",
+    "src/app/chat-readable.js",
+    "src/app/cosmetics.js",
+    "src/app/feed.js",
+    "src/app/host.js",
+    "src/app/icons.js",
+    "src/app/loading.js",
+    "src/app/map.js",
+    "src/app/mass-labels.js",
+    "src/app/metrics.js",
+    "src/app/motion.js",
+    "src/app/multibox-ui.js",
+    "src/app/multibox-world.js",
+    "src/app/multibox.js",
+    "src/app/prelude.js",
+    "src/app/presentation.js",
+    "src/app/settings.js",
+    "src/app/themes.js",
+    "src/app/tracker.js",
+    "src/app/world.js",
+    "src/ryuten/ARCHITECTURE.md",
+    "src/ryuten/Albion.wasm",
+    "src/ryuten/CAPTURE.md",
+    "src/ryuten/PROTOCOL.md",
+    "src/ryuten/assets/images/UI/ffar-bar-bg.svg",
+    "src/ryuten/assets/images/UI/main-menu/ryuten-logo-full.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_BASIC_RING.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_BASIC_RING_THICK.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_BASIC_RING_THIN.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_CERAMIC_SNOW.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_CRYSTAL_S.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_GREMORY_G3_R1.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_HSLO.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_MESH_RING.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_TRINITY_R1.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_TRINITY_R2.webp",
+    "src/ryuten/assets/images/UI/main-menu/shields/SHIELD_VALI.webp",
+    "src/ryuten/assets/images/h3d/default-skin.webp",
+    "src/ryuten/assets/images/loading-screen/background.webp",
+    "src/ryuten/assets/images/textures/H3D/OVERLAP_HELPER.webp",
+    "src/ryuten/assets/images/textures/H3D/commander.webp",
+    "src/ryuten/assets/images/textures/SSS/p1.webp",
+    "src/ryuten/assets/images/textures/SSS/p2.webp",
+    "src/ryuten/assets/images/textures/shields/ATLAS_1.webp",
+    "src/ryuten/assets/misc/titles_info.json",
+    "src/ryuten/assets/sfx/alert-1.wav",
+    "src/ryuten/assets/sfx/button-change-1.wav",
+    "src/ryuten/assets/sfx/button-click-1.wav",
+    "src/ryuten/assets/sfx/button-disabled-1.wav",
+    "src/ryuten/assets/sfx/button-hover-1.wav",
+    "src/ryuten/assets/sfx/notification-1.wav",
+    "src/ryuten/bundle.767.css",
+    "src/ryuten/bundle.ryuten.css",
+    "src/ryuten/chunk-767.js",
+    "src/ryuten/index.html",
+    "src/ryuten/ryuten.js",
+    "src/ryuten/vendors.js",
+    "src/ryuten/version.json",
+    "src/senpa/bundle.wasm",
+    "src/senpa/client.css",
+    "src/senpa/client.js",
+    "src/senpa/index.html",
+    "src/snapshot/after-payload.js",
+    "src/snapshot/assetAliases.json",
+    "src/snapshot/assets.json",
+    "src/snapshot/begin.js",
+    "src/snapshot/childScripts.original.js",
+    "src/snapshot/end.js",
+    "src/snapshot/ryutenChunk.js",
+    "src/snapshot/ryutenHTML.html",
+    "src/snapshot/ryutenJS.js",
+    "src/snapshot/ryutenVendors.js",
+    "src/snapshot/ryutenWasm.wasm",
+    "src/snapshot/senpaHTML.html",
+    "src/snapshot/senpaJS.js",
+    "src/snapshot/senpaWasm.wasm"
+  ],
+  "sourceChanged": [
+    "src/app/line-split.js"
+  ],
+  "sourceUnchangedCount": 76,
+  "capturedSnapshotsUnchanged": true,
+  "baselineRegressionsReproduced": 2,
+  "liveLineShapeVerified": false,
+  "realGPUPerformanceVerified": false,
+  "maximumXplusSettingUnchanged": 500
+}

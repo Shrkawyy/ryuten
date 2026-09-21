@@ -1,0 +1,53 @@
+{
+  "kind": "OFFLINE_INTEGRATION",
+  "gpu": "SUBSTITUTED_SUBMISSION",
+  "network": "FIXTURES",
+  "pass": true,
+  "state": {
+    "ready": true,
+    "error": null,
+    "hostStarted": true,
+    "logs": [
+      {
+        "at": 2830,
+        "event": "native-host-ready",
+        "detail": {
+          "settings": 130
+        }
+      },
+      {
+        "at": 3936,
+        "event": "presentation-ready",
+        "detail": {
+          "nativeSettings": 94,
+          "ryutenSettings": 114,
+          "shields": 12
+        }
+      },
+      {
+        "at": 3944,
+        "event": "port-ready",
+        "detail": {
+          "version": "1.2.1-xplus.3",
+          "renderer": "Ryuten PixiJS",
+          "host": "captured native Senpa",
+          "nativeAnimation": 120
+        }
+      }
+    ]
+  },
+  "native": {
+    "cellMs": 120,
+    "settings": 130,
+    "wasm": "function",
+    "shields": 12,
+    "merged": 150,
+    "frames": 2
+  },
+  "events": [
+    {
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    }
+  ]
+}

@@ -1,0 +1,681 @@
+--- xplus.4/src/app/line-split.js
++++ xplus.5/src/app/line-split.js
+@@ -65,6 +65,24 @@
+     return {x: Math.round(x + direction.x * Math.max(0, d)),
+       y: Math.round(y + direction.y * Math.max(0, d))};
+   }
++  // Measured received-position spread, NOT a server-physics success verdict.
++  // No names, account fields or raw packets are retained in the attempt report.
++  function geometry(c, vector) {
++    if (!c || !vector || c.count < 3) return {cellCount: c?.count || 0, enoughPoints: false};
++    let alongMin = Infinity, alongMax = -Infinity, sideways = 0, xx = 0, xy = 0, yy = 0;
++    for (const p of c.samples) {
++      const dx = p.x - c.x, dy = p.y - c.y;
++      const a = dx * vector.x + dy * vector.y, b = -dx * vector.y + dy * vector.x;
++      alongMin = Math.min(alongMin, a); alongMax = Math.max(alongMax, a); sideways += b * b;
++      xx += dx * dx; xy += dx * dy; yy += dy * dy;
++    }
++    const span = alongMax - alongMin, crossRms = Math.sqrt(sideways / c.count);
++    const trace = xx + yy, disc = Math.hypot(xx - yy, 2 * xy);
++    return {cellCount: c.count, enoughPoints: span > 0,
++      alongSpan: span, crossAxisRms: crossRms,
++      crossAxisRatio: span > 0 ? crossRms / span : null,
++      principalWidthRatio: trace + disc > 0 ? Math.sqrt(Math.max(0, (trace - disc) / (trace + disc))) : null};
++  }
+   function moved(a, b) {
+     if (!a || a.count !== b.count) return true;
+     const previous = new Map(a.samples.map(p => [p.id, p]));
+@@ -81,7 +99,7 @@
+       this.clearTimer = options.clearTimeout || window.clearTimeout.bind(window);
+       this.timer = null; this.operation = null; this.locks = new Map(); this.hooks = new Map();
+       this.lastResult = null; this.trace = []; this.emitting = false; this.disposed = false;
+-      this.sequence = 0;
++      this.sequence = 0; this.statusUntil = 0;
+       this.originalSend = h.actions.sendMouse;
+       this.sendWrapper = (...args) => this.sendMouse(...args);
+       h.actions.sendMouse = this.sendWrapper;
+@@ -140,14 +158,19 @@
+       if (!this.badge) {
+         this.badge = document.createElement('div'); this.badge.id = 'senpa-line-input-status';
+         this.badge.setAttribute('aria-live', 'polite');
+-        this.badge.style.cssText = 'position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:9000;pointer-events:none;padding:5px 10px;border:1px solid #64748b;border-radius:5px;background:#111827e8;color:#fff;font:600 13px Arial,sans-serif;';
++        this.badge.style.cssText = 'position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:9000;pointer-events:auto;padding:5px 10px;border:1px solid #64748b;border-radius:5px;background:#111827e8;color:#fff;font:600 13px Arial,sans-serif;cursor:pointer;';
++        this.badge.title = 'Click to save the last line-attempt report (own positions only).';
++        for (const kind of ['mousedown', 'mouseup']) this.badge.addEventListener(kind, event => event.stopPropagation());
++        this.badge.addEventListener('click', event => {event.stopPropagation(); this.downloadLastAttempt();});
+         document.body.appendChild(this.badge);
+       }
+       const o = this.operation, active = this.route().slot, lock = this.locks.get(active);
+-      this.badge.hidden = !o && !this.locks.size;
++      this.badge.hidden = !o && !this.locks.size && this.now() >= this.statusUntil;
+       this.badge.textContent = o ? `LINE P${o.slot + 1} · ${o.phase} · ${o.sent}/${o.config.splitCount}` :
+         lock ? `LINE LOCK P${active + 1} · ${lock.label} · press same line key to release` :
+-        `LINE LOCK · ${[...this.locks.keys()].map(s => 'P' + (s + 1)).join(', ')} · inactive`;
++        this.locks.size ? `LINE LOCK · ${[...this.locks.keys()].map(s => 'P' + (s + 1)).join(', ')} · inactive` :
++        this.lastResult?.status === 'sent' ? `LINE · ${this.lastResult.stagesSent} split stages sent · ${this.lastResult.receivedShape?.cellCount ?? '?'} cells observed · click for report` :
++        `LINE · ${this.lastResult?.reason || this.lastResult?.status || 'ready'} · click for report`;
+     }
+     direction(name, route) {
+       if (DIRECTIONS[name]) { const [x, y] = DIRECTIONS[name]; return {x, y, label: LABELS[name]}; }
+@@ -180,9 +203,8 @@
+         const native = slot ?? host.player.activeTab;
+         const held = self.heldFor(host, native);
+         if (held && self.valid(held, held === self.operation)) {
+-          if (held === self.operation && held.phase === 'centering') {
+-            const c = center(host, native); if (c) held.point = aimPoint(c, {x: 0, y: 0}, 0);
+-          }
++          // A center lock is a fixed WORLD point, not a target chasing the cell.
++          // The same point survives camera changes, fresh packets and mouse moves.
+           x = held.point.x; y = held.point.y;
+         }
+         return original.call(this, x, y, slot, ...rest);
+@@ -197,13 +219,24 @@
+         return split.call(this, slot, count, ...rest);
+       };
+       host.packets.cursor = cursor; host.packets.split = splitWrapper;
+-      this.hooks.set(host, {original, cursor, split, splitWrapper});
++      // Observe completed native world handlers. Do not parse or mutate any
++      // packet. Successful delta frames can establish freshness even if an idle
++      // own cell has no changed entry. Malformed handler calls do not count.
++      const handlers = host.parser?.handlers, world = handlers?.[20];
++      const worldWrapper = typeof world === 'function' ? function(...args) {
++        const result = world.apply(this, args);
++        try {self.observeWorld(host);} catch { /* A diagnostic cannot break parsing. */ }
++        return result;
++      } : null;
++      if (worldWrapper) handlers[20] = worldWrapper;
++      this.hooks.set(host, {original, cursor, split, splitWrapper, handlers, world, worldWrapper});
+     }
+     restoreIdleHosts() {
+       for (const [host, hook] of this.hooks) {
+         if (host === this.h || this.operation?.host === host || [...this.locks.values()].some(l => l.host === host)) continue;
+         if (host.packets.cursor === hook.cursor) host.packets.cursor = hook.original;
+         if (host.packets.split === hook.splitWrapper) host.packets.split = hook.split;
++        if (hook.worldWrapper && hook.handlers?.[20] === hook.worldWrapper) hook.handlers[20] = hook.world;
+         this.hooks.delete(host);
+       }
+     }
+@@ -221,7 +254,10 @@
+     sendMouse(...args) {
+       this.prune();
+       const had = this.operation || this.locks.size;
+-      if (!had) return this.originalSend.apply(this.h.actions, args);
++      if (!had) {
++        if (this.statusUntil && this.now() >= this.statusUntil) {this.statusUntil = 0;this.updateStatus();}
++        return this.originalSend.apply(this.h.actions, args);
++      }
+       const routes = [this.operation, ...this.locks.values()].filter(Boolean);
+       for (const route of routes) this.ensureHost(route.host);
+       // The original primary scheduler still services non-locked/inactive slots.
+@@ -270,14 +306,19 @@
+       if (!this.valid(route, true)) return this.reject('Join, finish verification and spawn the selected player first; close chat/menu.');
+       const c = center(route.host, route.native), vector = this.direction(cfg.direction, route);
+       if (!vector) return this.reject('Invalid line direction or viewport.');
++      if (cfg.mode !== 'Endy rapid' && c.count !== 1)
++        return this.reject('Centered auto-split needs one merged cell; separate fragments have different centers.');
+       this.stopFeeding(); this.ensureHost(route.host); this.locks.delete(route.slot);
+       const at = this.now(), minimum = cfg.settleMs === 0 ? 0 :
+         Math.max(cfg.settleMs, clamp(Number(route.host.network.latency) * 1.5 + 40 || 0, 0, 600));
+       const o = {...route, config: cfg, vector, initialCellCount: c.count, initialMass: Math.round(c.mass),
+         sequence: ++this.sequence, phase: 'centering', start: at, lastMovement: at,
+-        minimum, maxSettle: Math.max(minimum + 800, 1200), previous: c,
+-        point: aimPoint(c, {x: 0, y: 0}, 0), sent: 0, freshSnapshots: 0};
+-      this.operation = o; this.result({status: 'centering', slot: o.slot, mode: cfg.mode, requestedStages: cfg.splitCount});
++        minimum, maxSettle: Math.max(minimum + 1200, 1800), previous: c,
++        anchor: aimPoint(c, {x: 0, y: 0}, 0), point: aimPoint(c, {x: 0, y: 0}, 0),
++        sent: 0, freshSnapshots: 0, centerConfirmed: false, lastFreshAt: null, quietSince: null,
++        quietReference: null, quietFrames: 0, samples: [], receivedShape: geometry(c, vector)};
++      this.operation = o; this.trace = []; this.statusUntil = 0;
++      this.result({status: 'centering', slot: o.slot, mode: cfg.mode, requestedStages: cfg.splitCount});
+       if (cfg.mode !== 'Endy rapid' && !this.sendHeld(o)) return false;
+       if (cfg.mode === 'Endy rapid' || !minimum) this.beginTrain(o);
+       else this.schedule(() => this.settle(o), 20);
+@@ -287,34 +328,63 @@
+       if (this.timer !== null) this.clearTimer(this.timer);
+       this.timer = this.setTimer(() => {this.timer = null; fn();}, Math.max(0, delay));
+     }
++    observeWorld(host) {
++      const o = this.operation;
++      if (!o || o.host !== host || !this.valid(o, true)) return;
++      const at = this.now(), c = center(host, o.native);
++      o.lastFreshAt = at; o.freshSnapshots++;
++      o.receivedShape = geometry(c, o.vector);
++      o.samples.push({at: Math.round(at - o.start), phase: o.phase, cells: c.samples.slice(0, 128).map(p => ({x: p.x, y: p.y}))});
++      if (o.samples.length > 48) o.samples.shift();
++      if (o.phase !== 'centering') return;
++      // The single-cell guard prevents a quiet arithmetic mean from hiding
++      // independently moving fragments. The anchor never follows the new pose.
++      const near = c.count === 1 && Math.hypot(c.x - o.anchor.x, c.y - o.anchor.y) <= 2;
++      const stable = near && o.quietReference && !moved(o.quietReference, c);
++      if (!stable) {
++        o.quietSince = near ? at : null;
++        o.quietReference = near ? c : null;
++        o.quietFrames = near ? 1 : 0;
++      } else o.quietFrames++;
++      o.previous = c;
++    }
+     settle(o) {
+       if (this.operation !== o) return;
+       if (!this.valid(o, true)) return this.finish('cancelled', 'route-or-focus-changed');
+-      const at = this.now(), c = center(o.host, o.native);
+-      if (at - o.start > o.maxSettle) return this.finish('cancelled', 'Center did not settle; retry after stopping movement.', true);
+-      if (c.samples.some((p, i) => p.at !== o.previous.samples[i]?.at || p.id !== o.previous.samples[i]?.id)) o.freshSnapshots++;
+-      if (moved(o.previous, c)) o.lastMovement = at;
+-      o.previous = c; o.point = aimPoint(c, {x: 0, y: 0}, 0); if (!this.sendHeld(o)) return;
+-      // This is quietness of RECEIVED positions, not proof of server physics at
+-      // the current instant. Delta packets may omit perfectly stationary cells.
+-      if (at - o.start >= o.minimum && at - o.lastMovement >= 80) this.beginTrain(o);
++      const at = this.now();
++      if (at - o.start > o.maxSettle) {
++        const reason = o.freshSnapshots < 3 ? 'No fresh world updates confirmed the center; no splits sent.' :
++          'Cell did not settle at the fixed center; no splits sent.';
++        return this.finish('cancelled', reason, true);
++      }
++      // Timers and render frames NEVER count as new position evidence.
++      // A stationary snapshot replayed for 180 ms cannot pass this gate.
++      if (!this.sendHeld(o)) return;
++      const fresh = o.lastFreshAt !== null && at - o.lastFreshAt <= 200;
++      if (at - o.start >= o.minimum && fresh && o.quietFrames >= 3 && o.quietSince !== null && o.lastFreshAt - o.quietSince >= 80) {
++        o.centerConfirmed = true; this.beginTrain(o);
++      }
+       else this.schedule(() => this.settle(o), 20);
+     }
+     beginTrain(o) {
+       if (this.operation !== o || !this.valid(o, true)) return this.finish('cancelled', 'route-or-focus-changed');
+       const c = center(o.host, o.native);
+       const distance = o.config.mode === 'Exact center rapid' ? 0 : o.config.mode === 'Endy rapid' ? 10_000_000 : o.config.offset;
+-      o.point = aimPoint(c, o.vector, distance); o.phase = 'splitting';
++      o.point = aimPoint(o.config.mode === 'Endy rapid' ? c : o.anchor, o.vector, distance); o.phase = 'splitting';
+       this.pulse(o);
+     }
+     pulse(o) {
+       if (this.operation !== o || !this.valid(o, true)) return this.finish('cancelled', 'route-or-focus-changed');
+       if (o.expected !== undefined && this.now() - o.expected > 250)
+         return this.finish('cancelled', 'Frame/timer stalled; remaining splits were cancelled.', true);
++      if (Number(o.host.network.ws?.bufferedAmount) > 65536)
++        return this.finish('cancelled', 'Socket queue is congested; remaining splits cancelled.', true);
+       if (!this.sendHeld(o)) return this.finish('cancelled', 'aim-unavailable');
+       const count = o.config.mode === 'Native burst' ? o.config.splitCount : 1;
+       try {
+-        this.emitting = true; o.host.packets.split(o.native, count);
++        this.emitting = true;
++        if (o.host.packets.split(o.native, count) === false)
++          return this.finish('cancelled', 'Native split writer rejected the request.', true);
+       } catch (error) { return this.finish('cancelled', 'Native split send failed: ' + String(error.message || error), true); }
+       finally { this.emitting = false; }
+       o.sent += count; this.event('split-request', {slot: o.slot, native: o.native, count}); this.updateStatus();
+@@ -336,7 +406,14 @@
+       if (o) this.result({status, ...(reason ? {reason} : {}), slot: o.slot, mode: o.config.mode,
+         requestedStages: o.config.splitCount, stagesSent: o.sent, initialCellCount: o.initialCellCount,
+         initialMass: o.initialMass, freshSnapshots: o.freshSnapshots,
+-        elapsedMs: Math.round(this.now() - o.start), lineShapeVerified: false}, notify);
++        elapsedMs: Math.round(this.now() - o.start), anchor: {...o.anchor}, aim: {...o.point},
++        direction: {x: o.vector.x, y: o.vector.y}, centerConfirmed: o.centerConfirmed,
++        receivedShape: o.receivedShape, observationWindow: o.samples,
++        lineShapeVerified: false, serverAcceptedCountKnown: false}, notify);
++      if (o && !this.disposed) {
++        this.statusUntil = this.now() + 12000;
++        this.updateStatus();
++      }
+       return !!o;
+     }
+     cancel(reason = 'cancelled') {
+@@ -379,17 +456,25 @@
+       }
+       return false;
+     }
++    downloadLastAttempt() {
++      if (!this.lastResult || !rp.download) return false;
++      rp.download('senpa-line-attempt-' + (rp.build?.version || 'test') + '.json', JSON.stringify({
++        version: rp.build?.version || null, source: 'native received own-cell positions; not server physics',
++        ...this.snapshot()}, null, 2));
++      return true;
++    }
+     snapshot() {
+       return {active: !!this.operation, phase: this.operation?.phase ?? null, slot: this.operation?.slot ?? null,
+         options: this.options(), locks: [...this.locks.values()].map(l => ({slot: l.slot, native: l.native, direction: l.directionName, point: {...l.point}})),
+         lastResult: this.lastResult, recentEvents: this.trace.slice(), lineShapeVerified: false};
+     }
+     dispose() {
+-      this.cancel('dispose'); this.disposed = true;
++      this.disposed = true; this.cancel('dispose');
+       if (this.h.actions.sendMouse === this.sendWrapper) this.h.actions.sendMouse = this.originalSend;
+       for (const [host, hook] of this.hooks) {
+         if (host.packets.cursor === hook.cursor) host.packets.cursor = hook.original;
+         if (host.packets.split === hook.splitWrapper) host.packets.split = hook.split;
++        if (hook.worldWrapper && hook.handlers?.[20] === hook.worldWrapper) hook.handlers[20] = hook.world;
+       }
+       this.hooks.clear(); this.badge?.remove();
+       window.removeEventListener('blur', this.onBlur); document.removeEventListener('visibilitychange', this.onHidden);
+@@ -406,7 +491,7 @@
+     for (const [key, storage, label, defaultValue, min, max, help] of [
+       ['LINE_SPLIT_COUNT', 'line-split-count', 'Split stages (4 = up to 16 pieces from one)', 4, 1, 6, 'Requested doublings, not final cell count. Server mass/cell caps still apply.'],
+       ['LINE_SPLIT_GAP_MS', 'line-split-gap-ms', 'Gap between rapid split requests', 25, 0, 120, 'Native burst ignores this gap. Timers are best effort; late trains cancel rather than catch up.'],
+-      ['LINE_SPLIT_SETTLE_MS', 'line-split-settle-ms', 'Minimum center-hold time', 180, 0, 600, 'Centers on received coordinates and waits for a quiet window, with a bounded timeout. Latency can extend this minimum. 0 skips waiting. Endy modes skip centering.'],
++      ['LINE_SPLIT_SETTLE_MS', 'line-split-settle-ms', 'Minimum center-hold time', 180, 0, 600, 'Holds one fixed world center; needs 3 fresh world updates and a quiet window. No updates means no automatic split. Centered modes require one merged cell. 0 is an unchecked diagnostic bypass. Endy modes skip centering.'],
+       ['LINE_SPLIT_OFFSET', 'line-split-offset', 'Near-center direction offset (world units)', 8, 2, 64, 'Small directional nudge, including arbitrary diagonals; integer cursor coordinates. Exact center uses zero; Endy uses a distant target.'],
+       ['LINE_SPLIT_HOLD_MS', 'line-split-hold-ms', 'Keep aim pinned after the final split', 240, 100, 800, 'Normal mouse aim resumes afterwards. Does not extend server movement or merge timers.'],
+     ]) {
+@@ -425,6 +510,6 @@
+       setting._4935('change', v => {rp.lineSplit?.cancel('binding-change'); rp.saveSetting(storage, v);});
+     }
+   };
+-  rp.modules.lineInput = {MODES, DIRECTIONS, BINDINGS, config, center, aimPoint, moved, LineInputController};
++  rp.modules.lineInput = {MODES, DIRECTIONS, BINDINGS, config, center, aimPoint, moved, geometry, LineInputController};
+   rp.modules.installLineSplit = (h, r, options) => (rp.lineSplit = new LineInputController(h, r, options));
+ })();
+--- xplus.4/tests/line-input.test.mjs
++++ xplus.5/tests/line-input.test.mjs
+@@ -15,7 +15,7 @@
+   const h={name,world:{myCells:[new Map([[1,c]]),new Map([[2,{...c,id:2,endX:6000,endY:7000}]])],myPlayerIDs:[100,101]},
+    network:{connected:true,ws:{name},latency:40,isReplay:false},player:{activeTab:0,isStopped:false},
+    renderer:{canvas:{width:1440,height:900}},camera:{x:1000,y:2000,zoom:.5},input:{mouse:{x:820,y:550}},
+-   menu:{isOpen:false,isChatFocused:false},packets:{handshakeDone:true},actions:{}};
++   menu:{isOpen:false,isChatFocused:false},packets:{handshakeDone:true},actions:{},parser:{handlers:{20:()=>{}}}};
+   h.packets.cursor=(x,y,native=h.player.activeTab)=>events.push({type:'aim',host:name,x:Math.trunc(x),y:Math.trunc(y),native,at:now});
+   h.packets.split=(native,count)=>events.push({type:'split',host:name,native,count,at:now});
+   h.actions.split=()=>h.packets.split(h.player.activeTab,1);
+@@ -41,12 +41,14 @@
+  return {api,h,aux,m,r,rp,document,events,store,notifications,timers,tick,hosts,
+   cell:h.world.myCells[0].get(1),emit:k=>(listeners.get(k)||[]).slice().forEach(f=>f({target:document.activeElement})),
+   stall(ms){now+=ms;const callbacks=[...timers.values()];timers.clear();callbacks.forEach(v=>v.fn());},
+-  splits:()=>events.filter(e=>e.type==='split'),aims:()=>events.filter(e=>e.type==='aim')};
++  splits:()=>events.filter(e=>e.type==='split'),aims:()=>events.filter(e=>e.type==='aim'),
++  worldFrame(host=h){host.parser.handlers[20]();},
++  freshTick(ms,host=h){for(let step=0;step<ms;step+=20){tick(Math.min(20,ms-step));host.parser.handlers[20]();}}};
+ }
+ const j=v=>JSON.parse(JSON.stringify(v));
+-test('defaults are four stages and separate requests, never inherited six',()=>{const f=setup();assert.equal(f.api.options().splitCount,4);assert.equal(f.api.trigger(),true);f.tick(700);assert.deepEqual(f.splits().map(x=>x.count),[1,1,1,1]);assert.equal(f.api.lastResult.status,'sent');assert.equal(f.api.lastResult.lineShapeVerified,false);});
++test('defaults are four stages and separate requests, never inherited six',()=>{const f=setup();assert.equal(f.api.options().splitCount,4);assert.equal(f.api.trigger(),true);f.freshTick(700);assert.deepEqual(f.splits().map(x=>x.count),[1,1,1,1]);assert.equal(f.api.lastResult.status,'sent');assert.equal(f.api.lastResult.lineShapeVerified,false);});
+ test('centering uses endX/endY, not native animated x/y',()=>{const f=setup();f.api.trigger();assert.equal(f.aims()[0].x,3000);assert.equal(f.aims()[0].y,4000);});
+-test('default waits then each split has an immediately preceding pinned aim',()=>{const f=setup();f.api.trigger();f.tick(179);assert.equal(f.splits().length,0);f.tick(400);for(let i=0;i<f.events.length;i++){const e=f.events[i];if(e.type==='split'){const a=f.events[i-1];assert.equal(a.type,'aim');assert.equal(a.native,e.native);assert.equal(a.x,3006);assert.equal(a.y,4006);}}assert.deepEqual(f.splits().map(x=>x.at),[180,205,230,255]);});
++test('default waits then each split has an immediately preceding pinned aim',()=>{const f=setup();f.api.trigger();f.freshTick(160);f.tick(19);assert.equal(f.splits().length,0);f.freshTick(400);for(let i=0;i<f.events.length;i++){const e=f.events[i];if(e.type==='split'){const a=f.events[i-1];assert.equal(a.type,'aim');assert.equal(a.native,e.native);assert.equal(a.x,3006);assert.equal(a.y,4006);}}assert.deepEqual(f.splits().map(x=>x.at),[180,205,230,255]);});
+ test('arbitrary mouse diagonals retain every quadrant',()=>{for(const[x,y]of[[50,120],[50,-120],[-50,120],[-50,-120]]){const f=setup();f.h.input.mouse={x:720+x,y:450+y};f.api.trigger({settleMs:0});const a=f.aims().at(-1);assert.equal(Math.sign(a.x-3000),Math.sign(x));assert.equal(Math.sign(a.y-4000),Math.sign(y));assert(Math.abs((a.x-3000)/(a.y-4000)-x/y)<.15);}});
+ test('Exact center preset sends four singles at zero offset',()=>{const f=setup();f.api.trigger({mode:'Exact center rapid',settleMs:0});f.tick(500);assert.equal(f.splits().length,4);assert(f.aims().slice(0,-1).every(a=>a.x===3000&&a.y===4000));});
+ test('Native burst sends one count=4, not four burst packets',()=>{const f=setup();f.api.trigger({mode:'Native burst',settleMs:0});f.tick(500);assert.deepEqual(f.splits().map(x=>x.count),[4]);});
+@@ -54,8 +56,13 @@
+ test('all eight Endy locks send aim only and toggle off with the same direction',()=>{const f=setup();for(const[d,[dx,dy]]of Object.entries(f.rp.modules.lineInput.DIRECTIONS)){assert(f.api.toggleLock(d));const lock=f.api.snapshot().locks[0];assert.equal(Math.sign(lock.point.x-3000),Math.sign(dx));assert.equal(Math.sign(lock.point.y-4000),Math.sign(dy));f.tick(2000);assert.equal(f.splits().length,0);assert(f.api.toggleLock(d));assert.equal(f.api.locks.size,0);}assert.equal(f.timers.size,0);});
+ test('selected Endy lock preset is a toggle, not an automatic split',()=>{const f=setup();f.api.trigger({mode:'Endy lock'});assert.equal(f.api.locks.size,1);assert.equal(f.splits().length,0);f.api.trigger({mode:'Endy lock'});assert.equal(f.api.locks.size,0);});
+ test('aim is latched through splits and hold despite changing mouse/camera',()=>{const f=setup();f.api.trigger({settleMs:0});const point={...f.api.operation.point};f.h.input.mouse.x=-90000;f.h.camera.x=90000;f.h.actions.sendMouse();assert.equal(f.aims().at(-1).x,point.x);f.tick(80);f.h.actions.sendMouse();assert.equal(f.aims().at(-1).x,point.x);f.tick(250);assert.equal(f.api.operation,null);assert.equal(f.aims().at(-1).x,9000);});
+-test('moving received center is refreshed during preparation',()=>{const f=setup();f.api.trigger();f.cell.endX=3333;f.cell.updateTime=20;f.tick(20);assert.equal(f.aims().at(-1).x,3333);f.tick(700);assert.equal(f.splits().length,4);assert(f.api.lastResult.freshSnapshots>0);});
+-test('a continuously moving center times out without splitting',()=>{const f=setup();f.api.trigger();for(let i=0;i<70;i++){f.cell.endX+=10;f.cell.updateTime+=20;f.tick(20);}assert.equal(f.splits().length,0);assert.equal(f.api.lastResult.status,'cancelled');assert.match(f.api.lastResult.reason,/did not settle/);assert.equal(f.timers.size,0);});
++test('center target is fixed while received cell moves, then splits only after returning and settling',()=>{
++ const f=setup();f.api.trigger();f.cell.endX=3333;f.cell.updateTime=20;f.freshTick(100);
++ assert.equal(f.aims().at(-1).x,3000);assert.equal(f.splits().length,0);
++ f.cell.endX=3000;f.cell.updateTime=120;f.freshTick(700);
++ assert.equal(f.splits().length,4);assert(f.api.lastResult.freshSnapshots>0);assert(f.api.lastResult.centerConfirmed);
++});
++test('a continuously moving center times out without splitting',()=>{const f=setup();f.api.trigger();for(let i=0;i<110;i++){f.cell.endX+=10;f.cell.updateTime+=20;f.freshTick(20);}assert.equal(f.splits().length,0);assert.equal(f.api.lastResult.status,'cancelled');assert.match(f.api.lastResult.reason,/did not settle/);assert.equal(f.timers.size,0);});
+ test('timer stall cancels remaining pulses instead of catch-up burst',()=>{const f=setup();f.api.trigger({settleMs:0});assert.equal(f.splits().length,1);f.stall(1000);assert.equal(f.splits().length,1);assert.equal(f.api.operation,null);assert.match(f.api.lastResult.reason,/stalled/);});
+ test('switch during preparation cancels; it never splits newly selected player',()=>{const f=setup({multi:true});f.api.trigger();f.m.active=1;f.tick(500);assert.equal(f.splits().length,0);assert.equal(f.api.lastResult.status,'cancelled');});
+ test('explicit switch cancellation stops pending train after first pulse',()=>{const f=setup({multi:true});f.api.trigger({settleMs:0});f.api.cancel('switch');f.m.active=1;f.tick(500);assert.equal(f.splits().length,1);});
+@@ -93,3 +100,66 @@
+ test('native split exception is reported and leaves no queued split requests',()=>{const f=setup();f.h.packets.split=()=>{throw Error('fixture split failure');};assert.equal(f.api.trigger({settleMs:0}),false);f.tick(700);assert.equal(f.splits().length,0);assert.equal(f.timers.size,0);assert.match(f.api.lastResult.reason,/split failure/);});
+ test('auxiliary lock send failure restores the original native writer',()=>{const f=setup({multi:true,active:2});const broken=()=>{throw Error('fixture lock failure');};f.aux.packets.cursor=broken;assert.equal(f.api.toggleLock('Right'),false);assert.equal(f.api.locks.size,0);assert.equal(f.aux.packets.cursor,broken);assert.equal(f.api.hooks.size,1);});
+ test('cursor failure during centering cannot schedule another settle callback',()=>{const f=setup();f.api.trigger();f.h.packets.cursor=()=>{throw Error('fixture delayed aim failure');};f.tick(700);assert.equal(f.api.operation,null);assert.equal(f.timers.size,0);assert.equal(f.splits().length,0);});
++
++
++test('old static snapshots cannot certify that the server stopped the cell',()=>{
++ const f=setup();f.api.trigger();f.tick(2400);
++ assert.equal(f.splits().length,0);assert.equal(f.api.operation,null);
++ assert.equal(f.api.lastResult.freshSnapshots,0);assert.match(f.api.lastResult.reason,/No fresh/);
++});
++test('render calls and updateTime changes alone do not count as world frames',()=>{
++ const f=setup();f.api.trigger();for(let i=0;i<110;i++){f.cell.updateTime++;f.h.actions.sendMouse();f.tick(20);}
++ assert.equal(f.splits().length,0);assert.equal(f.api.lastResult.freshSnapshots,0);
++});
++test('one world frame then silence cannot pass the fresh quiet-window gate',()=>{
++ const f=setup();f.api.trigger();f.worldFrame();f.tick(2400);assert.equal(f.splits().length,0);
++});
++test('three batched frames in one instant cannot pretend to span an 80 ms quiet window',()=>{
++ const f=setup();f.api.trigger();f.worldFrame();f.worldFrame();f.worldFrame();f.tick(2400);
++ assert.equal(f.splits().length,0);assert.equal(f.api.lastResult.freshSnapshots,3);
++});
++test('slow one-unit packet drift cannot pass by comparing adjacent tiny steps',()=>{
++ const f=setup();f.api.trigger();for(let i=0;i<110;i++){f.cell.endX+=1;f.freshTick(20);}
++ assert.equal(f.splits().length,0);assert.equal(f.api.lastResult.status,'cancelled');
++});
++test('quiet mean of opposite-moving fragments is not an eligible center',()=>{
++ const f=setup();f.h.world.myCells[0].set(2,{...f.cell,id:2,endX:3400});
++ assert.equal(f.api.trigger(),false);assert.equal(f.splits().length,0);assert.match(f.api.lastResult.reason,/one merged cell/);
++});
++test('a malformed native world handler cannot mark a sample as fresh',()=>{
++ const f=setup();f.api.dispose();f.h.parser.handlers[20]=()=>{throw RangeError('truncated world');};
++ const api=f.rp.modules.installLineSplit(f.h,f.r,{now:()=>0});api.trigger();
++ assert.throws(()=>f.h.parser.handlers[20](),/truncated/);assert.equal(api.operation.freshSnapshots,0);api.dispose();
++});
++test('fresh world evidence must come from the active auxiliary route in FFA',()=>{
++ const f=setup({multi:true,width:1,active:1});f.api.trigger();f.freshTick(300,f.h);assert.equal(f.splits().length,0);
++ f.freshTick(650,f.aux);assert.equal(f.splits().length,4);assert(f.splits().every(x=>x.host==='aux'&&x.native===0));
++});
++test('world observer is removed on disposal and restores the original handler',()=>{
++ const f=setup();const original=f.api.hooks.get(f.h).world;f.api.dispose();assert.equal(f.h.parser.handlers[20],original);
++});
++test('lock remains fixed across incoming movement, native scheduler sends, and camera changes',()=>{
++ const f=setup();f.api.trigger({settleMs:0});const point={...f.api.operation.point};
++ for(let i=0;i<4;i++){f.cell.endX+=15;f.cell.endY-=20;f.worldFrame();f.h.camera.x+=100;f.h.input.mouse.y=-99999;f.h.actions.sendMouse();f.tick(25);}
++ const beforeSplits=f.events.filter((e,i)=>f.events[i+1]?.type==='split');assert.equal(beforeSplits.length,4);
++ assert(beforeSplits.every(e=>e.x===point.x&&e.y===point.y));f.tick(400);
++});
++test('socket backpressure cancels unsent requests rather than queuing a burst',()=>{
++ const f=setup();f.api.trigger({settleMs:0});f.h.network.ws.bufferedAmount=70000;f.tick(500);
++ assert.equal(f.splits().length,1);assert.match(f.api.lastResult.reason,/congested/);
++});
++test('diagnostic spread distinguishes collinear, off-axis, and scattered received positions',()=>{
++ const f=setup(),g=f.rp.modules.lineInput.geometry;
++ const c=points=>({x:0,y:0,count:points.length,samples:points.map(([x,y])=>({x,y}))});
++ const line=c([[-30,0],[-10,0],[10,0],[30,0]]),square=c([[-10,-10],[10,-10],[-10,10],[10,10]]);
++ assert.equal(g(line,{x:1,y:0}).crossAxisRatio,0);assert.equal(g(line,{x:1,y:0}).principalWidthRatio,0);
++ assert(g(square,{x:1,y:0}).crossAxisRatio>0);assert.equal(g(square,{x:1,y:0}).principalWidthRatio,1);
++ assert.equal(g(c([[0,0],[0,0]]),{x:1,y:0}).enoughPoints,false);
++});
++test('report records received own positions, not names or credentials, and does not claim success',()=>{
++ const f=setup();let saved;f.rp.download=(name,data)=>{saved={name,data:JSON.parse(data)};};
++ f.api.trigger({settleMs:0});f.freshTick(500);assert(f.api.downloadLastAttempt());
++ assert.equal(saved.data.lastResult.lineShapeVerified,false);assert.equal(saved.data.lastResult.serverAcceptedCountKnown,false);
++ assert(saved.data.lastResult.observationWindow.length>0);assert(saved.data.lastResult.observationWindow.length<=48);
++ assert(!JSON.stringify(saved.data).includes('password'));assert(!JSON.stringify(saved.data).includes('skinURL'));
++});
+--- xplus.4/tests/line-input-browser.py
++++ xplus.5/tests/line-input-browser.py
+@@ -30,7 +30,7 @@
+    r.Q.PRESENTATION_STYLE._7531(style);h.camera.x=6000;h.camera.y=7000;h.camera.zoom=.5;rp.motion.ultraView=null;
+    mouse();FIXTURE.sent.length=0;
+  };
+- window.LINE={api,clock,decode,mouse,reset,packets:()=>FIXTURE.sent.map(decode).filter(p=>p.op===20||p.op===22)};
++ window.LINE={api,clock,decode,mouse,reset,freshTick(ms){for(let step=0;step<ms;step+=40){clock.tick(Math.min(40,ms-step));world();}},packets:()=>FIXTURE.sent.map(decode).filter(p=>p.op===20||p.op===22)};
+  reset();return {nativeCell:typeof h.Cell,defaults:api.options(),nativeSplit: h.actions.split16.toString()};
+ }'''
+ async def main():
+@@ -51,10 +51,34 @@
+     detail=await page.evaluate('async()=>{const {h,port,rp,r,world,advance,assert,Writer}=FIXTURE;const {api,clock,decode,mouse,reset,packets}=LINE;'+code+'}');results.append({'case':name,'pass':True,'detail':detail});print('PASS',name,detail,flush=True)
+    except Exception as e:results.append({'case':name,'pass':False,'error':str(e)});print('FAIL',name,str(e),flush=True)
+   await check('default quad emits four real native [22,slot,1] packets, each preceded by integer aim',r'''
+-    reset();assert(api.trigger(),'did not arm');clock.tick(700);const p=packets(),splits=p.filter(x=>x.op===22);
++    reset();assert(api.trigger(),'did not arm');LINE.freshTick(700);const p=packets(),splits=p.filter(x=>x.op===22);
+     assert(splits.length===4,'Wrong packet count: '+JSON.stringify(p));assert(splits.every(s=>s.count===1&&s.slot===0),'Wrong native split count');
+     for(let i=0;i<p.length;i++)if(p[i].op===22){assert(p[i-1].op===20,'Missing preceding aim');assert(p[i-1].x===6006&&p[i-1].y===7006,'Wrong diagonal/int conversion');}
+     assert(api.lastResult.status==='sent','did not finish');return {splits:splits.map(s=>s.bytes),aim:p.find(x=>x.op===20),result:api.lastResult};
++  ''')
++  await check('native world silence never passes default centering',r'''
++    reset();api.trigger();clock.tick(2400);assert(!packets().some(p=>p.op===22),'Split on stale data');
++    assert(api.lastResult.freshSnapshots===0,'Invented server updates');return api.lastResult;
++  ''')
++  await check('native received position moves while the sent stopping target remains fixed',r'''
++    reset();api.trigger();world([], [{id:500,x:6030,y:7040,radius:600}]);LINE.freshTick(240);
++    assert(!packets().some(p=>p.op===22),'Split while not at center');h.input.mouse.x=-9999;h.camera.x=4000;h.actions.sendMouse();
++    assert(packets().at(-1).x===6000&&packets().at(-1).y===7000,'Stop point followed cell/camera');
++    world([], [{id:500,x:6000,y:7000,radius:600}]);LINE.freshTick(600);
++    assert(packets().filter(p=>p.op===22).length===4,'No quad after actual fresh quiet window');return api.lastResult;
++  ''')
++  await check('different own fragments are rejected instead of treating their mean as one cell core',r'''
++    reset();world([{id:502,x:6020,y:7000,radius:600,parent:100}]);assert(!api.trigger(),'Armed over multiple fragments');
++    assert(!packets().some(p=>p.op===22),'Unexpected split');const reason=api.lastResult.reason;world([],[],[502]);return {reason};
++  ''')
++  await check('clickable attempt badge exports own-position report without gameplay clicks',r'''
++    reset();api.trigger();LINE.freshTick(700);const doc=port.frame.contentDocument,badge=doc.getElementById('senpa-line-input-status');
++    assert(!badge.hidden,'No report affordance');let exported=null;const old=rp.download;
++    rp.download=(filename,data)=>{exported={filename,data:JSON.parse(data)};};
++    try{badge.dispatchEvent(new port.frame.contentWindow.MouseEvent('click',{bubbles:true}));}finally{rp.download=old;}
++    assert(exported?.data.lastResult.lineShapeVerified===false,'Missing truthful report');
++    assert(exported.data.lastResult.centerConfirmed,'Fresh native delta frames not recorded');
++    assert(exported.data.lastResult.observationWindow.length>0,'No samples');return {file:exported.filename,frames:exported.data.lastResult.observationWindow.length};
+   ''')
+   await check('Native burst emits [22,0,4] once; Exact center stays at the actual cell core',r'''
+     reset();api.trigger({mode:'Native burst',settleMs:0});clock.tick(500);assert(JSON.stringify(packets().filter(x=>x.op===22).map(x=>x.bytes))==='[[22,0,4]]','Burst wrong');
+@@ -89,7 +113,7 @@
+     reset();r.Q.HK_LINE_SPLIT._7531(['L','NONE']);const w=port.frame.contentWindow,doc=w.document;
+     doc.dispatchEvent(new w.KeyboardEvent('keydown',{code:'KeyL',key:'l',bubbles:true}));
+     doc.dispatchEvent(new w.KeyboardEvent('keydown',{code:'KeyL',key:'l',bubbles:true,repeat:true}));
+-    clock.tick(700);doc.dispatchEvent(new w.KeyboardEvent('keyup',{code:'KeyL',key:'l',bubbles:true}));
++    LINE.freshTick(700);doc.dispatchEvent(new w.KeyboardEvent('keyup',{code:'KeyL',key:'l',bubbles:true}));
+     assert(packets().filter(p=>p.op===22).length===4,'Keyboard missed or duplicated split');r.Q.HK_LINE_SPLIT._7531(['NONE','NONE']);return {key:'L',splitPackets:4};
+   ''')
+   await check('Stored DELETE binding works although native Senpa key parser excludes it',r'''
+@@ -140,7 +164,9 @@
+       const w=new Writer(20).u16(0).u16(width);for(let i=0;i<width;i++)w.u32(first*10+i).i32(6500+i*1000).i32(7000+i*1000).u16(600).u8(0).u16(first+i).u8(255).u8(50).u8(20);send(w.u16(0).u16(0));host.player.update();
+     };
+     LINE.initNative=init;const aux=m.aux.host,log=[];init(aux,2,200,141,log);assert(aux.packets.handshakeDone&&aux.world.myCells[1].size===1,'Auxiliary fixture parse failed');assert(m.select(3),'P4 selection failed');rp.hideMenu();mouse();log.length=0;FIXTURE.sent.length=0;
+-    assert(api.trigger({settleMs:0}),'P4 did not arm');clock.tick(500);
++    assert(api.trigger(),'P4 did not arm');
++    for(let ms=0;ms<700;ms+=40){clock.tick(40);const w=new Writer(20).u16(0).u16(0).u16(0).u16(0);aux.parser.parse(m.aux.frame.contentWindow.Uint8Array.from(w.b).buffer);}
++    assert(api.lastResult.centerConfirmed,'P4 bypassed center confirmation');
+     const encoded=log.map(decode).filter(p=>p.op===22);assert(encoded.length===4&&encoded.every(p=>p.slot===1&&p.count===1),'Wrong P4 route: '+JSON.stringify({encoded,all:log,primary:packets().filter(p=>p.op===22),state:api.snapshot(),active:m.active,route:api.route().slot,connected:aux.network.connected,alive:aux.player.isAlive,handshake:aux.packets.handshakeDone,menu:h.menu.isOpen,focus:h.menu.isChatFocused}));
+     assert(!packets().some(p=>p.op===22),'Split leaked to primary');return {auxiliaryNativeCellConstructor:typeof aux.Cell,packets:encoded.map(x=>x.bytes),primarySplitCount:0};
+   ''')
+@@ -148,7 +174,9 @@
+     const m=port.multibox;api.cancel('test');m.destroyAux();m.ffaAutoConnect=false;m.ffaEnabled=true;h.network.url='eu1.senpa.io:7101';port.selected=h.network.url;
+     LINE.initNative(h,1,100,41,FIXTURE.sent);assert(m.multi&&m.sourceSlotCount===1,'FFA fixture not active');await m.ensureAux();assert(m.aux?.host,'No FFA aux host: '+m.error);
+     const aux=m.aux.host,log=[];LINE.initNative(aux,1,200,141,log);assert(aux.packets.handshakeDone&&aux.world.myCells[0].size===1,'FFA auxiliary fixture parse failed');assert(m.select(1),'FFA P2 selection failed');rp.hideMenu();h.menu.isChatFocused=false;mouse();log.length=0;FIXTURE.sent.length=0;
+-    assert(api.trigger({settleMs:0}),'FFA P2 did not arm');clock.tick(500);const encoded=log.map(decode).filter(p=>p.op===22);
++    assert(api.trigger(),'FFA P2 did not arm');
++    for(let ms=0;ms<700;ms+=40){clock.tick(40);const w=new Writer(20).u16(0).u16(0).u16(0).u16(0);aux.parser.parse(m.aux.frame.contentWindow.Uint8Array.from(w.b).buffer);}
++    assert(api.lastResult.centerConfirmed,'FFA bypassed center confirmation');const encoded=log.map(decode).filter(p=>p.op===22);
+     assert(encoded.length===4&&encoded.every(p=>p.slot===0&&p.count===1),'Wrong FFA route: '+JSON.stringify({encoded,all:log,state:api.snapshot(),active:m.active,route:api.route().slot}));assert(!packets().some(p=>p.op===22),'Leaked primary split');
+     api.cancel('test');m.destroyAux();return {packets:encoded.map(x=>x.bytes),primarySplitCount:0};
+   ''')
+--- xplus.4/build.mjs
++++ xplus.5/build.mjs
+@@ -28,7 +28,7 @@
+ let begin=read('src/snapshot/begin.js');
+ if(!baseline){
+  begin=begin.replace('// @version      '+layout.baselineVersion,'// @version      '+pkg.version)
+- .replace('// @name         Ryuten for Senpa — XPLUS 500 Test — Full Shields','// @name         Ryuten for Senpa — XPLUS 500 — Full Shields — Lines Test')
++ .replace('// @name         Ryuten for Senpa — XPLUS 500 Test — Full Shields','// @name         Ryuten for Senpa — XPLUS 500 — Full Shields — Fixed Center Lines Test')
+  .replace(/^\/\/ @description.*$/m,'// @description  Full shields, XPLUS max 500 ms, readable mass/chat, FFA auto-connect, feed test and centered/Endy Lines controls. Disable older port versions.');
+ }
+ const tail=read('src/snapshot/after-payload.js')+layout.parentModules.map(n=>read('src/app/'+n+'.js')).join('')+read('src/snapshot/end.js');
+--- xplus.4/package.json
++++ xplus.5/package.json
+@@ -1,6 +1,6 @@
+ {
+-  "name": "ryuten-senpa-full-shields-lines-test",
+-  "version": "1.2.1-xplus.4",
++  "name": "ryuten-senpa-lines-fixed-center-test",
++  "version": "1.2.1-xplus.5",
+   "private": true,
+   "type": "module",
+   "buildVariant": "standard",
+--- xplus.4/index.html
++++ xplus.5/index.html
+@@ -1 +1 @@
+-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ryuten Senpa — Lines Test</title><style>body{max-width:820px;margin:50px auto;padding:24px;background:#111827;color:#e5e7eb;font:18px/1.6 system-ui}a{color:#a5b4fc}code{word-break:break-all}.button{display:inline-block;padding:12px 18px;background:#3730a3;color:white;border-radius:8px}</style><h1>Ryuten for Senpa — Lines Test</h1><h2>1.2.1-xplus.4 · Full Shields · XPLUS 500</h2><p>Centered quadruple-split presets and Endy-style eight-direction locks. Native Senpa packet writers; no server-physics changes.</p><p><a class="button" href="dist/RYUTEN-Senpa.user.js">Install userscript</a></p><p>Disable the older userscript before installing. Open Settings → Controls → Lines to select and bind a preset.</p><p><a href="README.md">Instructions and limitations</a> · <a href="LINE_SPLIT_AUDIT.md">Source audit</a></p><p>Includes previous full shields, readable mass/chat, FFA auto-connect and optional feed-request test. Original map bitmap remains missing. Line-shaped live gameplay is not yet verified.</p><p>Installer SHA-256: <code>7605dfd8573ad3fbf8aab50902ee18e49a54aad858cc2ae21ce1759a777d3d58</code></p></html>+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ryuten Senpa — Fixed-Center Lines Test</title><style>body{max-width:820px;margin:50px auto;padding:24px;background:#111827;color:#e5e7eb;font:18px/1.6 system-ui}a{color:#a5b4fc}code{word-break:break-all}.button{display:inline-block;padding:12px 18px;background:#3730a3;color:white;border-radius:8px}</style><h1>Ryuten for Senpa — Fixed-Center Lines Test</h1><h2>1.2.1-xplus.5 · Full Shields · XPLUS 500</h2><p>Centered quadruple-split presets and Endy-style eight-direction locks. Native Senpa packet writers; no server-physics changes.</p><p><a class="button" href="dist/RYUTEN-Senpa.user.js">Install userscript</a></p><p>Disable the older userscript before installing. Open Settings → Controls → Lines to select and bind a preset.</p><p><a href="README.md">Instructions and limitations</a> · <a href="LINE_SPLIT_AUDIT.md">Source audit</a></p><p>Includes previous full shields, readable mass/chat, FFA auto-connect and optional feed-request test. Original map bitmap remains missing. Line-shaped live gameplay is not yet verified.</p><p>Installer SHA-256: <code>aa2f12a5f12d659ef73ceb5eba7576f8a69a2b88fc0ceba7249f20e6cbfc6539</code></p></html>--- xplus.4/README.md
++++ xplus.5/README.md
+@@ -1,91 +1,72 @@
+-# Ryuten for Senpa — Lines Test / Full Shields / XPLUS 500
++# Ryuten–Senpa Fixed-Center Lines Test — 1.2.1-xplus.5
+ 
+-Version **1.2.1-xplus.4**. Based on the actual attached **Ryuten-Senpa-Full-Shields-Mass-Fix.zip** (1.2.1-xplus.3). This is NOT the No Shields edition or the unavailable historical Correction Candidate.
++This is an experimental correction of the delivered xplus.4 line controller, not a claim that a live Senpa match has produced the desired line geometry. No successful manual linesplit or video recording is required to run or diagnose it.
+ 
+-## Install
++## Install and use
+ 
+-Back up your settings, disable every other Ryuten/Senpa gameplay userscript, then install `dist/RYUTEN-Senpa.user.js`. Reload Senpa and confirm `1.2.1-xplus.4` in the HUD. The bundled `index.html` and `dist/` can be hosted in your own static repository, or served with `python tools/serve.py --open`. Updates remain manual.
++Disable the old userscript. Install `dist/RYUTEN-Senpa.user.js` from this archive and reload. Confirm version 1.2.1-xplus.5 in the HUD. This is the FULL-SHIELDS edition; XPLUS is still capped at 500 ms.
+ 
+-## Start here: a diagonal toward your mouse
++Keep `Settings → Controls → Lines → Centered rapid`. Use your existing bound `Line split: selected preset` key. No key is assigned automatically, and R is not recommended or reassigned. Leave minimum center hold at 180 ms (zero intentionally bypasses the stopped-position check for diagnostics). The existing four stages, 25 ms spacing, 8-unit direction nudge, and 240 ms final hold are unchanged. Custom settings are not silently reset.
+ 
+-Open **Settings → Controls → Lines**. Keep **Centered rapid** selected and bind **Line split: selected preset** to an unused key. Existing line-split bindings are preserved; new bindings start unassigned. Avoid keys already assigned to menu/chat/switching: those controls take priority.
++Start with one sufficiently large merged cell, point the mouse toward the intended direction, then press your bound key once. The macro temporarily submits its own world-space cursor; do not move the physical cursor onto the center or press Space yourself. Exact-center and centered presets now reject already separated fragments. Endy direction locks remain separate and still require manual splitting by design.
+ 
+-For the first trial, start from one sufficiently large cell, point the mouse in the intended direction (including a diagonal), then tap the bound key once. The macro captures the direction, aims at the latest received cell center, waits for a quiet received-position window, applies a small directional nudge, and sends four single-split requests. It keeps the target pinned briefly, then restores normal mouse aiming. You do not have to physically move the operating-system cursor to the cell center.
++A strict center check can cancel rather than split. The status explains whether world updates were missing or the cell failed to settle. That is intentional: it must not turn a failed preparation into an uncontrolled rapid split. Senpa server dead zones, processing cadence, latency and splitting rules have not been measured live; those may still prevent a line.
+ 
+-A small status badge shows centering, splitting or a direction lock. If the received center does not settle in the bounded preparation period, the macro cancels instead of blindly splitting. Opening chat/menu, switching during an automatic train, hiding the page or losing focus also cancels the automatic train. Feeding is released when a macro/lock starts; it is not silently resumed.
++## Corrections actually implemented
+ 
+-## Five presets
++1. The centering target is one fixed received world point captured at activation. Previously the controller followed each new cell position with a new stopping target.
++2. The default center gate now needs at least three successfully handled native world frames spanning an 80 ms received quiet window, a recent frame, and positions within two world units of the fixed center. Polling the same object repeatedly is not fresh evidence. This is a client-observed condition, not an acknowledgement of server physics.
++3. Slow drift is measured against a fixed quiet-window reference, not only against the previous 20 ms poll. The old code could ignore successive one-unit steps.
++4. The existing near-center directional aim stays fixed through the four requests and final hold. Ordinary mouse/camera updates are intercepted at the native cursor writer for that player only. This already existed in xplus.4; the current audit did NOT demonstrate that it was being overwritten.
++5. A full socket output queue aborts remaining split requests; late timers, input focus, death, switching and route changes continue to cancel pending work.
++6. Each attempt retains a small, bounded report, including its submitted aim and received own-cell positions. The status distinguishes requests submitted from cells observed. Neither is a server acceptance acknowledgement.
+ 
+-| Preset | What it requests |
+-|---|---|
+-| **Centered rapid** | Center, small nudge toward the captured mouse angle, then separate single-split requests. Default: four. |
+-| **Exact center rapid** | Center and separate split requests at zero offset. No directional vector exists at exact zero, so this is a test of the game's own zero-aim fallback, not a guaranteed horizontal split. |
+-| **Native burst** | Same near-center directional target, but one native counted multi-split request. Default count four, like the captured native Split16 command. |
+-| **Endy rapid** | A distant fixed target along the captured mouse direction plus separate split requests. Added comparison preset, not a feature claimed to exist in the Endy archive. |
+-| **Endy lock** | Fixed direction only. **Does not split automatically**. Use the normal split keys while locked. Tap the same line-lock key again to release. |
++The actual split strategy is still center → small direction offset → four separate native requests. This patch does NOT assert that the strategy itself is proved correct for current Senpa modes, nor that every failed attempt was caused by the two reproduced checks.
+ 
+-There are separate **Up, Down, Left, Right, Up-left, Up-right, Down-left and Down-right** lock bindings, plus **mouse-direction lock** and **cancel all line input**. The eight dedicated direction keys always select a lock, independently of the selected automatic preset. Locks are independent per logical player and intentionally survive a player switch; an automatic split train never continues on an inactive player. Opening chat/menu or losing focus releases all locks. The badge identifies inactive players that still have a lock.
++## No-video diagnosis
+ 
+-The mouse-angle presets are not limited to 45-degree diagonals. Senpa's cursor writer uses integer coordinates, so a very small offset quantizes the exact angle. The offset can be adjusted in the same panel. Moving the mouse after the trigger does not change the captured direction during that finite macro.
++For 12 seconds after an attempt, the small LINE status is clickable. Click it to save `senpa-line-attempt-1.2.1-xplus.5.json`. No video, manual successful demonstration or console command is needed. It contains own gameplay positions, settings, slot, timestamps and input/status events—not chat, account data, skins or raw network packets. Keep it private if you do not want to share your own positions.
+ 
+-## Defaults and tuning
++The report also computes received-position spread along and across the requested direction when at least three cells exist. These are descriptive measurements, not a pass/fail assertion of a linesplit. `lineShapeVerified` and `serverAcceptedCountKnown` remain false. The sample window is capped at 48 frames with at most 128 own cells per recorded frame. Recording ends with the macro; it does not continuously record the game.
+ 
+-| Control | Default | Range |
+-|---|---:|---:|
+-| Split stages | 4 | 1–6 |
+-| Gap between rapid requests | 25 ms | 0–120 ms |
+-| Minimum center hold | 180 ms | 0–600 ms |
+-| Near-center offset | 8 world units | 2–64 |
+-| Hold aim after last split | 240 ms | 100–800 ms |
++## Preserved scope
+ 
+-Four stages request up to sixteen pieces from one cell; six stages request up to sixty-four. Mass, existing pieces and mode-specific caps remain server-controlled. There is no universal 3,000-mass requirement enforced by this adapter.
++Only `src/app/line-split.js` is changed under `src/` compared with xplus.4. Senpa, Ryuten and XPLUS interpolation/camera files, shields, outlined mass labels, chat visibility, FFA multibox connection and faster-feed option are unchanged. The captured Senpa/Ryuten JS, assets, WASM, protocol encoders and snapshots are byte-identical. A removable observer runs AFTER the native world handler; it does not parse or rewrite packets.
+ 
+-Preparation uses at least the selected hold, potentially extended by the native latency measurement (up to 600 ms for the latency component), then requires an 80 ms quiet received-position window. The whole preparation is bounded (normally 1,200 ms; up to 1,400 ms with the largest minimum). **Set center hold to zero only to test immediate splitting.** Native burst ignores request-gap timing. Endy modes skip preparation.
+-
+-A 0 ms requested gap is not a real-time guarantee: browser timers and socket scheduling can delay delivery. If a subsequent pulse is more than 250 ms late, remaining requests cancel instead of accumulating into a catch-up burst.
+-
+-For a controlled comparison, try Centered rapid first, then Native burst using the same cell state and direction. Use Exact center to test the zero-offset behavior separately. Try the Endy lock with your normal Split16/Split64 key separately from the automatic presets. Already-scattered fragments cannot be individually realigned with a single shared cursor; this macro does not move cells or modify collision physics.
+-
+-## What was wrong in the prior macro
+-
+-The previous module defaulted to `splitCount: 6`, sent one counted packet, centered on animated `x/y`, and released its target after only 45 ms. This was not the four individual center-oriented split requests described by the user. The replacement uses received `endX/endY`, captures direction from the displayed viewport (including XPLUS), pins aim against the ordinary mouse scheduler, and resolves the correct host/native slot for each player.
+-
+-Native writers remain the encoders. Tested split bytes are `[22, nativeSlot, 1]` four times for rapid mode; native burst sends `[22, nativeSlot, 4]` once at the default count. Each split has an immediately preceding native cursor packet. These are requests, not proof of server acceptance or a line-shaped outcome.
+-
+-## What is retained
+-
+-Full shields and inventory, the 500 ms XPLUS cap, distinct Senpa/Ryuten/XPLUS animation, white mass digits with a black outline, clear no-hover chat and dark-name contrast, FFA auxiliary auto-connect when enabled, and the optional 10 ms feed-request test are retained. The motion, mass-label, chat, feeding, multibox, account, map, cosmetics and networking modules are unchanged by this revision.
+-
+-The original gameplay map image is **still missing**; local image import remains. The actual Senpa Ubuntu Bold bitmap font is also not newly acquired: mass uses local Ubuntu Bold when installed, otherwise Arial/sans-serif, with generated outlined digits. Core captured assets stay bundled; no new runtime download or third-party client loader is added. Game/account/verification services and player media remain online dependencies.
++The existing missing-original-map limitation is unchanged. No new external dependency or gameplay asset fetch is introduced.
+ 
+ ## Verification
+ 
+-**74/74 unit tests, 17/17 line-input browser cases, 7/7 mass/presentation browser cases, and startup smoke passed.** The line browser suite uses the distributed installer, captured native parser and packet writers, a real primary native engine and real auxiliary native iframe for FFA P2 and WindBine P4, and the actual Ryuten settings/key/mouse UI. Packet sources and GPU submission are substituted. Automatic macro timing is exercised with a deterministic clock; no live-game timing or line-shaped physics is simulated or certified. Smoke records one expected aborted-resource console error from its blocked-network fixture, not a page exception.
++- 87/87 unit tests passed.
++- 21/21 actual-native-writer / input browser cases passed; zero page errors in that suite.
++- 7/7 mass/presentation browser cases passed; zero page errors in that suite.
++- Startup smoke passed. Its deliberately network-blocked fixture recorded one resource load error; this is retained in the receipt, not hidden.
++- Repeated build was byte-identical. Source comparison and exact artifact hash are in `verification/RESULTS.json`.
++- Two new regression cases failed against the original xplus.4 controller and passed against this controller: static snapshot silence and slow one-unit drift. See `verification/baseline-reproduced-failures.txt`.
+ 
+-All **74 unmodified source files** compare byte-for-byte with the supplied mass-fix ZIP; only `src/app/line-split.js`, `settings.js` and `presentation.js` change under `src/`. All 14 frozen snapshot files remain unchanged. Build metadata, docs and tests also change. Current rebuild and the older recovered baseline reconstruction are byte-identical. Historical receipts are under `verification/history/` and are not advertised as current results.
++Browser tests use deterministic clocks, actual captured Senpa packet writers/parsers, and an actual auxiliary native iframe for FFA P2 and WindBine P4. World messages are fixtures and GPU submission is substituted. They do not run a physics simulator that invents successful line shapes. Live-server geometry, real GPU performance, and subjective gameplay acceptance remain unverified.
+ 
+-```sh
++## Build / verify
++
++```bash
+ npm run build
+ npm test
+ npm run test:lines-browser
+ npm run test:browser
+ npm run test:smoke
+-node build.mjs --baseline
+ python tools/verify-package.py
+ ```
+ 
+-Build requires Node 18+ and the local sources; browser tests additionally require Python Playwright and Chromium. No dependency installation is performed by the build. The package verifier uses Python's standard library. Test screenshots show fixture UI, not successful live line splits.
++To reproduce the OLD failure (expected nonzero exit status):
+ 
+-## Bounded diagnostics
+-
+-After a failed live attempt, inspect the top-page console:
+-
+-```js
+-SENPA_PORT.child.lineSplit.snapshot()
++```bash
++node --test --test-name-pattern="old static snapshots|slow one-unit packet drift" verification/baseline-regression-probe.mjs
+ ```
+ 
+-It reports selected preset, stage requests, captured aim, logical/native slot, completion/cancellation reason and at most 48 recent events. `status: "sent"` means the native writer was invoked; `lineShapeVerified` remains false. No chat, names, credentials or raw inbound packets are collected by this line trace. The aim coordinates are still your gameplay data: keep exported diagnostics private.
++Local installer hosting: `python tools/serve.py --open`. The page distributes this userscript; it does not replace Senpa's server or verification.
+ 
+-See `LINE_SPLIT_AUDIT.md`, `LINES_CHANGES.patch`, and `verification/RESULTS.json` for provenance and limits.
++## Exact installer
+ 
+-Installer SHA-256: `7605dfd8573ad3fbf8aab50902ee18e49a54aad858cc2ae21ce1759a777d3d58`
++Bytes: 5999213
++
++SHA-256: `aa2f12a5f12d659ef73ceb5eba7576f8a69a2b88fc0ceba7249f20e6cbfc6539`
+--- xplus.4/LINE_SPLIT_AUDIT.md
++++ xplus.5/LINE_SPLIT_AUDIT.md
+@@ -1,57 +1,15 @@
+-# Line-input audit — 1.2.1-xplus.4
++# Source review and evidence — fixed-center line input
+ 
+-## Inputs and scope
++The prior explanation that the user's effective cursor was being overwritten was a hypothesis, not a finding. Both static review and current native-writer integration show that xplus.4 already intercepts ordinary cursor updates during the split train. The user has NOT reported a successful manual technique; no such success is assumed.
+ 
+-Base: `Ryuten-Senpa-Full-Shields-Mass-Fix.zip`, SHA-256 `573688c1b02277fc26988297a01b5749efa315292fe819fc8d1a8258b488104f`.
++The reproduced code defects were in preparation: following new received centers instead of holding a fixed stop point, and letting repeated polls of unchanged/stale data satisfy the quiet gate. The new gate observes native completed world updates, including delta frames that omit stationary own-cell entries. It cannot know the server's instantaneous position or acknowledge a command.
+ 
+-Reference: `endyv32_release (1).zip`, SHA-256 `90eb38290dd0918d18a6d78dbf89293b48e819a5d58723b46c4f74498704a79a`. Read-only static inspection; the other-game runtime and its network/auth/shield code were not executed or imported. Relevant file: `m.js`, SHA-256 `df6a898102e3448b4489d24b87a32585a8431416c194f1cafccce2fe8172b77b`, Lines class approximately lines 929–1092.
++Endy's `Lines` class from the supplied archive is a direction-lock class, not an automatic quadruple-split implementation. Its source does not establish which automatic centered sequence works in Senpa.
+ 
+-The previous full-shields mass-fix installer was 5,970,894 bytes, SHA-256 `030f6e6ee517bf83cb5515b26a2b94616a4d0b02fe0423dbd4d58d1fff4883f3`.
+-
+-## Reference behavior versus adaptation
+-
+-The Endy `Lines` class registers eight direction bindings, stores separate state for its two tabs, converts an extremely distant screen coordinate through its camera and second-tab world offset, then calls `PacketSender.mouseToTab`. It suppresses subsequent ordinary cursor updates for a locked tab. **There is no automatic split call in that class.** Other normal split keys remain separate. Same-direction presses release the lock; its original different-direction key is ignored while locked.
+-
+-The Ryuten–Senpa adaptation preserves the useful direction-lock concept, with separate state per Senpa logical player, but deliberately uses a bounded ten-million-world-unit direction vector through **Senpa's own** cursor writer. It does not copy Endy's screen-space constants, second-tab map offset, packet encoder, handshake or input classes. Its different direction key replaces the current lock, rather than requiring release first. A visible badge and cancel-all key make persistent state explicit. These are adaptations, not byte-exact Endy behavior claims.
+-
+-The added Centered rapid, Exact center rapid, Native burst and Endy rapid modes provide separate experiments. The last combines a distant lock with an automatic train; it is not misattributed to the reference archive.
+-
+-## Verified prior mismatch
+-
+-The old macro defaulted to six stages and one packet; its center came from interpolated cell `x/y`. Its delayed callback used a fixed 100 ms wait and 45 ms target pin. The native source uses `endX/endY` for received positions, while animation modifies `x/y`. Native Split16 requests count four; Split64 count six. Using six by default was incompatible with the requested quadruple split.
+-
+-Now a received-position center hold, four separate requests and a finite post-split hold are independent controls. A counted native request is available as a separate preset for comparing how the game handles counted versus separate inputs. The adapter reads but never rewrites cell positions, velocities, radii, mass or collision state.
+-
+-## Direction and multibox correctness
+-
+-Pointer direction is inferred using the visible active-cell mean and the displayed camera/zoom, including XPLUS visual delay. That unit direction is applied at the newest received center. With near-center aiming, integer coordinates limit angular precision; use a larger offset to reduce quantization at the expense of being farther from the center.
+-
+-The same shared cursor cannot point at every separated fragment's exact center simultaneously. Likewise, exact zero offset does not encode a vertical or diagonal vector at all. The code therefore does not assert that "exact center always means horizontal" or that the result will always be a line.
+-
+-Routes are captured as logical player, native connection, native slot, socket object, generation and assigned player ID. The captured native packet encoders remain unchanged. FFA P2 must use auxiliary slot zero; WindBine P4 must use auxiliary slot one. A route or focus change cancels an automatic train. User-selected direction locks intentionally persist per player through switching, then release on chat/menu/blur/visibility loss/death/disconnect or the cancel key.
+-
+-## Failure handling and diagnostics
+-
+-Centering follows updates and times out rather than splitting a continuously moving target. Received-position quietness is only a client observation; omitted stationary delta updates and latency mean it is not proof of the server's instantaneous state. Timers are bounded and late trains cancel. Cursor or split-writer exceptions are surfaced without leaving a queued operation. Released auxiliary hooks are restored so old iframe realms are not retained by idle locks.
+-
+-There is no high-frequency permanent line-input interval. Existing mouse scheduling is reused; only finite macros schedule timeouts. Small received-position arrays are allocated during centering, not on every rendered cell. The recent-event trace is capped at 48 entries and contains own aim/status only.
+-
+-## Online cross-check, accessed 2026-09-17
+-
+-Senpa's forum contains first-person community advice about holding the center until stopped, then moving slightly in the desired direction. Another thread discusses centering and native 64-piece splitting. These are community reports, not a protocol specification or a guarantee across modes.
+-
++Public cross-check (accessed 2026-09-17):
+ - https://forum.senpa.io/d/523-linesplits-and-how-do-u-do-them
+ - https://forum.senpa.io/d/852-linesplit
+-- The user-supplied Fandom page returned HTTP 402 to the research fetch and was not used as verified evidence.
+ 
+-The generic 3,000-mass suggestion and "horizontal at zero, vertical with a nudge" claims are not enforced as Senpa-wide rules. No unauthenticated gameplay session, server physics or hidden client implementation was reproduced here.
++These are first-person community discussions, not Senpa protocol/physics specifications. They differ on stopping, directional nudges and split counts. They do not establish arbitrary-angle diagonal parity, nor validate our particular default timings. No generic Agar mass threshold is enforced as a universal Senpa rule.
+ 
+-## Tests and remaining live gate
+-
+-The current receipt names the installer SHA-256 `7605dfd8573ad3fbf8aab50902ee18e49a54aad858cc2ae21ce1759a777d3d58`. Unit tests cover scheduling, default four-stage semantics, per-player routing, diagonal projection/high DPI, count limits, finite timing, canceled routes, locks, binding slots, preserved source state and send failures. Browser tests use actual native encoders and actual native auxiliary iframe state, not hand-authored outgoing packet substitutes.
+-
+-A fixture issue discovered during auxiliary tests was fixed in the **test**: native parsers check `instanceof ArrayBuffer` within their own iframe realm, so a top-page ArrayBuffer was correctly ignored by the auxiliary parser. Auxiliary fixtures now construct buffers in that realm and assert the handshake, cell ownership and player switch before evaluating packet routing. No production parser was changed to conceal this fixture failure.
+-
+-The settings screenshot advances native transition/DOM flush code; all five preset buttons and the line key editor are exercised. Mass regression uses real Canvas 2D glyph pixels and captured compositor logic. GPU submission and network transport remain substituted. There is no server simulation manufacturing a straight line, and no claim of live acceptance, frame timing, native account compatibility under real verification, physical GPU performance or exact line geometry.
+-
+-For live comparison, record one attempt per preset from a single large cell, identical mode and approximate mass, with the direction and status badge visible. Pair that clip with `SENPA_PORT.child.lineSplit.snapshot()`. Distinguish requests sent, requests accepted, and visual geometry—especially under delayed XPLUS rendering.
++See README.md for precise scope and verification/RESULTS.json for current test receipts. Old xplus.4 receipts are stored under verification/history and are not counted as current tests. The geometric report describes received own-cell positions only, with no automatic success verdict.

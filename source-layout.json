@@ -1,0 +1,86 @@
+{
+  "payloadOrder": [
+    "version",
+    "buildVariant",
+    "senpaHTML",
+    "senpaJS",
+    "senpaWasm",
+    "ryutenHTML",
+    "ryutenJS",
+    "ryutenVendors",
+    "ryutenChunk",
+    "ryutenWasm",
+    "assets",
+    "assetAliases",
+    "childScripts"
+  ],
+  "fields": {
+    "senpaHTML": {
+      "path": "src/snapshot/senpaHTML.html",
+      "encoding": "utf8"
+    },
+    "senpaJS": {
+      "path": "src/snapshot/senpaJS.js",
+      "encoding": "utf8"
+    },
+    "senpaWasm": {
+      "path": "src/snapshot/senpaWasm.wasm",
+      "encoding": "base64"
+    },
+    "ryutenHTML": {
+      "path": "src/snapshot/ryutenHTML.html",
+      "encoding": "utf8"
+    },
+    "ryutenJS": {
+      "path": "src/snapshot/ryutenJS.js",
+      "encoding": "utf8"
+    },
+    "ryutenVendors": {
+      "path": "src/snapshot/ryutenVendors.js",
+      "encoding": "utf8"
+    },
+    "ryutenChunk": {
+      "path": "src/snapshot/ryutenChunk.js",
+      "encoding": "utf8"
+    },
+    "ryutenWasm": {
+      "path": "src/snapshot/ryutenWasm.wasm",
+      "encoding": "base64"
+    },
+    "assets": {
+      "path": "src/snapshot/assets.json",
+      "encoding": "json"
+    },
+    "assetAliases": {
+      "path": "src/snapshot/assetAliases.json",
+      "encoding": "json"
+    }
+  },
+  "childModules": [
+    "prelude",
+    "icons",
+    "loading",
+    "motion",
+    "map",
+    "world",
+    "settings",
+    "themes",
+    "multibox-ui",
+    "cosmetics",
+    "feed",
+    "line-split",
+    "metrics",
+    "account",
+    "chat-readable",
+    "presentation"
+  ],
+  "parentModules": [
+    "tracker",
+    "multibox-world",
+    "multibox",
+    "host",
+    "bots"
+  ],
+  "baselineVersion": "1.2.1-xplus.2",
+  "buildVariant": "standard"
+}

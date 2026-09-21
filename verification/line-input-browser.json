@@ -1,0 +1,999 @@
+{
+  "version": "1.2.1-xplus.6",
+  "kind": "OFFLINE_NATIVE_PACKET_WRITER_AND_INPUT_INTEGRATION",
+  "network": "FIXTURES",
+  "gpu": "SUBSTITUTED_SUBMISSION",
+  "tests": [
+    {
+      "case": "default quad emits four real native [22,slot,1] packets, each preceded by integer aim",
+      "pass": true,
+      "detail": {
+        "splits": [
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ]
+        ],
+        "aim": {
+          "op": 20,
+          "slot": 0,
+          "x": 6000,
+          "y": 7000,
+          "bytes": [
+            20,
+            0,
+            0,
+            112,
+            23,
+            0,
+            0,
+            88,
+            27,
+            0,
+            0
+          ]
+        },
+        "result": {
+          "status": "sent",
+          "slot": 0,
+          "mode": "Centered rapid",
+          "requestedStages": 4,
+          "stagesSent": 4,
+          "initialCellCount": 1,
+          "initialMass": 3600,
+          "freshSnapshots": 12,
+          "elapsedMs": 495,
+          "anchor": {
+            "x": 6000,
+            "y": 7000
+          },
+          "aim": {
+            "x": 6006,
+            "y": 7006
+          },
+          "direction": {
+            "x": 0.7071067811865475,
+            "y": 0.7071067811865475
+          },
+          "centerConfirmed": true,
+          "receivedShape": {
+            "cellCount": 1,
+            "enoughPoints": false
+          },
+          "observationWindow": [
+            {
+              "at": 40,
+              "phase": "centering",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 80,
+              "phase": "centering",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 120,
+              "phase": "centering",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 160,
+              "phase": "centering",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 200,
+              "phase": "splitting",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 240,
+              "phase": "splitting",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 280,
+              "phase": "hold",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 320,
+              "phase": "hold",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 360,
+              "phase": "hold",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 400,
+              "phase": "hold",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 440,
+              "phase": "hold",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            },
+            {
+              "at": 480,
+              "phase": "hold",
+              "cells": [
+                {
+                  "x": 6000,
+                  "y": 7000
+                }
+              ]
+            }
+          ],
+          "lineShapeVerified": false,
+          "serverAcceptedCountKnown": false
+        }
+      }
+    },
+    {
+      "case": "native world silence never passes default centering",
+      "pass": true,
+      "detail": {
+        "status": "cancelled",
+        "reason": "No fresh world updates confirmed the center; no splits sent.",
+        "slot": 0,
+        "mode": "Centered rapid",
+        "requestedStages": 4,
+        "stagesSent": 0,
+        "initialCellCount": 1,
+        "initialMass": 3600,
+        "freshSnapshots": 0,
+        "elapsedMs": 1820,
+        "anchor": {
+          "x": 6000,
+          "y": 7000
+        },
+        "aim": {
+          "x": 6000,
+          "y": 7000
+        },
+        "direction": {
+          "x": 0.7071067811865475,
+          "y": 0.7071067811865475
+        },
+        "centerConfirmed": false,
+        "receivedShape": {
+          "cellCount": 1,
+          "enoughPoints": false
+        },
+        "observationWindow": [],
+        "lineShapeVerified": false,
+        "serverAcceptedCountKnown": false
+      }
+    },
+    {
+      "case": "native received position moves while the sent stopping target remains fixed",
+      "pass": true,
+      "detail": {
+        "status": "sent",
+        "slot": 0,
+        "mode": "Centered rapid",
+        "requestedStages": 4,
+        "stagesSent": 4,
+        "initialCellCount": 1,
+        "initialMass": 3600,
+        "freshSnapshots": 18,
+        "elapsedMs": 655,
+        "anchor": {
+          "x": 6000,
+          "y": 7000
+        },
+        "aim": {
+          "x": 6006,
+          "y": 7006
+        },
+        "direction": {
+          "x": 0.7071067811865475,
+          "y": 0.7071067811865475
+        },
+        "centerConfirmed": true,
+        "receivedShape": {
+          "cellCount": 1,
+          "enoughPoints": false
+        },
+        "observationWindow": [
+          {
+            "at": 0,
+            "phase": "centering",
+            "cells": [
+              {
+                "x": 6030,
+                "y": 7040
+              }
+            ]
+          },
+          {
+            "at": 40,
+            "phase": "centering",
+            "cells": [
+              {
+                "x": 6030,
+                "y": 7040
+              }
+            ]
+          },
+          {
+            "at": 80,
+            "phase": "centering",
+            "cells": [
+              {
+                "x": 6030,
+                "y": 7040
+              }
+            ]
+          },
+          {
+            "at": 120,
+            "phase": "centering",
+            "cells": [
+              {
+                "x": 6030,
+                "y": 7040
+              }
+            ]
+          },
+          {
+            "at": 160,
+            "phase": "centering",
+            "cells": [
+              {
+                "x": 6030,
+                "y": 7040
+              }
+            ]
+          },
+          {
+            "at": 200,
+            "phase": "centering",
+            "cells": [
+              {
+                "x": 6030,
+                "y": 7040
+              }
+            ]
+          },
+          {
+            "at": 240,
+            "phase": "centering",
+            "cells": [
+              {
+                "x": 6030,
+                "y": 7040
+              }
+            ]
+          },
+          {
+            "at": 240,
+            "phase": "centering",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          },
+          {
+            "at": 280,
+            "phase": "centering",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          },
+          {
+            "at": 320,
+            "phase": "centering",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          },
+          {
+            "at": 360,
+            "phase": "splitting",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          },
+          {
+            "at": 400,
+            "phase": "splitting",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          },
+          {
+            "at": 440,
+            "phase": "hold",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          },
+          {
+            "at": 480,
+            "phase": "hold",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          },
+          {
+            "at": 520,
+            "phase": "hold",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          },
+          {
+            "at": 560,
+            "phase": "hold",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          },
+          {
+            "at": 600,
+            "phase": "hold",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          },
+          {
+            "at": 640,
+            "phase": "hold",
+            "cells": [
+              {
+                "x": 6000,
+                "y": 7000
+              }
+            ]
+          }
+        ],
+        "lineShapeVerified": false,
+        "serverAcceptedCountKnown": false
+      }
+    },
+    {
+      "case": "different own fragments are rejected instead of treating their mean as one cell core",
+      "pass": true,
+      "detail": {
+        "reason": "Centered auto-split needs one merged cell; separate fragments have different centers."
+      }
+    },
+    {
+      "case": "clickable attempt badge exports own-position report without gameplay clicks",
+      "pass": true,
+      "detail": {
+        "file": "senpa-line-attempt-1.2.1-xplus.6.json",
+        "frames": 12
+      }
+    },
+    {
+      "case": "Native burst emits [22,0,4] once; Exact center stays at the actual cell core",
+      "pass": true,
+      "detail": {
+        "nativeBurst": [
+          22,
+          0,
+          4
+        ],
+        "exactCenter": [
+          6000,
+          7000
+        ]
+      }
+    },
+    {
+      "case": "received target vs native animated pose uses endX/endY; no physics rewrite",
+      "pass": true,
+      "detail": {
+        "endX": 6400,
+        "endY": 7350,
+        "r": 600
+      }
+    },
+    {
+      "case": "all 3 profiles support arbitrary pointer diagonals with native wire coordinates",
+      "pass": true,
+      "detail": [
+        {
+          "style": "Senpa",
+          "direction": [
+            1,
+            2
+          ],
+          "aim": [
+            6004,
+            7007
+          ]
+        },
+        {
+          "style": "Senpa",
+          "direction": [
+            1,
+            -2
+          ],
+          "aim": [
+            6004,
+            6993
+          ]
+        },
+        {
+          "style": "Senpa",
+          "direction": [
+            -1,
+            2
+          ],
+          "aim": [
+            5996,
+            7007
+          ]
+        },
+        {
+          "style": "Senpa",
+          "direction": [
+            -1,
+            -2
+          ],
+          "aim": [
+            5996,
+            6993
+          ]
+        },
+        {
+          "style": "Ryuten",
+          "direction": [
+            1,
+            2
+          ],
+          "aim": [
+            6004,
+            7007
+          ]
+        },
+        {
+          "style": "Ryuten",
+          "direction": [
+            1,
+            -2
+          ],
+          "aim": [
+            6004,
+            6993
+          ]
+        },
+        {
+          "style": "Ryuten",
+          "direction": [
+            -1,
+            2
+          ],
+          "aim": [
+            5996,
+            7007
+          ]
+        },
+        {
+          "style": "Ryuten",
+          "direction": [
+            -1,
+            -2
+          ],
+          "aim": [
+            5996,
+            6993
+          ]
+        },
+        {
+          "style": "XPLUS",
+          "direction": [
+            1,
+            2
+          ],
+          "aim": [
+            6004,
+            7007
+          ]
+        },
+        {
+          "style": "XPLUS",
+          "direction": [
+            1,
+            -2
+          ],
+          "aim": [
+            6004,
+            6993
+          ]
+        },
+        {
+          "style": "XPLUS",
+          "direction": [
+            -1,
+            2
+          ],
+          "aim": [
+            5996,
+            7007
+          ]
+        },
+        {
+          "style": "XPLUS",
+          "direction": [
+            -1,
+            -2
+          ],
+          "aim": [
+            5996,
+            6993
+          ]
+        }
+      ]
+    },
+    {
+      "case": "eight Endy directional locks do not split and hold through ordinary native mouse sends",
+      "pass": true,
+      "detail": [
+        {
+          "direction": "Up",
+          "target": {
+            "x": 6000,
+            "y": -9993000
+          }
+        },
+        {
+          "direction": "Down",
+          "target": {
+            "x": 6000,
+            "y": 10007000
+          }
+        },
+        {
+          "direction": "Left",
+          "target": {
+            "x": -9994000,
+            "y": 7000
+          }
+        },
+        {
+          "direction": "Right",
+          "target": {
+            "x": 10006000,
+            "y": 7000
+          }
+        },
+        {
+          "direction": "TopLeft",
+          "target": {
+            "x": -7065068,
+            "y": -7064068
+          }
+        },
+        {
+          "direction": "TopRight",
+          "target": {
+            "x": 7077068,
+            "y": -7064068
+          }
+        },
+        {
+          "direction": "BottomLeft",
+          "target": {
+            "x": -7065068,
+            "y": 7078068
+          }
+        },
+        {
+          "direction": "BottomRight",
+          "target": {
+            "x": 7077068,
+            "y": 7078068
+          }
+        }
+      ]
+    },
+    {
+      "case": "Endy rapid emits distant fixed aims and four native single splits",
+      "pass": true,
+      "detail": {
+        "splitPackets": [
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "case": "actual child keyboard dispatch triggers exactly one quad and ignores repeats",
+      "pass": true,
+      "detail": {
+        "key": "L",
+        "splitPackets": 4
+      }
+    },
+    {
+      "case": "Stored DELETE binding works although native Senpa key parser excludes it",
+      "pass": true,
+      "detail": {
+        "supported": true
+      }
+    },
+    {
+      "case": "mouse binding is honored and ordinary split keys remain usable under a lock",
+      "pass": true,
+      "detail": {
+        "mouse": "MIDDLE BTN",
+        "manualNativeCount": 4
+      }
+    },
+    {
+      "case": "typing into chat cannot start a bound macro; existing locks release on focus",
+      "pass": true,
+      "detail": {
+        "typingSafe": true
+      }
+    },
+    {
+      "case": "native Stop does not suppress the macro and is not rewritten",
+      "pass": true,
+      "detail": {
+        "stoppedPreserved": true
+      }
+    },
+    {
+      "case": "native P2 uses slot 1; switching aborts all queued remaining split requests",
+      "pass": true,
+      "detail": {
+        "slot": 1,
+        "switchCancelled": true
+      }
+    },
+    {
+      "case": "all requested prior features remain in the same artifact",
+      "pass": true,
+      "detail": {
+        "shields": 12,
+        "xplusMax": 500,
+        "version": "1.2.1-xplus.6"
+      }
+    },
+    {
+      "case": "Lines controls are registered in native Ryuten settings",
+      "pass": true,
+      "detail": [
+        {
+          "key": "LINE_SPLIT_MODE",
+          "label": "Line split preset",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "LINE_SPLIT_COUNT",
+          "label": "Split stages (4 = up to 16 pieces from one)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "LINE_SPLIT_GAP_MS",
+          "label": "Gap between rapid split requests",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "LINE_SPLIT_SETTLE_MS",
+          "label": "Minimum center-hold time",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "LINE_SPLIT_OFFSET",
+          "label": "Near-center direction offset (world units)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "LINE_SPLIT_HOLD_MS",
+          "label": "Keep aim pinned after the final split",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_SPLIT",
+          "label": "Line split: selected preset",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_LOCK_MOUSE",
+          "label": "Line lock: mouse direction (toggle)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_LOCK_UP",
+          "label": "Line lock: Up (Endy)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_LOCK_DOWN",
+          "label": "Line lock: Down (Endy)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_LOCK_LEFT",
+          "label": "Line lock: Left (Endy)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_LOCK_RIGHT",
+          "label": "Line lock: Right (Endy)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_LOCK_TOPLEFT",
+          "label": "Line lock: Up-left (Endy)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_LOCK_TOPRIGHT",
+          "label": "Line lock: Up-right (Endy)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_LOCK_BOTTOMLEFT",
+          "label": "Line lock: Down-left (Endy)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_LOCK_BOTTOMRIGHT",
+          "label": "Line lock: Down-right (Endy)",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        },
+        {
+          "key": "HK_LINE_CANCEL",
+          "label": "Cancel line split / release all line locks",
+          "group": [
+            "Controls",
+            "Lines"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "real secondary native engine: WindBine P4 encodes auxiliary slot 1 only",
+      "pass": true,
+      "detail": {
+        "auxiliaryNativeCellConstructor": "function",
+        "packets": [
+          [
+            22,
+            1,
+            1
+          ],
+          [
+            22,
+            1,
+            1
+          ],
+          [
+            22,
+            1,
+            1
+          ],
+          [
+            22,
+            1,
+            1
+          ]
+        ],
+        "primarySplitCount": 0
+      }
+    },
+    {
+      "case": "real secondary native engine: FFA P2 encodes auxiliary slot 0 only",
+      "pass": true,
+      "detail": {
+        "packets": [
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ],
+          [
+            22,
+            0,
+            1
+          ]
+        ],
+        "primarySplitCount": 0
+      }
+    },
+    {
+      "case": "actual Settings \u2192 Controls \u2192 Lines UI exposes all presets and edits a keyboard binding",
+      "pass": true,
+      "detail": {
+        "presets": [
+          "CENTERED RAPID",
+          "EXACT CENTER RAPID",
+          "NATIVE BURST",
+          "ENDY RAPID",
+          "ENDY LOCK"
+        ],
+        "boundKey": "L",
+        "groupRows": 17
+      }
+    }
+  ],
+  "pageErrors": [],
+  "pass": true,
+  "liveLineShapeVerified": false
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "name": "SENPA_REFERENCE_2026-09-07T15-31-53-784Z.zip",
+    "sha256": "0d34b255e0702169adeb2faa3f393ed2db835038806c8f37f42d342b83bf9ad4",
+    "bytes": 1464126
+  },
+  {
+    "name": "3ryuten(1).zip",
+    "sha256": "1e3174af0b9b4a97d7390d47cc9bb2ab61331bb694d25c98839f5c26f8757984",
+    "bytes": 2613529
+  },
+  {
+    "name": "RYUTEN_3RB_PORT fixed 2.5.zip",
+    "sha256": "f2a1df778bbc5112a7541c04abd20b72f52e0b53c49cdc4211ff0778d71c9b08",
+    "bytes": 14212153
+  }
+]
