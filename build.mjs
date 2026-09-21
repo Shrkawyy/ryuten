@@ -45,3 +45,21 @@ else{
  fs.writeFileSync(path.join(root,'dist/build-manifest.json'),JSON.stringify({version:pkg.version,buildVariant:layout.buildVariant,bytes:Buffer.byteLength(output),sha256:sha(output),baselineSHA256:record.baselineSHA256,patches,networkSnapshotUnchanged:true,assetFilesLocal:true},null,2)+'\n');
  console.log('Built',pkg.version,Buffer.byteLength(output),sha(output));
 }
+
+// Stage the install page and its linked files for static hosting.
+if (!baseline) {
+ const publicRoot = path.join(root, 'public');
+ fs.mkdirSync(publicRoot, {recursive:true});
+ for (const item of ['dist', 'verification']) {
+  fs.cpSync(path.join(root, item), path.join(publicRoot, item), {recursive:true});
+ }
+ const manifest = JSON.parse(read('dist/build-manifest.json'));
+ const page = read('index.html')
+  .replace(/1\.2\.1-xplus\.\d+/g, pkg.version)
+  .replace(/(<code>)[a-f0-9]{64}(<\/code>)/, '$1' + manifest.sha256 + '$2');
+ fs.writeFileSync(path.join(publicRoot, 'index.html'), page);
+ for (const item of ['README.md', 'NOTICE.md']) {
+  fs.copyFileSync(path.join(root, item), path.join(publicRoot, item));
+ }
+ console.log('Static site ready: public/index.html');
+}
