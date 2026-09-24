@@ -26,7 +26,7 @@
             c = new this.r.p(id, '', '', '', 0, ['', 0], '');
             this.clients.set(id, c);
             this.r.ne._2708.set(id, c);
-        } const own = id>=0&&(this.model.ownedClientIDs?this.model.ownedClientIDs.has(id):id===this.h.world.myClientID); c._9710 = own; c._6988 = String(source?.nick || (own ? this.h.player.nick : '') || 'Unnamed player'); c._senpaTeamId = String(source?.tag || ''); c._9067 = String(source?.clanTag || ''); c._8313 = own && rp.shieldsEnabled ? (this.r.pe._2874.shield || '') : ''; if (own && !this.model.isMultibox) {
+        } const own = id>=0&&(this.model.ownedClientIDs?this.model.ownedClientIDs.has(id):id===this.h.world.myClientID); c._9710 = own; c._6988 = String(source?.nick || (own ? this.h.player.nick : '') || 'Unnamed player'); c._senpaTeamId = String(source?.tag || ''); c._senpaClanTag = String(source?.clanTag || ''); c._9067 = c._senpaTeamId || c._senpaClanTag; c._8313 = own && rp.shieldsEnabled ? (this.r.pe._2874.shield || '') : ''; if (own && !this.model.isMultibox) {
             this.r.Be._4167 = id;
             this.r.Be._1059 = c;
         } c._senpaNameColor=rp.nameColor(source?.teamColor);return c; }

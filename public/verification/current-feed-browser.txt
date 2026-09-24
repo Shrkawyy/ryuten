@@ -1,0 +1,18 @@
+{'keys': {'single': 'E', 'held': 'W'}, 'version': '1.2.1-xplus.6'}
+PASS default W initiates real native held feed, not a single eject {'keys': ['E', 'W'], 'bytes': [[23, 0, 1, 1], [23, 0, 1, 0]]}
+PASS native held feed resumes after switch-to-spawn without a second input {'bytes': [[23, 0, 1, 1], [23, 0, 1, 0], [23, 1, 1, 1]], 'stopped': True}
+PASS W stays held through 30 native tab switches; Tab-up never stops it {'switches': 30, 'startsAndStops': 62}
+PASS custom 10 ms cadence preserves deadline and transfers to the active tab {'bytes': [[23, 0, 0], [23, 1, 0]]}
+PASS custom 100 ms cadence preserves deadline and transfers to the active tab {'bytes': [[23, 0, 0], [23, 1, 0]]}
+PASS W-up during native spawn wait cannot rearm after ownership arrives {'bytes': [[23, 0, 1, 1], [23, 0, 1, 0]]}
+PASS custom held feed also resumes when the newly selected player spawns {'bytes': [[23, 0, 0], [23, 1, 0]]}
+PASS physical key-up remains effective after modifiers change or the event target is an input {'stopped': True}
+PASS opening chat/menu and browser blur stop feed, without repeat-key restart ['menu', 'blur', 'chat']
+PASS mirrored Ryuten visual-tab stop does not release a physical W hold {'bytes': [[23, 0, 1, 1], [23, 0, 1, 0], [23, 1, 1, 1], [23, 1, 1, 0]]}
+PASS replay cannot emit a held-feed request {'noReplayFeed': True}
+PASS single eject E stays single; recording binding is untouched {'single': 'E', 'held': 'W', 'record': 'R'}
+PASS FFA P1/P2: one physical W hold transfers between real native engines {'primary': [[23, 0, 1, 1], [23, 0, 1, 0], [23, 0, 1, 1], [23, 0, 1, 0]], 'auxiliary': [[23, 0, 1, 1], [23, 0, 1, 0]]}
+PASS FFA auxiliary pending-spawn keeps physical W alive through native startup {'auxiliary': [[23, 0, 1, 1], [23, 0, 1, 0], [23, 0, 1, 1], [23, 0, 1, 0]]}
+PASS WindBine: held W crosses Q pair switches and Tab native-slot switches {'primary': [[23, 0, 1, 1], [23, 0, 1, 0], [23, 1, 1, 1], [23, 1, 1, 0], [23, 0, 1, 1], [23, 0, 1, 0]], 'auxiliary': [[23, 1, 1, 1], [23, 1, 1, 0], [23, 0, 1, 1], [23, 0, 1, 0]]}
+PASS WindBine custom cadence survives Q and Tab without additional pulses {'primary': [[23, 0, 0]], 'auxiliary': [[23, 1, 0]]}
+PASS all profiles, shields, mass contrast and 500 ms cap retained {'profiles': ['Senpa', 'Ryuten', 'XPLUS'], 'shields': True, 'xplusMax': 500}

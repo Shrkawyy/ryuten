@@ -1,0 +1,67 @@
+{
+  "version": "1.2.1-xplus.4",
+  "artifact": {
+    "path": "dist/RYUTEN-Senpa.user.js",
+    "bytes": 5993722,
+    "sha256": "7605dfd8573ad3fbf8aab50902ee18e49a54aad858cc2ae21ce1759a777d3d58"
+  },
+  "dateUTC": "2026-09-17T17:41:10.840743+00:00",
+  "unit": {
+    "passed": 74,
+    "total": 74,
+    "newLineTests": 44,
+    "existingMassFeedAccountTests": 30
+  },
+  "targetedBrowser": {
+    "lineInput": {
+      "passed": 17,
+      "total": 17,
+      "pageErrors": []
+    },
+    "massPresentation": {
+      "passed": 7,
+      "total": 7,
+      "pageErrors": []
+    },
+    "total": 24,
+    "actualNativeOutgoingPacketBytes": true,
+    "actualAuxiliaryNativeIframe": true,
+    "actualSettingsUI": true,
+    "lineTimers": "Deterministic fixture clock",
+    "network": "FIXTURE",
+    "gpu": "SUBSTITUTED_SUBMISSION"
+  },
+  "startupSmoke": {
+    "pass": true,
+    "pageErrors": [],
+    "consoleEvents": [
+      {
+        "type": "error",
+        "message": "Failed to load resource: net::ERR_FAILED"
+      }
+    ]
+  },
+  "repeatedBuildByteIdentical": true,
+  "olderBaselineReconstructionByteIdentical": true,
+  "comparedSourceUnchanged": 74,
+  "sourceChanged": [
+    "src/app/presentation.js",
+    "src/app/settings.js",
+    "src/app/line-split.js"
+  ],
+  "frozenSnapshotFilesUnchanged": 14,
+  "liveServerOrPhysicsValidated": false,
+  "liveLineShapeVerified": false,
+  "hardwareGPUValidated": false,
+  "mapOriginalStillMissing": true,
+  "allShieldsRetained": true,
+  "xplusMaxMs": 500,
+  "noNewRuntimeDependencies": true,
+  "knownLimits": [
+    "One shared cursor cannot independently align pre-separated fragments.",
+    "Four single requests and one counted request can be handled differently by the server.",
+    "Centered received positions are not instantaneous server physics.",
+    "Direction at exact zero offset is server-specific.",
+    "Browser timer scheduling and accepted split counts remain outside client guarantees."
+  ]
+}

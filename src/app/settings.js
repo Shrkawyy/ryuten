@@ -106,8 +106,8 @@
     wire('SHOW_ENEMY_USERNAME','cellNick');r.Q.SHOW_ENEMY_USERNAME._8192='Show names';
     wire('SHOW_ENEMY_ENERGY','cellMass');r.Q.SHOW_ENEMY_ENERGY._8192='Show mass';
     wire('SHOW_CUSTOM_SKINS','cellSkin');r.Q.SHOW_CUSTOM_SKINS._8192='Show skins';
-    wire('SHOW_TEAM_NAME','cellClanTag');r.Q.SHOW_TEAM_NAME._8192='Show clan tags';
-    r.Q.SHOW_TEAM_NAME._5901='Displays Senpa clanTag when supplied. Internal team membership IDs are never shown as labels.';
+    wire('SHOW_TEAM_NAME','cellClanTag');r.Q.SHOW_TEAM_NAME._8192='Show Teamtag / clan tags';
+    r.Q.SHOW_TEAM_NAME._5901='Displays the team tag supplied by Senpa, with clanTag as fallback when the team tag is empty.';
     hide('SHOW_OWN_USERNAME','SHOW_OWN_ENERGY','SHOW_OWN_CUSTOM_SKINS');
     r.Q.SHOW_OWN_USERNAME._5997=()=>!!(h.settings.cellNick&&h.settings.ownCellNick);
     r.Q.SHOW_OWN_ENERGY._5997=()=>!!(h.settings.cellMass&&h.settings.ownCellMass);

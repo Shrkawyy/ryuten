@@ -40,7 +40,7 @@
     const autoFFA=el('input',{id:'senpa-ffa-auto-connect',type:'checkbox'}),autoLabel=el('label',{className:'sp-mb-enable'},'Connect FFA P2 automatically after joining ');
     autoLabel.prepend(autoFFA);dialog.append(autoLabel);autoFFA.onchange=()=>r.Q.FFA_AUTO_CONNECT._7531(autoFFA.checked);
     const message=el('p',{id:'senpa-multibox-explanation'},'FFA: P1/P2 are independent native connections; Tab switches players. WindBine: two connections with two native tabs each; Tab switches within the pair and Q changes pairs. Every connection must pass the original server verification.');dialog.append(message);
-    const near=el('input',{id:'senpa-multibox-near-spawn',type:'checkbox'}),nearLabel=el('label',{className:'sp-mb-enable'},'Spawn empty pairs next to the active pair ');nearLabel.prepend(near);near.onchange=()=>m.setNearSpawn(near.checked);dialog.append(nearLabel);
+    const near=el('input',{id:'senpa-multibox-near-spawn',type:'checkbox'}),nearLabel=el('label',{className:'sp-mb-enable'},'Request nearby spawn (FFA / WindBine; server decides) ');nearLabel.prepend(near);near.onchange=()=>m.setNearSpawn(near.checked);dialog.append(nearLabel);
     const cards=el('div',{className:'sp-mb-cards'}),controls=[];
     for(let slot=0;slot<2;slot++){
       const card=el('section',{className:'sp-mb-card','data-slot':String(slot)});card.append(el('h3',{},'PAIR '+(slot+1)));
@@ -68,7 +68,7 @@
     document.body.append(dialog);trigger.onclick=()=>{rp.commitIdentity();rp.refreshMultiboxUI();dialog.showModal();};
     document.addEventListener('keydown',event=>{if(!m.enabled||!isWindBine()||event.repeat||String(event.key).toUpperCase()!=='Q'||event.target?.closest?.('input,textarea,select,[contenteditable="true"]'))return;event.preventDefault();event.stopImmediatePropagation();m.request('switch-pair');},true);
     rp.refreshMultiboxUI=()=>{
-      rp.syncAccountSkins();const s=m.snapshot();if(m.enabled&&document.activeElement!==firstInput&&m.profiles[0].name)firstInput.value=m.profiles[0].name;if(document.activeElement!==secondName)secondName.value=m.profiles[1].name;enabled.checked=m.windbineEnabled;ffa.checked=m.ffaEnabled;autoFFA.checked=m.ffaAutoConnect;near.checked=m.nearSpawn;near.disabled=!m.enabled||!m.isWindBine;nearLabel.hidden=!m.isWindBine;theme.value=r.Q.APPEARANCE_PRESET._5997();
+      rp.syncAccountSkins();const s=m.snapshot();if(m.enabled&&document.activeElement!==firstInput&&m.profiles[0].name)firstInput.value=m.profiles[0].name;if(document.activeElement!==secondName)secondName.value=m.profiles[1].name;enabled.checked=m.windbineEnabled;ffa.checked=m.ffaEnabled;autoFFA.checked=m.ffaAutoConnect;near.checked=m.nearSpawn;near.disabled=!m.enabled||!m.isSupported;nearLabel.hidden=!m.isSupported;theme.value=r.Q.APPEARANCE_PRESET._5997();
       secondLabel.hidden=!(m.enabled&&m.isSupported);secondLabel.firstChild.textContent=m.isFFA?'PLAYER 2 NAME':'PAIR 2 NAME';firstInput.parentElement.firstChild.textContent=m.enabled&&m.isSupported?(m.isFFA?'PLAYER 1 NAME':'PAIR 1 NAME'):'SENPA NICKNAME';
       trigger.textContent=m.isFFA?'FFA multibox · '+(m.ffaEnabled?(m.multi?'P'+(s.active+1):'Ready'):'Off'):m.enabled?'WindBine multibox · '+(m.multi?'Pair '+(s.activePair+1):isWindBine()?'Ready':'FFA / WindBine only'):'Multibox settings';
       status.textContent=s.error||s.status;verify.hidden=!m.aux;stop.disabled=!m.aux&&!m.loading;

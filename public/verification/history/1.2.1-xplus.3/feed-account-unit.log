@@ -1,0 +1,142 @@
+TAP version 13
+# Subtest: account module exposes approved API, live state, and replaces pp.openSkinPicker
+ok 1 - account module exposes approved API, live state, and replaces pp.openSkinPicker
+  ---
+  duration_ms: 9.498663
+  type: 'test'
+  ...
+# Subtest: auth opens the existing native provider without showing the native menu
+ok 2 - auth opens the existing native provider without showing the native menu
+  ---
+  duration_ms: 3.922848
+  type: 'test'
+  ...
+# Subtest: h.accountLogin is preferred when native provider buttons are not mounted
+ok 3 - h.accountLogin is preferred when native provider buttons are not mounted
+  ---
+  duration_ms: 1.735301
+  type: 'test'
+  ...
+# Subtest: account refresh and skins use h.config/native account routes
+ok 4 - account refresh and skins use h.config/native account routes
+  ---
+  duration_ms: 2.337098
+  type: 'test'
+  ...
+# Subtest: equipSkin commits only after a successful native response and rolls back failed mutations
+ok 5 - equipSkin commits only after a successful native response and rolls back failed mutations
+  ---
+  duration_ms: 3.098243
+  type: 'test'
+  ...
+# Subtest: owned hats equip through native hats/equip and failed responses leave ownership state unchanged
+ok 6 - owned hats equip through native hats/equip and failed responses leave ownership state unchanged
+  ---
+  duration_ms: 3.27838
+  type: 'test'
+  ...
+# Subtest: owned emoji equip waits for native success and sendEmoji calls only h.actions.sendEmoji
+ok 7 - owned emoji equip waits for native success and sendEmoji calls only h.actions.sendEmoji
+  ---
+  duration_ms: 3.557252
+  type: 'test'
+  ...
+# Subtest: normal account sections do not transition to native UI and Escape closes early
+ok 8 - normal account sections do not transition to native UI and Escape closes early
+  ---
+  duration_ms: 7.090015
+  type: 'test'
+  ...
+# Subtest: rendered text is textContent and artwork is restricted to HTTPS
+ok 9 - rendered text is textContent and artwork is restricted to HTTPS
+  ---
+  duration_ms: 4.263492
+  type: 'test'
+  ...
+# Subtest: zero interval preserves native macro feed and single feed action
+ok 10 - zero interval preserves native macro feed and single feed action
+  ---
+  duration_ms: 5.215184
+  type: 'test'
+  ...
+# Subtest: custom interval emits one native single-feed pulse per elapsed period
+ok 11 - custom interval emits one native single-feed pulse per elapsed period
+  ---
+  duration_ms: 1.778686
+  type: 'test'
+  ...
+# Subtest: multibox routes every pulse to the selected host as native slot zero
+ok 12 - multibox routes every pulse to the selected host as native slot zero
+  ---
+  duration_ms: 1.210672
+  type: 'test'
+  ...
+# Subtest: blur, menu, death, disconnect, and aux disposal release the timer
+ok 13 - blur, menu, death, disconnect, and aux disposal release the timer
+  ---
+  duration_ms: 1.15287
+  type: 'test'
+  ...
+# Subtest: setting interval while native macro is active releases native cadence once
+ok 14 - setting interval while native macro is active releases native cadence once
+  ---
+  duration_ms: 1.048365
+  type: 'test'
+  ...
+# Subtest: installer is idempotent and onSwitch supports the one-connection parent seam
+ok 15 - installer is idempotent and onSwitch supports the one-connection parent seam
+  ---
+  duration_ms: 2.118272
+  type: 'test'
+  ...
+# Subtest: one-connection switch stops the inactive stream when feed follows tab is disabled
+ok 16 - one-connection switch stops the inactive stream when feed follows tab is disabled
+  ---
+  duration_ms: 0.80195
+  type: 'test'
+  ...
+# Subtest: multibox select still releases custom feed when feed follows tab is disabled
+ok 17 - multibox select still releases custom feed when feed follows tab is disabled
+  ---
+  duration_ms: 0.887509
+  type: 'test'
+  ...
+# Subtest: auxiliary macro action uses its public slot while preserving native slot zero
+ok 18 - auxiliary macro action uses its public slot while preserving native slot zero
+  ---
+  duration_ms: 1.305769
+  type: 'test'
+  ...
+# Subtest: readiness follows routed myCells and timer pulses stop for menu or hidden document
+ok 19 - readiness follows routed myCells and timer pulses stop for menu or hidden document
+  ---
+  duration_ms: 1.604654
+  type: 'test'
+  ...
+# Subtest: multibox readiness checks the routed auxiliary cell, not primary player state
+ok 20 - multibox readiness checks the routed auxiliary cell, not primary player state
+  ---
+  duration_ms: 1.266199
+  type: 'test'
+  ...
+# Subtest: four-slot custom feed routes slots 0,1,2,3 without injecting switch pulses
+ok 21 - four-slot custom feed routes slots 0,1,2,3 without injecting switch pulses
+  ---
+  duration_ms: 0.961796
+  type: 'test'
+  ...
+# Subtest: native feed stops the old host before starting the newly selected host
+ok 22 - native feed stops the old host before starting the newly selected host
+  ---
+  duration_ms: 0.933471
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 120.874992

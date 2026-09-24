@@ -114,3 +114,46 @@
     };
   };
 })();
+/* The bundled Albion border generator leaves both buffers zero-filled.
+ * Keep Ryuten's border mesh/shader/camera; provide world-space geometry locally. */
+(() => {
+  'use strict';
+  const rp=window.RYUTEN_PORT;
+  rp.modules.borderGeometry=(bounds,width,color,glow,glowColor)=>{
+    const vertices=[],indices=[];
+    const ring=(outer,inner,outerAlpha,innerAlpha,tint)=>{
+      const rgb=[(tint>>>16&255)/255,(tint>>>8&255)/255,(tint&255)/255];
+      const points=b=>[[b.left,b.top],[b.right,b.top],[b.right,b.bottom],[b.left,b.bottom]];
+      const a=points(outer),b=points(inner),base=vertices.length/6;
+      for(let i=0;i<4;i++){
+        vertices.push(...a[i],...rgb.map(v=>v*outerAlpha),outerAlpha);
+        vertices.push(...b[i],...rgb.map(v=>v*innerAlpha),innerAlpha);
+      }
+      for(let i=0;i<4;i++){const j=(i+1)%4;indices.push(base+2*i,base+2*j,base+2*i+1,base+2*j,base+2*j+1,base+2*i+1);}
+    };
+    const expand=d=>({left:bounds.left-d,top:bounds.top-d,right:bounds.right+d,bottom:bounds.bottom+d});
+    if(Object.values(bounds).every(Number.isFinite)&&bounds.right>bounds.left&&bounds.bottom>bounds.top&&Number.isFinite(width)&&width>0){
+      const half=Math.min(width/2,(bounds.right-bounds.left)/2,(bounds.bottom-bounds.top)/2);
+      ring(expand(half),expand(-half),1,1,color);
+      if(Number.isFinite(glow)&&glow>0){
+        ring(expand(half+glow),expand(half),0,1,glowColor);
+        const inner=Math.min(half+glow,(bounds.right-bounds.left)/2,(bounds.bottom-bounds.top)/2);
+        ring(expand(-half),expand(-inner),1,0,glowColor);
+      }
+    }
+    return {vertices:new Float32Array(vertices),indices:new Uint16Array(indices)};
+  };
+  rp.modules.installWorldBorder=(h,r)=>{
+    const layer=r.Lt;let last='';
+    layer._8013=function(){
+      const offset=rp.world.offset,b=h.border;
+      const bounds={left:b.left+offset,top:b.top+offset,right:b.right+offset,bottom:b.bottom+offset};
+      const width=h.settings.mapBorders?Number(h.settings.borderWidth):0;
+      const color=r.Q.BORDER_COLOR._5997(),glow=width>0?3.5*r.Q.BORDER_GLOW_SIZE._5997():0,glowColor=r.Q.BORDER_GLOW_COLOR._5997();
+      const key=[...Object.values(bounds),width,color,glow,glowColor].join('|');
+      if(key===last)return;last=key;
+      const data=rp.modules.borderGeometry(bounds,width,color,glow,glowColor);
+      this._3213._5138.update(data.vertices);this._3213._8555.update(data.indices);
+    };
+  };
+})();

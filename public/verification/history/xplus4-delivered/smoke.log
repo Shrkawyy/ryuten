@@ -1,0 +1,57 @@
+
+> ryuten-senpa-full-shields-lines-test@1.2.1-xplus.4 test:smoke
+> python tests/browser-smoke.py
+
+{
+  "kind": "OFFLINE_INTEGRATION",
+  "gpu": "SUBSTITUTED_SUBMISSION",
+  "network": "FIXTURES",
+  "pass": true,
+  "state": {
+    "ready": true,
+    "error": null,
+    "hostStarted": true,
+    "logs": [
+      {
+        "at": 847,
+        "event": "native-host-ready",
+        "detail": {
+          "settings": 130
+        }
+      },
+      {
+        "at": 1361,
+        "event": "presentation-ready",
+        "detail": {
+          "nativeSettings": 94,
+          "ryutenSettings": 130,
+          "shields": 12
+        }
+      },
+      {
+        "at": 1366,
+        "event": "port-ready",
+        "detail": {
+          "version": "1.2.1-xplus.4",
+          "renderer": "Ryuten PixiJS",
+          "host": "captured native Senpa",
+          "nativeAnimation": 120
+        }
+      }
+    ]
+  },
+  "native": {
+    "cellMs": 120,
+    "settings": 130,
+    "wasm": "function",
+    "shields": 12,
+    "merged": 166,
+    "frames": 2
+  },
+  "events": [
+    {
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    }
+  ]
+}

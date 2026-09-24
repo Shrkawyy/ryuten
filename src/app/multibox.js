@@ -58,7 +58,7 @@ class SenpaMultibox {
     if(patch){this.profiles[slot]=this.sanitizeProfile({...this.profiles[slot],...patch},slot);this.persist();this.port.child?.refreshMultiboxUI?.();}
     return this.profiles[slot];
   }
-  setNearSpawn(value) { this.nearSpawn=!!value;this.persist();this.error='';this.status=this.nearSpawn?'Nearby WindBine spawns enabled — empty pairs follow the active pair.':'Nearby WindBine spawns disabled — use native server spawn.';this.port.child?.refreshMultiboxUI?.(); }
+  setNearSpawn(value) { this.nearSpawn=!!value;this.persist();this.error='';this.status=this.nearSpawn?'Nearby spawns enabled — requests the other player’s position; the server decides the final spawn.':'Nearby spawns disabled — use native server spawn.';this.port.child?.refreshMultiboxUI?.(); }
   setEnabled(value) {
     const wasMulti=this.multi;if(value)this.autoFFASocket=null;this.enabled=!!value;this.persist();this.error='';
     if(!this.enabled&&wasMulti)this.primary.player.skin1=this.accountSkin(0);
@@ -373,7 +373,7 @@ class SenpaMultibox {
     }
   }
   spawnAnchor(pair) {
-    if(!this.isWindBine)return null;
+    if(!this.isSupported)return null;
     const other=this.host(this.pairSlot(1-pair,0));
     if(!other?.network.connected||other.network.url!==this.primary.network.url)return null;
     const valid=cell=>!cell.removed&&Number.isFinite(cell.x)&&Number.isFinite(cell.y)&&Number.isFinite(cell.radius);
@@ -383,7 +383,7 @@ class SenpaMultibox {
       let x=0,y=0,radius=0;for(const cell of preferred){x+=cell.x;y+=cell.y;radius=Math.max(radius,cell.radius);}
       return {x:x/preferred.length,y:y/preferred.length,radius,pair:1-pair};
     }
-    const cells=[];for(const set of other.world.myCells.slice(0,2))for(const cell of set?.values()||[])if(valid(cell))cells.push(cell);
+    const cells=[];for(const set of other.world.myCells.slice(0,this.sourceSlotCount))for(const cell of set?.values()||[])if(valid(cell))cells.push(cell);
     let anchor=null;for(const cell of cells)if(!anchor||cell.radius>anchor.radius)anchor=cell;
     return anchor?{x:anchor.x,y:anchor.y,radius:anchor.radius,pair:1-pair}:null;
   }
@@ -409,7 +409,7 @@ class SenpaMultibox {
     if(!this.ready(h)){if(source===1&&!this.aux?.needsVerification)this.status='Waiting for pair 2 connection / verification';return;}
     if(source===1&&(h.world.myClientID===this.primary.world.myClientID||h.world.myPlayerIDs.some(id=>this.primary.world.myPlayerIDs.includes(id)))){this.notify('Senpa assigned overlapping identities; pair 2 is unavailable for this session.');this.destroyAux();return;}
     if(h.world.myPlayerIDs.length!==this.sourceSlotCount){this.notify('This server did not assign the expected '+this.sourceSlotCount+' native slot(s). The secondary connection was stopped.');this.destroyAux();return;}
-    if(intent.socket!==h.network.ws){intent.sent=false;intent.socket=h.network.ws;}
+    if(intent.socket!==h.network.ws){intent.sent=false;intent.socket=h.network.ws;intent.positionedAt=null;intent.anchor=null;}
     if(!intent.sent){
       this.setActiveSlot(slot);this.setProfileIdentity(slot,h);
       if(!this.pairAlive(pair)){

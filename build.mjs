@@ -28,8 +28,8 @@ if(!baseline){
 let begin=read('src/snapshot/begin.js');
 if(!baseline){
  begin=begin.replace('// @version      '+layout.baselineVersion,'// @version      '+pkg.version)
- .replace('// @name         Ryuten for Senpa — XPLUS 500 Test — Full Shields','// @name         Ryuten for Senpa — XPLUS 500 — Full Shields — Held Feed Fix')
- .replace(/^\/\/ @description.*$/m,'// @description  Full shields, XPLUS max 500 ms, readable mass/chat, FFA auto-connect, feed test and centered/Endy Lines controls. Disable older port versions.');
+ .replace('// @name         Ryuten for Senpa — XPLUS 500 Test — Full Shields','// @name         Ryuten for Senpa — XPLUS 500 — Full Shields — Border Teamtag FFA Fix')
+ .replace(/^\/\/ @description.*$/m,'// @description  Border geometry, Teamtag labels and nearby FFA spawn requests; includes existing held feed fixes. Disable older port versions.');
 }
 const parentSource=n=>{
  if(baseline&&n==='multibox'){const original=read('references/multibox.before-held-feed.js');if(sha(original)!=='3ed126ac691d0b99f21ae9c3e170406d3b5d776aeed9bbb8abcab4c60b18a1b5')throw Error('Baseline multibox oracle changed');return original;}

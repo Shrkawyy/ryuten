@@ -382,6 +382,7 @@
         rp.modules.installLineSplit(h,r);
         rp.modules.installMetrics(h,r);
         rp.modules.installWorldMap(r);
+        rp.modules.installWorldBorder(h,r);
         await loadAssets(r);
         if (pp.test?.beforeGraphics)
             pp.test.beforeGraphics(r, window);
