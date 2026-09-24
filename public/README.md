@@ -1,3 +1,20 @@
+# Mouse spawn target and background URL — 1.2.1-xplus.9
+
+Install `dist/RYUTEN-Senpa.user.js`, disable earlier versions, and reload https://senpa.io/web/ .
+
+- Right-click in the game to lock a blue square at the visible mouse location. Tab requests the empty FFA player's spawn at that target. Without a locked square, Tab captures the current mouse position. Alive players switch normally. The multibox panel lets you disable Mouse spawn target or clear it. The square is 500 world units wide (minimum 10 screen pixels).
+- The empty connection receives the same spectator cursor layout seen in the supplied ONYX reference (opcode 20, mode 1, signed X/Y). The native protocol engine writes the packet. Before a mouse-targeted spawn, this build waits for a fresh native opcode 23 position response within 150 world units of the requested point. If no confirmation arrives within 8 seconds, the request stops with a message instead of spawning far away. Final placement/collision rules remain server-owned.
+- Coordinates come from the visible Ryuten camera, so zoom, render resolution and XPLUS camera smoothing do not shift the requested point. Switching servers clears the locked point.
+- Open Settings and use **Map background URL** in the extra settings area. Paste a direct HTTPS image URL; it applies after 600 ms, or press Enter / Apply background. Successful URLs are saved and restored on reload. An image host must allow cross-origin image loading for WebGL. Failure reports the problem and retains the last good background; importing a local image also remains available.
+
+Validation: 131 local tests pass, including packet-byte layout, acknowledgement gating/timeouts, cursor projection, border/tag regressions and asynchronous image loading tests. No live gameplay or browser GPU run was performed in this environment. This is not a claim of verified live spawn placement. See `verification/mouse-background-tests.txt` and `verification/MOUSE_SPAWN_NOTES.md`.
+
+Arabic installation instructions: `INSTALL-AR.txt`.
+
+---
+
+## Previous release notes (historical)
+
 # Border, Teamtag and FFA update — 1.2.1-xplus.8
 
 Installation: disable the old Ryuten userscript, install `dist/RYUTEN-Senpa.user.js`, then reload https://senpa.io/web/ . Keep only one version enabled.

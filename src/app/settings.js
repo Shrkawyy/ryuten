@@ -138,7 +138,7 @@
     // locally bundled original or an explicitly imported image, never that logo.
     rp.modules.migrateWorldMap(h,r);
     wire('WORLD_BACKGROUND_IMAGE','backgroundImage');r.Q.WORLD_BACKGROUND_IMAGE._8192='Map background image';
-    wire('BACKGROUND_IMAGE_URL','backgroundImageURL');r.Q.BACKGROUND_IMAGE_URL._8192='Local map image (import below)';
+    wire('BACKGROUND_IMAGE_URL','backgroundImageURL');r.Q.BACKGROUND_IMAGE_URL._8192='Map image URL (HTTPS or imported image)';
     r.F.WORLD_BACKGROUND_IMAGE=!!rp.modules.bundledRyutenMap();
     r.F.BACKGROUND_IMAGE_URL=rp.modules.bundledRyutenMap()||'';
     for(const [qkey,hkey]of Object.entries({BORDER_COLOR:'borderColor',PARTICLE_COLOR:'foodColor',BACKGROUND_COLOR:'backgroundColor',

@@ -48,3 +48,49 @@ for(const ffa of [true,false])test(`${ffa?'FFA':'WindBine'} positions empty conn
 test('FFA nearby disabled sends no spectator/cursor positioning',()=>{const {m,log}=multi();m.nearSpawn=false;m.flush();assert.deepEqual(log,[['spawn',2,0]]);});
 test('FFA missing anchor spawns normally and foreign server is not used as anchor',()=>{const {m,primary,log}=multi();primary.world.myCells[0].clear();m.flush();assert.deepEqual(log,[['spawn',2,0]]);primary.network.url='elsewhere';assert.equal(m.spawnAnchor(1),null);});
 test('FFA reconnect repeats positioning wait rather than reusing old socket timing',()=>{const {m,secondary,log,advance}=multi();m.flush();advance();secondary.network.ws={};m.flush();assert.equal(log.some(x=>x[0]==='spawn'),false);advance();m.flush();assert.equal(log.filter(x=>x[0]==='spawn').length,1);});
+
+test('visible-camera projection round-trips across zoom, pixel ratio and map offset',()=>{
+ const rp={modules:{}};vm.runInNewContext(read('src/app/spawn-aim.js'),{window:{RYUTEN_PORT:rp}});
+ const r={X_:{_4894:{getBoundingClientRect:()=>({left:10,top:20,width:1000,height:500})},_3473:2000,_3195:1000},z_:{_3852:{_7847:32000,_9202:31000},_4336:.5}};
+ const world=rp.modules.spawnProjection(r,30000,{x:760,y:170},true);
+ assert.deepEqual({...world},{x:3000,y:600});
+ const screen=rp.modules.spawnProjection(r,30000,world);assert.deepEqual({...screen},{x:760,y:170});
+ r.z_._3852._7847+=50;r.z_._4336=.25;const moved=rp.modules.spawnProjection(r,30000,world);assert.notEqual(moved.x,screen.x);
+ assert.deepEqual({...rp.modules.spawnProjection(r,30000,moved,true)},{...world});
+});
+test('mouse intent captures locked target and clamps inside server bounds',()=>{
+ const {m,primary}=multi();primary.border={left:0,top:0,right:1000,bottom:2000};m.mouseSpawn=true;
+ m.spawnTarget={x:5000,y:-10,endpoint:primary.network.url};const intent=m.createSpawnIntent(1);
+ assert.deepEqual({...intent.requestedAnchor},{x:1000,y:0,kind:'mouse'});
+ m.spawnTarget.x=90;assert.equal(intent.requestedAnchor.x,1000);
+ m.spawnTarget.endpoint='other';m.port.child.spawnAim={mouseWorld:()=>({x:12,y:34})};assert.equal(m.createSpawnIntent(1).requestedAnchor.x,12);
+});
+test('mouse spawn waits for a fresh matching server position and sends only once',()=>{
+ const {m,secondary,log,advance}=multi();m.spectatorAcks=new WeakMap();m.intent.requestedAnchor={x:450,y:600,kind:'mouse'};
+ m.flush();advance();m.flush();assert.equal(log.some(x=>x[0]==='spawn'),false);
+ m.spectatorAcks.set(secondary,{x:0,y:0,sequence:1,socket:secondary.network.ws});m.flush();assert.equal(log.some(x=>x[0]==='spawn'),false);
+ m.spectatorAcks.set(secondary,{x:450,y:600,sequence:2,socket:secondary.network.ws});m.flush();m.flush();assert.equal(log.filter(x=>x[0]==='spawn').length,1);
+ assert.deepEqual(log.find(x=>x[0]==='cursor'),['cursor',2,450,600,0]);
+});
+test('mouse positioning timeout never falls through to a distant spawn',()=>{
+ const {m,log,advance}=multi();m.intent.requestedAnchor={x:450,y:600,kind:'mouse'};m.port.notify=()=>{};
+ m.flush();for(let i=0;i<41;i++)advance();m.flush();assert.equal(m.intent,null);assert.equal(log.some(x=>x[0]==='spawn'),false);assert.match(m.error,/did not confirm/);
+});
+test('stale socket acknowledgement cannot authorize a mouse spawn',()=>{
+ const {m,secondary,log,advance}=multi();m.intent.requestedAnchor={x:450,y:600,kind:'mouse'};m.spectatorAcks=new WeakMap();m.flush();advance();
+ m.spectatorAcks.set(secondary,{x:450,y:600,sequence:1,socket:{}});m.flush();assert.equal(log.some(x=>x[0]==='spawn'),false);
+});
+test('locked target positions only empty same-server connections',()=>{
+ const {m,primary,secondary,log}=multi();m.mouseSpawn=true;m.intent=null;m.spawnTarget={x:70,y:90,endpoint:primary.network.url};m.updateSpawnTargets();
+ assert.deepEqual(log,[['spectate',2],['cursor',2,70,90,0]]);
+ log.length=0;secondary.network.url='different';m.updateSpawnTargets();assert.equal(log.length,0);
+});
+test('native spectator cursor matches ONYX opcode, mode and signed coordinate layout',()=>{
+ const source=read('src/snapshot/senpaJS.js'),start=source.indexOf('cursor(e,t,n){'),end=source.indexOf('customGameInfo(',start);
+ const writer={reset(){this.bytes=[];},writeUInt8(v){this.bytes.push(v&255);},writeInt32(v){const b=Buffer.alloc(4);b.writeInt32LE(v);this.bytes.push(...b);},get buffer(){return Uint8Array.from(this.bytes);}};
+ const sent=[],X={connected:true,send:b=>sent.push([...b])},B={isAlive:false,isSpectating:true,activeTab:0},actions={specMode:1};
+ const packets=Function('X','B','$h','return ({'+source.slice(start,end)+'})')(X,B,actions);
+ packets.handshakeDone=true;packets.spectateCursorWriter=writer;packets.cursor(450,-600,0);
+ const expected=Buffer.alloc(10);expected[0]=20;expected[1]=1;expected.writeInt32LE(450,2);expected.writeInt32LE(-600,6);
+ assert.deepEqual(sent[0],[...expected]);
+});

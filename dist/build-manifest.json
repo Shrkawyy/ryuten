@@ -1,8 +1,8 @@
 {
-  "version": "1.2.1-xplus.8",
+  "version": "1.2.1-xplus.9",
   "buildVariant": "standard",
-  "bytes": 6025472,
-  "sha256": "17cffcab5d7ee7fd965ca7ed58a3bf53baa8e48f56c71a143f3c88d4dbcb1504",
+  "bytes": 6034837,
+  "sha256": "be92acb993554c58410c5fc5847ee9c10bb8a9391bdc910e29ffe691f061b288",
   "baselineSHA256": "4fedccd1dfcc9785e54eb1c48b9b4975c88800224e2acddea025d1eb3265ec29",
   "patches": [
     "Mass color independent of name/game color"

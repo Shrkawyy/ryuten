@@ -217,7 +217,22 @@
         mapFile.onchange=async()=>{const file=mapFile.files?.[0];mapFile.value='';if(!file)return;
           try{await rp.importWorldMap(file);rp.notice('Local map','Image saved locally; no upload or runtime image-host request.');}
           catch(e){rp.notice('Local map',e.message);}};
-        extras.append(nativeBtn,restoreMap,retryMap,importMap,mapFile,mapStatus);$('settings-menu').append(extras);
+        const mapURL=el('input',{id:'senpa-map-url',type:'url',placeholder:'https://example.com/background.png','aria-label':'Map background image URL',value:/^https:\/\//i.test(h.settings.backgroundImageURL||'')?h.settings.backgroundImageURL:''});
+        mapURL.style.cssText='flex:1;min-width:240px;padding:9px;';
+        const applyMap=el('button',{type:'button',className:'sp-button'},'Apply background');
+        let mapTimer=0,mapRequest=0;
+        const applyURL=async()=>{
+          clearTimeout(mapTimer);const request=++mapRequest,value=mapURL.value.trim();if(!value)return;
+          applyMap.disabled=true;
+          try{const ok=await rp.applyWorldMapURL(value);if(!ok&&request===mapRequest)mapStatus.textContent=rp.mapState.error;}
+          catch(error){if(request===mapRequest){rp.mapState={...rp.mapState,status:'error',error:error.message};mapStatus.textContent=error.message;}}
+          finally{if(request===mapRequest)applyMap.disabled=false;}
+        };
+        mapURL.addEventListener('input',()=>{clearTimeout(mapTimer);mapTimer=setTimeout(applyURL,600);});
+        mapURL.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();void applyURL();}});
+        applyMap.onclick=applyURL;
+        const mapRow=el('label',{},'Map background URL ');mapRow.style.cssText='display:flex;gap:8px;align-items:center;flex-wrap:wrap;width:100%;';mapRow.append(mapURL,applyMap);
+        extras.append(mapRow,nativeBtn,restoreMap,retryMap,importMap,mapFile,mapStatus);$('settings-menu').append(extras);
         const importInput=$('import-settings-file-input');importInput.accept='.json,.ryuset';
         importInput.addEventListener('change',event=>{
             event.stopImmediatePropagation();const file=importInput.files?.[0];
@@ -339,6 +354,7 @@
         document.addEventListener('mousemove', event => { h.input.mouse?.setMouse(event); r.W_._9701._7847 = event.clientX; r.W_._9701._9202 = event.clientY; });
         for (const type of ['mousedown', 'mouseup'])
             document.addEventListener(type, event => {
+                if(rp.spawnAim?.handleMouse(event,type)){event.preventDefault();event.stopImmediatePropagation();return;}
                 if(type==='mouseup'&&rp.feedTiming?.handleMouse(event)){event.preventDefault();event.stopImmediatePropagation();return;}
                 if (r.rs._4020 || editable(event.target) || event.target.closest('#senpa-tabs'))
                 return; if(type==='mousedown'&&rp.lineSplit?.handleMouse(event)){event.preventDefault();event.stopImmediatePropagation();return;} h.menu.isOpen = false; if(rp.feedTiming?.handleMouse(event)){event.preventDefault();event.stopImmediatePropagation();return;} pp.multibox.dispatchInput('mouse',type,event); },true);
@@ -350,7 +366,7 @@
         window.addEventListener('blur', () => {pp.multibox?.releaseFeed();h.actions.macroFeed(false);});
         let lastUI = 0;
         rp.afterFrame = now => { if (now - lastUI < 250)
-            return; lastUI = now; h.menu.isOpen = !!r.rs._4020; h.menu.isSettingsMenuOpen = !!r.rs._4020 && !r.is._3689; document.documentElement.classList.toggle('sp-menu', !!r.rs._4020); document.documentElement.classList.toggle('sp-submenu', !!r.rs._4020 && !r.is._3689); rp.updateTabs(); rp.updateHUD(); rp.renderServers(false);rp.syncAccountSkins();mapStatus.textContent=rp.mapState.status==='ready'?'Map image ready':rp.mapState.status==='error'?'Map unavailable — Retry or change URL':rp.mapState.status==='loading'?'Loading map image…':rp.mapState.status==='missing-original'?'Original Ryuten map missing — import local image':''; status.textContent = pp.error ? 'Client error' : pp.pending && !pp.readyToAct() ? 'Waiting for Senpa connection / verification' : pp.spawnPending.size ? 'Spawn requested — waiting for server' : h.network.connected ? `${h.world.myPlayerIDs.length} native player tabs · ${h.player.isAlive ? 'Playing' : h.player.isSpectating ? 'Spectating' : 'Ready'}` : 'Select a server and click Play or Spectate'; const a = h.store.account; accountName.textContent = a?.real_name || 'Senpa account'; accountInfo.textContent = a&&typeof a==='object' ? [a.experience != null ? 'Level ' + h.accountLevel.levelFromExp(a.experience) : '', a.experience != null ? Number(a.experience).toLocaleString() + ' XP' : '', a.coins != null ? Number(a.coins).toLocaleString() + ' coins' : ''].filter(Boolean).join(' · ') : h.auth.authToken ? 'Loading Senpa account…' : 'Sign in using Senpa’s original account flow'; };
+            return; lastUI = now; h.menu.isOpen = !!r.rs._4020; h.menu.isSettingsMenuOpen = !!r.rs._4020 && !r.is._3689; document.documentElement.classList.toggle('sp-menu', !!r.rs._4020); document.documentElement.classList.toggle('sp-submenu', !!r.rs._4020 && !r.is._3689); rp.updateTabs(); rp.updateHUD(); rp.renderServers(false);rp.syncAccountSkins();mapStatus.textContent=rp.mapState.status==='ready'?'Map image ready':rp.mapState.status==='error'?(rp.mapState.error||'Map unavailable — Retry or change URL'):rp.mapState.status==='loading'?'Loading map image…':rp.mapState.status==='missing-original'?'Paste a direct HTTPS image link or import a local image':''; status.textContent = pp.error ? 'Client error' : pp.pending && !pp.readyToAct() ? 'Waiting for Senpa connection / verification' : pp.spawnPending.size ? 'Spawn requested — waiting for server' : h.network.connected ? `${h.world.myPlayerIDs.length} native player tabs · ${h.player.isAlive ? 'Playing' : h.player.isSpectating ? 'Spectating' : 'Ready'}` : 'Select a server and click Play or Spectate'; const a = h.store.account; accountName.textContent = a?.real_name || 'Senpa account'; accountInfo.textContent = a&&typeof a==='object' ? [a.experience != null ? 'Level ' + h.accountLevel.levelFromExp(a.experience) : '', a.experience != null ? Number(a.experience).toLocaleString() + ' XP' : '', a.coins != null ? Number(a.coins).toLocaleString() + ' coins' : ''].filter(Boolean).join(' · ') : h.auth.authToken ? 'Loading Senpa account…' : 'Sign in using Senpa’s original account flow'; };
         rp.renderServers();
         rp.syncAccountSkins();rp.showMenu();
     }
@@ -397,6 +413,7 @@
         setupUI(h, r);
         rp.modules.installAccount(h,r);
         rp.modules.installMultiboxUI(h,r);
+        rp.modules.installSpawnAim(h,r);
         rp.resetWorld = () => rp.world.reset();
         r.Nt._6947(100);
         r.Nt._5075();

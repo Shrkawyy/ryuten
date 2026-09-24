@@ -21,6 +21,7 @@ class SenpaMultibox {
     this.ffaAutoConnect = saved?.ffaAutoConnect !== false;
     this.autoFFASocket = null; // One automatic startup attempt per primary connection.
     this.nearSpawn = saved?.nearSpawn !== false;
+    this.mouseSpawn = saved?.mouseSpawn !== false;this.spawnTarget=null;this.spectatorAcks=new WeakMap();
     this.profiles = [0,1].map(i => this.sanitizeProfile(saved?.profiles?.[i] || {}, i));
     this.original = {};
     this.installInput(); this.installPrimaryLifecycle();
@@ -30,7 +31,7 @@ class SenpaMultibox {
     let url = ''; try { const u = new URL(raw.url || ''); if (u.protocol==='https:' && !u.username && !u.password) url=u.href; } catch {}
     return { name, skinMode: ['account','url','none'].includes(raw.skinMode) ? raw.skinMode : 'account', url: url.slice(0,2048) };
   }
-  persist() { try { localStorage.setItem('ryuten.senpa.v1.multibox', JSON.stringify({version:4,enabled:this.windbineEnabled,ffaEnabled:this.ffaEnabled,ffaAutoConnect:this.ffaAutoConnect,nearSpawn:this.nearSpawn,profiles:this.profiles})); } catch {} }
+  persist() { try { localStorage.setItem('ryuten.senpa.v1.multibox', JSON.stringify({version:4,enabled:this.windbineEnabled,ffaEnabled:this.ffaEnabled,ffaAutoConnect:this.ffaAutoConnect,nearSpawn:this.nearSpawn,mouseSpawn:this.mouseSpawn,profiles:this.profiles})); } catch {} }
   get isWindBine() { const s=this.server();return /^windbine$/i.test(String(s?.name||'').trim()); }
   get isFFA() { const s=this.server();return String(s?.mode||'').toLowerCase()==='ffa'||/^free[ -]?for[ -]?all$/i.test(String(s?.modeName||'')); }
   get enabled() { return this.isFFA?this.ffaEnabled:this.windbineEnabled; }
@@ -57,6 +58,37 @@ class SenpaMultibox {
     if(slot!==0&&slot!==1)return;
     if(patch){this.profiles[slot]=this.sanitizeProfile({...this.profiles[slot],...patch},slot);this.persist();this.port.child?.refreshMultiboxUI?.();}
     return this.profiles[slot];
+  }
+  setMouseSpawn(value) { this.mouseSpawn=!!value;if(!value)this.clearSpawnTarget();this.persist();this.port.child?.refreshMultiboxUI?.(); }
+  clampSpawnPoint(point) {
+    if(!point||!Number.isFinite(point.x)||!Number.isFinite(point.y))return null;
+    const b=this.primary.border;
+    if(!b||![b.left,b.right,b.top,b.bottom].every(Number.isFinite)||b.right<=b.left||b.bottom<=b.top)return null;
+    return {x:Math.round(Math.max(b.left,Math.min(b.right,point.x))),y:Math.round(Math.max(b.top,Math.min(b.bottom,point.y))),kind:'mouse'};
+  }
+  setSpawnTarget(point) {
+    const target=this.clampSpawnPoint(point);if(!target)return false;
+    this.spawnTarget={...target,endpoint:this.primary.network.url};
+    this.updateSpawnTargets();return true;
+  }
+  clearSpawnTarget() { this.spawnTarget=null;if(this.intent?.requestedAnchor&&!this.intent.sent)this.intent=null; }
+  mouseSpawnPoint() {
+    if(!this.mouseSpawn)return null;
+    const locked=this.spawnTarget?.endpoint===this.primary.network.url?this.spawnTarget:null;
+    return this.clampSpawnPoint(locked||this.port.child?.spawnAim?.mouseWorld());
+  }
+  createSpawnIntent(slot) {
+    return {slot,sent:false,sentAt:0,positionedAt:null,anchor:null,requestedAnchor:this.mouseSpawnPoint(),createdAt:performance.now(),socket:null,endpoint:this.primary.network.url||this.port.selected};
+  }
+  updateSpawnTargets() {
+    if(!this.multi||!this.mouseSpawn||!this.spawnTarget||this.spawnTarget.endpoint!==this.primary.network.url)return;
+    for(let pair=0;pair<2;pair++){
+      const h=this.host(this.pairSlot(pair,0));
+      if(!this.ready(h)||h.network.url!==this.primary.network.url||this.pairAlive(pair)||pair===1&&this.aux?.needsVerification)continue;
+      // A pending spawn retains its own captured point; pointer movement cannot overwrite it.
+      if(this.intent&&this.sourceIndex(this.intent.slot)===pair)continue;
+      if(this.spectateForSpawn(h))this.sendSpawnCursor(h,this.spawnTarget,0);
+    }
   }
   setNearSpawn(value) { this.nearSpawn=!!value;this.persist();this.error='';this.status=this.nearSpawn?'Nearby spawns enabled — requests the other player’s position; the server decides the final spawn.':'Nearby spawns disabled — use native server spawn.';this.port.child?.refreshMultiboxUI?.(); }
   setEnabled(value) {
@@ -144,7 +176,7 @@ class SenpaMultibox {
     if(!this.slots().includes(slot))return true;
     if(!this.multi){
       if(this.primary.world.myPlayerIDs.length)return false;
-      this.intent={slot,sent:false,sentAt:0,positionedAt:null,anchor:null,createdAt:performance.now(),socket:null,endpoint:this.primary.network.url||this.port.selected};
+      this.intent=this.createSpawnIntent(slot);
       this.port.ensureConnection();return true;
     }
     if(this.alive(slot)){this.select(slot);return true;}
@@ -152,7 +184,7 @@ class SenpaMultibox {
     this.port.child?.lineSplit?.cancel?.('spawn-switch');
     this.active=slot;this.activePair=this.sourceIndex(slot);
     feed?.afterSwitch?.(feedToken,slot);
-    if(this.intent?.slot!==slot)this.intent={slot,sent:false,sentAt:0,positionedAt:null,anchor:null,createdAt:performance.now(),socket:null,endpoint:this.primary.network.url||this.port.selected};
+    if(this.intent?.slot!==slot)this.intent=this.createSpawnIntent(slot);
     this.error='';this.port.ensureConnection();this.flush();return true;
   }
   async ensureAux() {
@@ -198,7 +230,7 @@ class SenpaMultibox {
       this.destroyAux();
       // Initial native connect calls cleanup before opening. Do not lose that user's P2 request.
       if(pending&&pending.endpoint===endpoint&&this.enabled){pending.sent=false;pending.socket=null;this.intent=pending;}
-      this.view=null;
+      this.view=null;this.spawnTarget=null;
     });
     on('Socket_Connected',()=>{this.connectingEndpoint=null;});
     on('Socket_Blocked',()=>{this.destroyAux();});
@@ -207,6 +239,7 @@ class SenpaMultibox {
   }
   beforeConnect(endpoint,preserveIntent=false) {
     this.connectingEndpoint=endpoint;
+    if(this.spawnTarget?.endpoint!==endpoint)this.spawnTarget=null;
     if(!preserveIntent||this.intent&&this.intent.endpoint!==endpoint)this.intent=null;
   }
   dispatchInput(device,type,event) {
@@ -229,6 +262,16 @@ class SenpaMultibox {
     const h=this.host(slot),native=this.nativeSlot(slot);if(h&&this.ready(h))return h.packets[method]?.(native,...args);
   }
   instrumentNative(h,slot) {
+    // Native opcode 23 owns spectator position. Observe after parsing; never synthesize an acknowledgement.
+    this.spectatorAcks??=new WeakMap();
+    const handler=h.parser?.handlers?.[23];
+    if(typeof handler==='function'){
+      h.parser.handlers[23]=(...args)=>{
+        const result=handler(...args),point=h.camera.spectatePoint;
+        if(Number.isFinite(point?.x)&&Number.isFinite(point?.y))this.spectatorAcks.set(h,{x:point.x,y:point.y,sequence:(this.spectatorAcks.get(h)?.sequence||0)+1,socket:h.network.ws});
+        return result;
+      };
+    }
     // Native parser remains authoritative. Prevent packet-info refresh from replacing slot identity.
     const spawn=h.packets.spawn.bind(h.packets);
     h.packets.spawn=index=>{
@@ -279,8 +322,9 @@ class SenpaMultibox {
         // Keep one cursor per native slot; switching a pair must not overwrite
         // the inactive tab's target.
         const point=this.lastCursor[slot];if(point&&this.alive(slot))host.packets.cursor(point.x,point.y,native);
-        else if(slot===this.active&&!this.alive(slot)&&host.player.isSpectating&&Number.isFinite(x)&&Number.isFinite(y))host.packets.cursor(x,y,native);
+        else if(slot===this.active&&!this.alive(slot)&&host.player.isSpectating&&!this.intent&&!this.spawnTarget&&Number.isFinite(x)&&Number.isFinite(y))host.packets.cursor(x,y,native);
       }
+      this.updateSpawnTargets();
     };
     const camera=h.camera.update.bind(h.camera);
     h.camera.update=(...args)=>{
@@ -406,6 +450,7 @@ class SenpaMultibox {
     if(this.alive(slot)){this.intent=null;this.select(slot);return;}
     if(source===1&&!this.aux){void this.ensureAux();return;}
     const h=this.host(slot);if(!h||h.network.blockReconnect){if(h?.network.blockReconnect)this.intent=null;return;}
+    if(source===1&&this.aux?.needsVerification){this.status='Waiting for secondary verification';return;}
     if(!this.ready(h)){if(source===1&&!this.aux?.needsVerification)this.status='Waiting for pair 2 connection / verification';return;}
     if(source===1&&(h.world.myClientID===this.primary.world.myClientID||h.world.myPlayerIDs.some(id=>this.primary.world.myPlayerIDs.includes(id)))){this.notify('Senpa assigned overlapping identities; pair 2 is unavailable for this session.');this.destroyAux();return;}
     if(h.world.myPlayerIDs.length!==this.sourceSlotCount){this.notify('This server did not assign the expected '+this.sourceSlotCount+' native slot(s). The secondary connection was stopped.');this.destroyAux();return;}
@@ -413,20 +458,31 @@ class SenpaMultibox {
     if(!intent.sent){
       this.setActiveSlot(slot);this.setProfileIdentity(slot,h);
       if(!this.pairAlive(pair)){
-        const anchor=this.nearSpawn?(intent.anchor||this.spawnAnchor(pair)):null;
+        const anchor=intent.anchor||intent.requestedAnchor||(this.nearSpawn?this.spawnAnchor(pair):null);
         intent.anchor=anchor||null;
         if(anchor){
           if(intent.positionedAt===null){
             if(!this.spectateForSpawn(h)){this.status='Waiting for native spectator mode before nearby spawn';return;}
-            intent.positionedAt=performance.now();
+            intent.positionedAt=performance.now();intent.positionSequence=this.spectatorAcks?.get(h)?.sequence||0;
           }
           this.sendSpawnCursor(h,anchor,native);
+          if(anchor.kind==='mouse'){
+            const ack=this.spectatorAcks?.get(h);
+            const arrived=ack&&ack.socket===h.network.ws&&ack.sequence>intent.positionSequence&&Math.hypot(ack.x-anchor.x,ack.y-anchor.y)<=150;
+            if(!arrived){
+              this.status='Waiting for server position at mouse target…';
+              if(performance.now()-intent.positionedAt>8000){
+                this.intent=null;this.notify('Server did not confirm the mouse target. No distant spawn was sent. Choose a target inside the border and press Tab again.');
+              }
+              return;
+            }
+          }
           const settle=Math.max(100,Math.min(400,h.network.latency||100));
-          if(performance.now()-intent.positionedAt<settle){this.status='Positioning pair '+(pair+1)+' near pair '+(anchor.pair+1)+'…';return;}
+          if(performance.now()-intent.positionedAt<settle){this.status=anchor.kind==='mouse'?'Positioning at mouse target ('+anchor.x+', '+anchor.y+')…':'Positioning pair '+(pair+1)+' near pair '+(anchor.pair+1)+'…';return;}
         }
       }
       h.packets.spawn(native);h.menu.onPlay();intent.sent=true;intent.sentAt=performance.now();
-      this.status='Spawn requested for pair '+(pair+1)+', player '+(native+1);this.port.log('multibox-spawn-request',{slot:slot+1,pair:pair+1,nativeSlot:native+1,mode:this.isFFA?'FFA':'WindBine'});
+      this.status='Spawn requested for pair '+(pair+1)+', player '+(native+1);this.port.log('multibox-spawn-request',{slot:slot+1,pair:pair+1,nativeSlot:native+1,mode:this.isFFA?'FFA':'WindBine',target:intent.anchor?{x:intent.anchor.x,y:intent.anchor.y,kind:intent.anchor.kind||'player'}:null});
       if(!this.aux?.needsVerification)this.port.child?.hideMenu?.();
     }else if(performance.now()-intent.sentAt>15000&&!this.aux?.needsVerification){
       this.intent=null;this.status='Pair '+(pair+1)+' spawn not acknowledged';
@@ -437,7 +493,7 @@ class SenpaMultibox {
     const slots=this.multi?this.slots():Array.from({length:Math.max(2,this.primary.world.myPlayerIDs.length)},(_,i)=>i);
     const pairs=this.isWindBine?[0,1].map(pair=>{const slot=this.pairSlot(pair,0),h=this.host(slot);return {pair,connected:!!h?.network.connected,ready:this.multi?this.ready(h):!!h?.network.connected,activeTab:h?.player?.activeTab||0,alive:[this.alive(this.pairSlot(pair,0)),this.alive(this.pairSlot(pair,1))],verification:pair===1&&!!this.aux?.needsVerification};}):[];
     return {enabled:this.enabled,ffa:this.isFFA,ffaEnabled:this.ffaEnabled,ffaAutoConnect:this.ffaAutoConnect,autoFFAStartupAttempted:!!this.primary.network.ws&&this.autoFFASocket===this.primary.network.ws,windbine:this.isWindBine,windbineEnabled:this.windbineEnabled,active:this.multi?this.active:this.primary.player.activeTab,activePair:this.activePair,
-      mode:this.multi?(this.isFFA?'two-connection FFA':'two-connection WindBine pairs'):'native Senpa tabs',nearSpawn:this.nearSpawn,status:this.status,error:this.error,
+      mode:this.multi?(this.isFFA?'two-connection FFA':'two-connection WindBine pairs'):'native Senpa tabs',nearSpawn:this.nearSpawn,mouseSpawn:this.mouseSpawn,spawnTarget:this.spawnTarget,status:this.status,error:this.error,
       pending:this.intent?.slot??null,slots:slots.map(slot=>({slot,pair:this.sourceIndex(slot),nativeSlot:this.nativeSlot(slot),name:this.profiles[this.profileIndex(slot)]?.name||'',alive:this.alive(slot),
         ready:this.multi?this.ready(this.host(slot)):!!this.primary.network.connected,connected:!!this.host(slot)?.network.connected,verification:this.sourceIndex(slot)===1&&!!this.aux?.needsVerification})),pairs};
   }

@@ -3,7 +3,7 @@
 /* Keep Ryuten's original map shader and UVs; never use its loading wallpaper.
  * The reference's gameplay image is external and was NOT inside the capture.
  * A missing original gets a plain renderer background, not invented artwork.
- * Map textures are local-only; opponent/account skins keep their existing path.
+ * Map textures accept local raster data and user-selected HTTPS image URLs.
  */
 (() => {
   'use strict';
@@ -23,7 +23,7 @@
   rp.modules.worldMapPolicy={originalURL:ORIGINAL,isWallpaper,isOriginal,describe};
   rp.modules.migrateWorldMap=(h,r)=>{
     const current=clean(h.settings.backgroundImageURL),original=bundled();
-    const wrong=isWallpaper(current),legacy=current==='https://senpa.io/backgrounds/bg1.png'||isOriginal(current);
+    const wrong=isWallpaper(current),legacy=false; // Preserve user URLs across reloads.
     if(!current||wrong||legacy){
       // Backup metadata only; duplicating a megabyte-long wallpaper in localStorage is wasteful.
       if(wrong)rp.saveSetting('map-wallpaper-migration',{from:'loading-screen/background.webp',to:original?'bundled-original':'missing-original'});
@@ -36,25 +36,28 @@
     const layer=r.It;let generation=0,usable=false,lastRequested='';
     const initial=clean(r.Q.BACKGROUND_IMAGE_URL._5997());
     rp.mapState={status:initial?'idle':'missing-original',url:describe(initial||ORIGINAL),
-      error:initial?'':'Original gameplay image is absent from the capture. Import a local image; the loading wallpaper is not a map.',retryAt:0};
+      error:initial?'':'Paste a direct HTTPS image link or import a local map image.',retryAt:0};
     function state(status,url,error=''){
       rp.mapState={status,url:describe(url),error,retryAt:0};
     }
     const load=url=>new Promise((resolve,reject)=>{
-      const img=new Image();let settled=false;
+      const img=new Image();img.crossOrigin='anonymous';img.referrerPolicy='no-referrer';let settled=false;
       const end=(error)=>{if(settled)return;settled=true;clearTimeout(timer);img.onload=img.onerror=null;error?reject(error):resolve(img);};
-      const timer=setTimeout(()=>{end(Error('Local image decode timed out'));img.src='';},10000);
-      img.onload=()=>end();img.onerror=()=>end(Error('Invalid or unreadable local image'));
+      const timer=setTimeout(()=>{end(Error('Map image timed out. Check the link or import the image locally.'));img.src='';},10000);
+      img.onload=()=>end();img.onerror=()=>end(Error('Cannot load image. Use a direct HTTPS image link whose host allows cross-origin loading, or import the file.'));
       img.src=url;
     });
     function resolveLocal(url){
       const raw=clean(url);
-      if(!raw||isOriginal(raw)){const original=bundled();if(original)return original;throw Error('Original Ryuten gameplay image is not bundled. Import the original image locally.');}
+      if(!raw)throw Error('Paste a direct HTTPS image link or import an image.');
+      if(isOriginal(raw)&&bundled())return bundled();
       if(isWallpaper(raw))throw Error('Ryuten loading artwork cannot be used as the gameplay map.');
       const resolved=rp.assets[raw]||raw;
       if(isWallpaper(resolved))throw Error('Ryuten loading artwork cannot be used as the gameplay map.');
-      if(!raster.test(resolved))throw Error('Map images must be bundled or imported PNG, JPEG or WebP files; external map fetching is disabled.');
-      return resolved;
+      if(raster.test(resolved))return resolved;
+      let parsed;try{parsed=new URL(resolved);}catch{throw Error('Enter a complete HTTPS image URL.');}
+      if(parsed.protocol!=='https:'||parsed.username||parsed.password)throw Error('Use an HTTPS image URL without embedded credentials.');
+      return parsed.href;
     }
     layer._5594=async function(url,quality){
       const serial=++generation;lastRequested=clean(url);state('loading',url);
@@ -81,12 +84,18 @@
     };
     const draw=layer._4659.bind(layer);
     layer._4659=function(){draw();if(!usable)this._4435.removeChildren();};
+    rp.applyWorldMapURL=async value=>{
+      const url=clean(value);
+      const quality=r.Q.BACKGROUND_IMAGE_QUALITY?2**(r.Q.BACKGROUND_IMAGE_QUALITY._5997()==='low'?-1:r.Q.BACKGROUND_IMAGE_QUALITY._5997()==='high'?1:0):layer._1848._4641;
+      const ok=await layer._5594(url,quality);if(!ok)return false;
+      r.Q.BACKGROUND_IMAGE_URL._7531(url);r.Q.WORLD_BACKGROUND_IMAGE._7531(true);
+      // Avoid an unnecessary second download from the reference's next draw.
+      layer._1848._5195=url;layer._1848._4641=quality;
+      return true;
+    };
     rp.restoreRyutenMap=()=>{
       const image=bundled();
-      if(!image){
-        state('missing-original',ORIGINAL,'Original gameplay image is not bundled. Use Import local map image; no replacement artwork has been substituted.');
-        rp.notice?.('Ryuten map',rp.mapState.error);return false;
-      }
+      if(!image)return rp.applyWorldMapURL(ORIGINAL);
       r.Q.BACKGROUND_IMAGE_URL._7531(image);r.Q.BACKGROUND_IMAGE_COLOR._7531(0xc0c0c0);r.Q.WORLD_BACKGROUND_IMAGE._7531(true);
       return layer._5594(image,layer._1848._4641);
     };
