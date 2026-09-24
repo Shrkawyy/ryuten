@@ -1,0 +1,12 @@
+{
+  "version": "1.2.1-xplus.10",
+  "buildVariant": "standard",
+  "bytes": 6035451,
+  "sha256": "307e7e71b2a90f9a408378bc58069c0aa90807e4591e84cc5995d9281357a1cd",
+  "baselineSHA256": "4fedccd1dfcc9785e54eb1c48b9b4975c88800224e2acddea025d1eb3265ec29",
+  "patches": [
+    "Mass color independent of name/game color"
+  ],
+  "networkSnapshotUnchanged": true,
+  "assetFilesLocal": true
+}

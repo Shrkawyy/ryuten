@@ -1,0 +1,356 @@
+[
+  {
+    "tag": "filter",
+    "id": "hue-rotate",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "feColorMatrix",
+    "id": "matrix",
+    "class": "",
+    "parentId": "hue-rotate"
+  },
+  {
+    "tag": "CANVAS",
+    "id": "screen",
+    "class": "screen",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "ui-root",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "CANVAS",
+    "id": "minimap",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "CANVAS",
+    "id": "minimapNode",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "server-message",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "chat-room",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "chat-control",
+    "class": "",
+    "parentId": "chat-room"
+  },
+  {
+    "tag": "DIV",
+    "id": "chat-room-inner",
+    "class": "",
+    "parentId": "chat-room"
+  },
+  {
+    "tag": "DIV",
+    "id": "captcha-overlay",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "menu",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "endGame",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "continue-button",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "senpa-io_300x250_3",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "SPAN",
+    "id": "MdBzmGwToCN3_1788795044882_562334073_1",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "google_ads_iframe_/21726375739,51708930/senpa.io_3006/mpu_8558_0__container__",
+    "class": "",
+    "parentId": "MdBzmGwToCN3_1788795044882_562334073_1"
+  },
+  {
+    "tag": "IFRAME",
+    "id": "google_ads_iframe_/21726375739,51708930/senpa.io_3006/mpu_8558_0",
+    "class": "",
+    "parentId": "google_ads_iframe_/21726375739,51708930/senpa.io_3006/mpu_8558_0__container__"
+  },
+  {
+    "tag": "BUTTON",
+    "id": "replays-toggle",
+    "class": "btn btn-yellow",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "emojis-toggle",
+    "class": "btn btn-blue",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "hats-toggle",
+    "class": "btn btn-pink",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "profile-previous",
+    "class": "arrow inline",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "skin-preview-1",
+    "class": "skin-preview inline",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "skin-preview-2",
+    "class": "skin-preview inline",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "profile-next",
+    "class": "arrow inline",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "account-box",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "IMG",
+    "id": "pf-avatar",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "pf-name",
+    "class": "profile-name truncate",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "pf-level",
+    "class": "profile-level",
+    "parentId": null
+  },
+  {
+    "tag": "SPAN",
+    "id": "pf-coins",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "pf-coins-btn",
+    "class": "add-coins",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "pf-exp-fill",
+    "class": "xp-fill",
+    "parentId": null
+  },
+  {
+    "tag": "SPAN",
+    "id": "pf-exp",
+    "class": "xp-text",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "pf-coins-shop-btn",
+    "class": "btn btn-hybrid",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "pf-free-coins-btn",
+    "class": "btn btn-hybrid",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "pf-reserved-names-btn",
+    "class": "btn btn-hybrid",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "pf-clans-btn",
+    "class": "btn btn-hybrid",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "pf-leaderboard-btn",
+    "class": "btn btn-hybrid",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "btnLogout",
+    "class": "btn btn-hybrid logout",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "primary-inputs",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "INPUT",
+    "id": "tag",
+    "class": "input-field",
+    "parentId": "primary-inputs"
+  },
+  {
+    "tag": "INPUT",
+    "id": "name",
+    "class": "input-field",
+    "parentId": "primary-inputs"
+  },
+  {
+    "tag": "BUTTON",
+    "id": "play",
+    "class": "btn btn-blue",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "spectate",
+    "class": "btn btn-yellow",
+    "parentId": null
+  },
+  {
+    "tag": "BUTTON",
+    "id": "settings-btn",
+    "class": "btn btn-red",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "senpa-io_300x250_2",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "SPAN",
+    "id": "vfIDMWFYYyZs_1788795106490_471441818_5",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "google_ads_iframe_/21726375739,51708930/senpa.io_3006/mpu_8557_2__container__",
+    "class": "",
+    "parentId": "vfIDMWFYYyZs_1788795106490_471441818_5"
+  },
+  {
+    "tag": "IFRAME",
+    "id": "google_ads_iframe_/21726375739,51708930/senpa.io_3006/mpu_8557_2",
+    "class": "",
+    "parentId": "google_ads_iframe_/21726375739,51708930/senpa.io_3006/mpu_8557_2__container__"
+  },
+  {
+    "tag": "DIV",
+    "id": "bottomBar",
+    "class": "",
+    "parentId": "menu"
+  },
+  {
+    "tag": "DIV",
+    "id": "senpa-io_970x250",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "SPAN",
+    "id": "UgsOnRMb9lk8_1788795107123_874293638_6",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "google_ads_iframe_/21726375739,51708930/senpa.io_3006/billboard_8562_2__container__",
+    "class": "",
+    "parentId": "UgsOnRMb9lk8_1788795107123_874293638_6"
+  },
+  {
+    "tag": "IFRAME",
+    "id": "google_ads_iframe_/21726375739,51708930/senpa.io_3006/billboard_8562_2",
+    "class": "",
+    "parentId": "google_ads_iframe_/21726375739,51708930/senpa.io_3006/billboard_8562_2__container__"
+  },
+  {
+    "tag": "DIV",
+    "id": "gameadsbanner-container",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "DIV",
+    "id": "loader",
+    "class": "",
+    "parentId": "ui-root"
+  },
+  {
+    "tag": "IFRAME",
+    "id": "1e68610fce799e",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "IFRAME",
+    "id": "li_sync_frame",
+    "class": "",
+    "parentId": null
+  },
+  {
+    "tag": "IFRAME",
+    "id": "google_ads_top_frame",
+    "class": "",
+    "parentId": null
+  }
+]

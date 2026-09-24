@@ -1,0 +1,97 @@
+{
+  "tool": "Senpa public source capture",
+  "version": "1.0.0",
+  "capturedAt": "2026-09-07T15:31:53.784Z",
+  "page": "https://senpa.io/web/",
+  "tracker": "https://api.senpa.io/tracker",
+  "trackerCaptured": true,
+  "javascriptFiles": 1,
+  "wasmFiles": 1,
+  "staticBytes": 1439778,
+  "attempts": 6,
+  "sourceLimitReached": false,
+  "resources": [
+    {
+      "url": "https://api.senpa.io/tracker",
+      "kind": "tracker",
+      "sha256": "fb17e7a0e7b06c024526ac7dede94fdadac321a969726d8a4ee90009800efc4b",
+      "file": "tracker.json",
+      "bytes": 5887,
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "via": "fetch-without-credentials",
+      "finalUrl": "https://api.senpa.io/tracker"
+    },
+    {
+      "url": "https://senpa.io/web/",
+      "kind": "document",
+      "sha256": "4a3ff56cafa90f195dc63002dc22ff28c8cfe8d14a47a44a6da2742cf8657c88",
+      "file": "resources/0001/senpa.io/web",
+      "bytes": 3887,
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "via": "fetch-without-credentials",
+      "finalUrl": "https://senpa.io/web/"
+    },
+    {
+      "url": "https://senpa.io/web/assets/main-BYcEhCon.js",
+      "kind": "source",
+      "sha256": "852a2cc0b511684fb485e15da550e2debd66dac9b82a7514fb0a47fe46ca779e",
+      "file": "resources/0002/senpa.io/web/assets/main-BYcEhCon.js",
+      "bytes": 1237291,
+      "status": 200,
+      "contentType": "application/javascript; charset=UTF-8",
+      "via": "fetch-without-credentials",
+      "finalUrl": "https://senpa.io/web/assets/main-BYcEhCon.js"
+    },
+    {
+      "url": "https://senpa.io/web/bundle.wasm",
+      "kind": "source",
+      "sha256": "c0ae1dba9f1f8b232b8c88cf13b5ccef4b880b977f76c6f44a773a44f06c7849",
+      "file": "resources/0003/senpa.io/web/bundle.wasm",
+      "bytes": 57282,
+      "status": 200,
+      "contentType": "application/wasm",
+      "via": "fetch-without-credentials",
+      "finalUrl": "https://senpa.io/web/bundle.wasm"
+    },
+    {
+      "url": "https://senpa.io/web/assets/main-CqV09PCc.css",
+      "kind": "source",
+      "sha256": "74ea43763d14976cc8c9ef72ea49f9217d9e375e07b77e359c6bcdb84246538c",
+      "file": "resources/0004/senpa.io/web/assets/main-CqV09PCc.css",
+      "bytes": 135431,
+      "status": 200,
+      "contentType": "text/css; charset=UTF-8",
+      "via": "fetch-without-credentials",
+      "finalUrl": "https://senpa.io/web/assets/main-CqV09PCc.css"
+    },
+    {
+      "url": "https://senpa.io/web/assets/bundle.wasm",
+      "kind": "source",
+      "error": "Response is not a WebAssembly binary"
+    }
+  ],
+  "fontReferences": [],
+  "excludedCounts": {
+    "external-origin": 122,
+    "private-or-api-route": 9,
+    "not-static-source": 9,
+    "sensitive-query": 23
+  },
+  "privacy": {
+    "cookies": false,
+    "storage": false,
+    "requestHeaders": false,
+    "websocketTraffic": false,
+    "accountResponses": false,
+    "chat": false,
+    "fonts": false
+  },
+  "limitations": [
+    "Resources are public credential-free fetches, not a network recording.",
+    "Lazy chunks must be loaded by opening the relevant native menus before capture.",
+    "No server-side source or account/session payloads are exported.",
+    "Failed files are recorded rather than replaced with guessed data."
+  ]
+}

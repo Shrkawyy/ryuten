@@ -1,0 +1,155 @@
+{
+  "version": "1.2.1-xplus.6",
+  "kind": "OFFLINE_NATIVE_COMPOSITOR_AND_REAL_2D_PIXELS",
+  "network": "FIXTURE",
+  "gpu": "SUBSTITUTED_SUBMISSION",
+  "tests": [
+    {
+      "case": "Full shields remain available and initialized",
+      "pass": true,
+      "detail": {
+        "catalogue": 12,
+        "atlas": 1,
+        "version": "1.2.1-xplus.6"
+      }
+    },
+    {
+      "case": "XPLUS and all derived visual times stay at or below 500 ms",
+      "pass": true,
+      "detail": {
+        "profile": "XPLUS",
+        "delayMs": 420,
+        "cameraOwner": "XPLUS display-only (experimental)",
+        "cameraSpeed": 20,
+        "cameraDivisor": 11,
+        "wheelFactor": 0.9,
+        "zoom": 0.1734375,
+        "targetZoom": 0.25,
+        "renderCamera": null,
+        "experiment": "XPLUS ULTRA SMOOTH",
+        "xplusFilter": "analytic three-pole, unclamped reversal",
+        "xplusCameraSettleMs": 500,
+        "xplusZoomSettleMs": 500,
+        "xplusMaxMs": 500,
+        "visualStepCapMs": 64,
+        "physicsOwner": "Senpa server",
+        "xplusCalibrated": false
+      }
+    },
+    {
+      "case": "Every generated glyph has real opaque white and black pixels without edge bleed",
+      "pass": true,
+      "detail": {
+        "counts": [
+          {
+            "digit": 0,
+            "white": 1550,
+            "black": 1438,
+            "edge": 0
+          },
+          {
+            "digit": 1,
+            "white": 1173,
+            "black": 1347,
+            "edge": 0
+          },
+          {
+            "digit": 2,
+            "white": 1414,
+            "black": 1565,
+            "edge": 0
+          },
+          {
+            "digit": 3,
+            "white": 1415,
+            "black": 1589,
+            "edge": 0
+          },
+          {
+            "digit": 4,
+            "white": 1391,
+            "black": 1372,
+            "edge": 0
+          },
+          {
+            "digit": 5,
+            "white": 1531,
+            "black": 1706,
+            "edge": 0
+          },
+          {
+            "digit": 6,
+            "white": 1586,
+            "black": 1511,
+            "edge": 0
+          },
+          {
+            "digit": 7,
+            "white": 1035,
+            "black": 1221,
+            "edge": 0
+          },
+          {
+            "digit": 8,
+            "white": 1699,
+            "black": 1510,
+            "edge": 0
+          },
+          {
+            "digit": 9,
+            "white": 1612,
+            "black": 1498,
+            "edge": 0
+          }
+        ],
+        "font": {
+          "style": "senpa-style-bold-outlined",
+          "requestedFace": "Ubuntu Bold",
+          "family": "Arial, sans-serif",
+          "localUbuntuAvailable": false,
+          "exactNativeBitmap": false,
+          "size": 92,
+          "weight": 700,
+          "strokePx": 12,
+          "fill": "#ffffff",
+          "outline": "#000000",
+          "inheritedNameTint": false,
+          "runtimeFontRequests": 0,
+          "atlasBuilds": 1
+        }
+      }
+    },
+    {
+      "case": "Native compositor mass is white on every tested name color and profile",
+      "pass": true,
+      "detail": {
+        "draws": 18,
+        "profiles": 3,
+        "colors": 6
+      }
+    },
+    {
+      "case": "Mass visibility preferences remain obeyed",
+      "pass": true,
+      "detail": {
+        "visibilityRespected": true
+      }
+    },
+    {
+      "case": "Chat stays opaque without hover; dark chat names keep contrast",
+      "pass": true,
+      "detail": {
+        "filter": "none",
+        "opacity": "1",
+        "blackName": "#979797"
+      }
+    },
+    {
+      "case": "No runtime font requests",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "pageErrors": [],
+  "pass": true
+}

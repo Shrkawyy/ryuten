@@ -1,0 +1,62 @@
+
+> ryuten-senpa-full-shields-mass-readable@1.2.1-xplus.3 test
+> node --test tests/mass-labels.test.mjs
+
+TAP version 13
+# Subtest: All ten digits have a black outline before an opaque white fill
+ok 1 - All ten digits have a black outline before an opaque white fill
+  ---
+  duration_ms: 5.854991
+  type: 'test'
+  ...
+# Subtest: A single 512px atlas is cached; no per-frame canvas work
+ok 2 - A single 512px atlas is cached; no per-frame canvas work
+  ---
+  duration_ms: 1.131742
+  type: 'test'
+  ...
+# Subtest: Available local Ubuntu is selected without downloading a font
+ok 3 - Available local Ubuntu is selected without downloading a font
+  ---
+  duration_ms: 1.326328
+  type: 'test'
+  ...
+# Subtest: Missing Ubuntu uses a declared local sans-serif fallback, not an invented exact match
+ok 4 - Missing Ubuntu uses a declared local sans-serif fallback, not an invented exact match
+  ---
+  duration_ms: 1.521067
+  type: 'test'
+  ...
+# Subtest: Digit texture slots retain the native atlas coordinates
+ok 5 - Digit texture slots retain the native atlas coordinates
+  ---
+  duration_ms: 1.230248
+  type: 'test'
+  ...
+# Subtest: Mass style never alters name colors, gameplay objects or native settings
+ok 6 - Mass style never alters name colors, gameplay objects or native settings
+  ---
+  duration_ms: 0.848705
+  type: 'test'
+  ...
+# Subtest: Generated script contains the guarded white mass seam and preserves name tint
+ok 7 - Generated script contains the guarded white mass seam and preserves name tint
+  ---
+  duration_ms: 41.969485
+  type: 'test'
+  ...
+# Subtest: Recovered baseline reconstructs byte-for-byte
+ok 8 - Recovered baseline reconstructs byte-for-byte
+  ---
+  duration_ms: 215.247651
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 381.240912

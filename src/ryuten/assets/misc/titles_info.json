@@ -1,0 +1,282 @@
+{
+  "TITLE_R10_DEV": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N1_BETA_S1_RP": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "RP BETA S1"
+  },
+  "TITLE_N1_BETA_S1_XP": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "XP BETA S1"
+  },
+  "TITLE_N1_BETA_S2_RP": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "RP BETA S2"
+  },
+  "TITLE_N1_BETA_S2_XP": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "XP BETA S2"
+  },
+  "TITLE_N1_BETA_S3_CLASSIC": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "CLASSIC βS3"
+  },
+  "TITLE_N1_BETA_S3_SUPERFISSION": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "SUPERFISSION βS3"
+  },
+  "TITLE_N1_BETA_S3_ULTRAFISSION": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "ULTRAFISSION βS3"
+  },
+  "TITLE_N1_WINNER_ERCT": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "ERCT WINNER"
+  },
+  "TITLE_N2_BETA_S1_RP": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "RP BETA S1"
+  },
+  "TITLE_N2_BETA_S1_XP": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "XP BETA S1"
+  },
+  "TITLE_N2_BETA_S2_RP": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "RP BETA S2"
+  },
+  "TITLE_N2_BETA_S2_XP": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "XP BETA S2"
+  },
+  "TITLE_N2_BETA_S3_CLASSIC": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "CLASSIC βS3"
+  },
+  "TITLE_N2_BETA_S3_SUPERFISSION": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "SUPERFISSION βS3"
+  },
+  "TITLE_N2_BETA_S3_ULTRAFISSION": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "ULTRAFISSION βS3"
+  },
+  "TITLE_N2_WINNER_ERCT": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "ERCT WINNER"
+  },
+  "TITLE_N3_BETA_S1_RP": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "RP BETA S1"
+  },
+  "TITLE_N3_BETA_S1_XP": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "XP BETA S1"
+  },
+  "TITLE_N3_BETA_S2_RP": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "RP BETA S2"
+  },
+  "TITLE_N3_BETA_S2_XP": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "XP BETA S2"
+  },
+  "TITLE_N3_BETA_S3_CLASSIC": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "CLASSIC βS3"
+  },
+  "TITLE_N3_BETA_S3_SUPERFISSION": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "SUPERFISSION βS3"
+  },
+  "TITLE_N3_BETA_S3_ULTRAFISSION": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "ULTRAFISSION βS3"
+  },
+  "TITLE_N3_WINNER_ERCT": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "ERCT WINNER"
+  },
+  "TITLE_BETA_PLAYER": {
+    "pid": "",
+    "text": "BETA PLAYER"
+  },
+  "TITLE_R10_FACTION": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N1_WINNER_NRCT": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N2_WINNER_NRCT": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N3_WINNER_NRCT": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N1_WINNER_RGT": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N1_WINNER_RGT2": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N2_WINNER_RGT2": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N3_WINNER_RGT2": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N1_WINNER_RWC": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N1_WINNER_NRCT2": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_COLD_FROST": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_CHRISTMAS_GOODWILL": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_CHRISTMAS_GINGERMAN": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_CHRISTMAS_MISTLETOE": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_CHRISTMAS_GREETING": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_CHRISTMAS_SHORT_AND_SWEET": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N1_WINNER_AST": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "AST WINNER"
+  },
+  "TITLE_N1_AS_2V2": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "ASIA 2V2"
+  },
+  "TITLE_N1_PH": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N2_PH": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N3_PH": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N1_BETA_S4": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "#1 PLAYER βS4"
+  },
+  "TITLE_N2_BETA_S4": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "#2 PLAYER βS4"
+  },
+  "TITLE_N3_BETA_S4": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "#3 PLAYER βS4"
+  },
+  "TITLE_N1_WINNER_SRT": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "SRT WINNER"
+  },
+  "TITLE_N1_BETA_S5": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "#1 PLAYER βS5"
+  },
+  "TITLE_N2_BETA_S5": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "#2 PLAYER βS5"
+  },
+  "TITLE_N3_BETA_S5": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "#3 PLAYER βS5"
+  },
+  "TITLE_N1_BETA_S6": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "#1 PLAYER βS6"
+  },
+  "TITLE_N2_BETA_S6": {
+    "pid": "TITLE_RANK_N2_V1",
+    "text": "#2 PLAYER βS6"
+  },
+  "TITLE_N3_BETA_S6": {
+    "pid": "TITLE_RANK_N3_V1",
+    "text": "#3 PLAYER βS6"
+  },
+  "TITLE_ODD_SAMURAI": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_SHINIGAMI": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_BEEN_CHILLING": {
+    "pid": "",
+    "text": ""
+  },
+  "TITLE_N1_WINNER_AST_2": {
+    "pid": "TITLE_RANK_N1_V1",
+    "text": "AST-II WINNER"
+  },
+  "TITLE_N1_WINNER_ROC_3": {
+    "pid": "TITLE_N1_WINNER_ROC_3",
+    "text": ""
+  },
+  "TITLE_N2_WINNER_ROC_3": {
+    "pid": "TITLE_N2_WINNER_ROC_3",
+    "text": ""
+  },
+  "TITLE_N3_WINNER_ROC_3": {
+    "pid": "TITLE_N3_WINNER_ROC_3",
+    "text": ""
+  },
+  "TITLE_PIRATE_KING": {
+    "pid": "TITLE_PIRATE_KING",
+    "text": ""
+  },
+  "TITLE_THOUSAND_YEARS": {
+    "pid": "TITLE_THOUSAND_YEARS",
+    "text": ""
+  },
+  "TITLE_BERSERK": {
+    "pid": "TITLE_BERSERK",
+    "text": ""
+  },
+  "TITLE_ABSOLUTE_CONTROL": {
+    "pid": "TITLE_ABSOLUTE_CONTROL",
+    "text": ""
+  },
+  "TITLE_KING_OF_CURSES": {
+    "pid": "TITLE_KING_OF_CURSES",
+    "text": ""
+  },
+  "TITLE_SUN_BREATHING": {
+    "pid": "TITLE_SUN_BREATHING",
+    "text": ""
+  }
+}

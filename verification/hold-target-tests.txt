@@ -1,0 +1,24 @@
+✔ border forms a closed finite ring on all four actual edges, including rectangular maps (6.175896ms)
+✔ border glow is finite; disabled/invalid borders have no triangles (1.046584ms)
+✔ border uploads once per change and follows server bounds, color and visibility (1.472165ms)
+✔ Teamtag is visible, clan fallback retained, and cleared metadata cannot leave stale labels (1.303834ms)
+✔ FFA positions empty connection before one native spawn (4.259991ms)
+✔ WindBine positions empty connection before one native spawn (1.779781ms)
+✔ FFA nearby disabled sends no spectator/cursor positioning (1.345612ms)
+✔ FFA missing anchor spawns normally and foreign server is not used as anchor (1.34991ms)
+✔ FFA reconnect repeats positioning wait rather than reusing old socket timing (3.138941ms)
+✔ visible-camera projection round-trips across zoom, pixel ratio and map offset (1.71135ms)
+✔ mouse intent captures locked target and clamps inside server bounds (2.255025ms)
+✔ mouse spawn waits for a fresh matching server position and sends only once (1.264674ms)
+✔ mouse positioning timeout never falls through to a distant spawn (1.722666ms)
+✔ stale socket acknowledgement cannot authorize a mouse spawn (1.541085ms)
+✔ locked target positions only empty same-server connections (1.388543ms)
+✔ native spectator cursor matches ONYX opcode, mode and signed coordinate layout (8.973788ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 161.399284

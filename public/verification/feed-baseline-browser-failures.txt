@@ -1,0 +1,11 @@
+{'keys': {'single': 'W', 'held': 'E'}, 'version': '1.2.1-xplus.5'}
+FAIL default W initiates real native held feed, not a single eject Page.evaluate: Error: W does not start held feed: [[23,0,0]]
+    at assert (eval at evaluate (:290:30), <anonymous>:3:57)
+    at eval (eval at evaluate (:290:30), <anonymous>:2:39)
+    at UtilityScript.evaluate (<anonymous>:297:18)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+FAIL native held feed resumes after switch-to-spawn without a second input Page.evaluate: Error: Feed did not resume on the spawned player
+    at assert (eval at evaluate (:290:30), <anonymous>:3:57)
+    at eval (eval at evaluate (:290:30), <anonymous>:5:5)
+    at UtilityScript.evaluate (<anonymous>:297:18)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)

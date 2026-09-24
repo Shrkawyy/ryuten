@@ -1,0 +1,45 @@
+ALBION IS READY
+{
+  "kind": "ORIGINAL_WASM_PROBE",
+  "result": [
+    {
+      "side": 10000,
+      "buffers": [
+        {
+          "length": 1200,
+          "nonzero": 0
+        },
+        {
+          "length": 408,
+          "nonzero": 0
+        }
+      ]
+    },
+    {
+      "side": 14000,
+      "buffers": [
+        {
+          "length": 1200,
+          "nonzero": 0
+        },
+        {
+          "length": 408,
+          "nonzero": 0
+        }
+      ]
+    },
+    {
+      "side": 32767,
+      "buffers": [
+        {
+          "length": 1200,
+          "nonzero": 0
+        },
+        {
+          "length": 408,
+          "nonzero": 0
+        }
+      ]
+    }
+  ]
+}
