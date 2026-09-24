@@ -1,3 +1,0 @@
-# Source and distribution notice
-
-This project adapts captured Ryuten/Senpa client material supplied by the user. Capture/source records and original notices are retained under src/ and references/. No new license to redistribute third-party code, artwork or services is implied. Verify the relevant rights and game rules before public hosting or sales. Generated local replacement art and adapter code are labelled in build.mjs; system typography is used instead of distributing font binaries. Native account/verification/payment permissions remain authoritative. Do not publish account tokens, session exports or private recordings.
